@@ -19,7 +19,11 @@
   --green:#4ade80;
 }
 
-*{box-sizing:border-box;margin:0;padding:0}
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
 
 html{
   scroll-behavior:smooth;
@@ -42,6 +46,10 @@ a{
   width:min(92%,1050px);
   margin:auto;
 }
+
+/* =========================
+   HEADER
+========================= */
 
 header{
   position:sticky;
@@ -80,6 +88,10 @@ header{
   font-size:.7rem;
 }
 
+/* =========================
+   NAV
+========================= */
+
 nav ul{
   display:flex;
   gap:4px;
@@ -88,8 +100,13 @@ nav ul{
   justify-content:flex-end;
 }
 
+nav li{
+  position:relative;
+}
+
 nav a{
-  padding:6px 9px;
+  display:block;
+  padding:7px 10px;
   color:var(--muted);
   font-size:.75rem;
   border-radius:6px;
@@ -101,12 +118,62 @@ nav a:hover{
   background:#161d27;
 }
 
+/* MENUS DESPLEGABLES */
+
+.dropdown > a::after{
+  content:" ▾";
+  color:var(--green);
+  font-size:.65rem;
+}
+
+.dropdown-menu{
+  position:absolute;
+  top:100%;
+  right:0;
+  min-width:170px;
+  padding:7px;
+  margin-top:5px;
+  background:#111720;
+  border:1px solid var(--line);
+  border-radius:9px;
+  box-shadow:0 10px 30px rgba(0,0,0,.35);
+
+  opacity:0;
+  visibility:hidden;
+  transform:translateY(-5px);
+  transition:.2s;
+}
+
+.dropdown-menu li{
+  width:100%;
+}
+
+.dropdown-menu a{
+  padding:9px 11px;
+  white-space:nowrap;
+}
+
+.dropdown:hover .dropdown-menu,
+.dropdown:focus-within .dropdown-menu{
+  opacity:1;
+  visibility:visible;
+  transform:translateY(0);
+}
+
+/* =========================
+   MAIN
+========================= */
+
 main{
   padding-bottom:60px;
 }
 
+/* =========================
+   HERO
+========================= */
+
 .hero{
-  padding:90px 0 70px;
+  padding:100px 0 80px;
   border-bottom:1px solid var(--line);
 }
 
@@ -118,7 +185,7 @@ main{
 }
 
 .hero h1{
-  max-width:780px;
+  max-width:800px;
   margin:14px 0 18px;
   font-size:clamp(2.4rem,6vw,4.4rem);
   line-height:1.05;
@@ -130,18 +197,22 @@ main{
 }
 
 .hero p{
-  max-width:720px;
+  max-width:760px;
   color:var(--muted);
-  font-size:.98rem;
+  font-size:1rem;
 }
 
+/* =========================
+   SECTIONS
+========================= */
+
 .section{
-  padding:65px 0;
+  padding:70px 0;
   border-bottom:1px solid var(--line);
 }
 
 .heading{
-  margin-bottom:28px;
+  margin-bottom:30px;
 }
 
 .heading small{
@@ -151,13 +222,80 @@ main{
 
 .heading h2{
   margin:5px 0;
-  font-size:1.7rem;
+  font-size:1.8rem;
 }
 
 .heading p{
   color:var(--muted);
-  font-size:.88rem;
+  font-size:.9rem;
 }
+
+/* =========================
+   INFORMACION PERSONAL
+========================= */
+
+.personal-section{
+  background:#0d1219;
+}
+
+.personal-grid{
+  display:grid;
+  grid-template-columns:1.15fr .85fr;
+  gap:20px;
+}
+
+.personal-main{
+  padding:30px;
+  background:var(--card);
+  border:1px solid #2a3542;
+  border-radius:14px;
+}
+
+.personal-main h3{
+  font-size:1.3rem;
+  margin-bottom:12px;
+}
+
+.personal-main p{
+  color:var(--muted);
+  font-size:.92rem;
+}
+
+.personal-main strong{
+  color:var(--text);
+}
+
+.personal-side{
+  display:grid;
+  gap:14px;
+}
+
+.personal-item{
+  padding:22px;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:12px;
+}
+
+.personal-item small{
+  color:var(--green);
+  font:600 .65rem monospace;
+  text-transform:uppercase;
+}
+
+.personal-item h3{
+  margin:4px 0;
+  font-size:1rem;
+}
+
+.personal-item p{
+  color:var(--muted);
+  font-size:.82rem;
+}
+
+/* =========================
+   GRID / CARDS
+========================= */
 
 .grid{
   display:grid;
@@ -166,7 +304,7 @@ main{
 }
 
 .card{
-  padding:24px;
+  padding:26px;
   background:var(--card);
   border:1px solid var(--line);
   border-radius:12px;
@@ -175,6 +313,7 @@ main{
 
 .card:hover{
   border-color:#33404d;
+  transform:translateY(-2px);
 }
 
 .card h3{
@@ -186,6 +325,41 @@ main{
   color:var(--muted);
   font-size:.86rem;
 }
+
+/* =========================
+   PROPOSITO Y ENFOQUE
+========================= */
+
+.academic-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+}
+
+.academic-card{
+  padding:30px;
+  background:var(--card);
+  border:1px solid #2a3542;
+  border-radius:14px;
+}
+
+.academic-card:first-child{
+  border-color:#31543d;
+}
+
+.academic-card h3{
+  font-size:1.15rem;
+  margin-bottom:12px;
+}
+
+.academic-card p{
+  color:var(--muted);
+  font-size:.9rem;
+}
+
+/* =========================
+   INFO TECNICA
+========================= */
 
 .info{
   display:grid;
@@ -212,6 +386,10 @@ main{
 .row span:last-child{
   color:var(--text);
 }
+
+/* =========================
+   INSIGNIAS
+========================= */
 
 .badges-grid{
   display:grid;
@@ -240,8 +418,18 @@ main{
   justify-content:center;
   color:var(--green);
   font-weight:bold;
-  font-size:0.85rem;
+  font-size:.85rem;
+  flex-shrink:0;
 }
+
+.badge-card p{
+  color:var(--muted);
+  font-size:.8rem;
+}
+
+/* =========================
+   CONTACTO
+========================= */
 
 .contact{
   display:grid;
@@ -297,6 +485,10 @@ button:hover{
   background:#86efac;
 }
 
+/* =========================
+   FOOTER
+========================= */
+
 footer{
   padding:32px 0;
   color:var(--muted);
@@ -307,7 +499,12 @@ footer div+div{
   margin-top:4px;
 }
 
+/* =========================
+   RESPONSIVE
+========================= */
+
 @media(max-width:850px){
+
   .header{
     flex-direction:column;
     align-items:flex-start;
@@ -320,13 +517,20 @@ footer div+div{
 
   .grid,
   .contact,
-  .badges-grid{
+  .badges-grid,
+  .personal-grid,
+  .academic-grid{
     grid-template-columns:1fr;
   }
 
   .row{
     grid-template-columns:1fr;
     gap:3px;
+  }
+
+  .dropdown-menu{
+    left:0;
+    right:auto;
   }
 }
 </style>
@@ -335,6 +539,7 @@ footer div+div{
 <body>
 
 <header>
+
   <div class="container header">
 
     <a href="#inicio" class="brand">
@@ -344,33 +549,97 @@ footer div+div{
     </a>
 
     <nav aria-label="Navegación principal">
+
       <ul>
-        <li><a href="#inicio">Inicio</a></li>
-        <li><a href="#presentacion">Presentación</a></li>
-        <li><a href="#perfil">Perfil</a></li>
-        <li><a href="#tecnica">Técnica</a></li>
-        <!-- Enlaces apuntando a páginas independientes -->
-        <li><a href="parcial1.html">Parcial I</a></li>
-        <li><a href="parcial2.html">Parcial II</a></li>
-        <li><a href="parcial3.html">Parcial III</a></li>
-        <li><a href="#insignias">Insignias</a></li>
-        <li><a href="#contacto">Contacto</a></li>
+
+        <li>
+          <a href="#inicio">Inicio</a>
+        </li>
+
+        <li>
+          <a href="#presentacion">Presentación</a>
+        </li>
+
+        <li>
+          <a href="#perfil">Perfil</a>
+        </li>
+
+        <li>
+          <a href="#tecnica">Técnica</a>
+        </li>
+
+        <!-- MENU PARCIALES -->
+        <li class="dropdown">
+
+          <a href="#">Portafolio</a>
+
+          <ul class="dropdown-menu">
+
+            <li>
+              <a href="parcial1.html">Parcial I</a>
+            </li>
+
+            <li>
+              <a href="parcial2.html">Parcial II</a>
+            </li>
+
+            <li>
+              <a href="parcial3.html">Parcial III</a>
+            </li>
+
+          </ul>
+
+        </li>
+
+        <!-- MENU INSIGNIAS -->
+        <li class="dropdown">
+
+          <a href="#insignias">Formación</a>
+
+          <ul class="dropdown-menu">
+
+            <li>
+              <a href="#insignias">Insignias</a>
+            </li>
+
+            <li>
+              <a href="#certificaciones">Certificaciones</a>
+            </li>
+
+          </ul>
+
+        </li>
+
+        <li>
+          <a href="#contacto">Contacto</a>
+        </li>
+
       </ul>
+
     </nav>
 
   </div>
+
 </header>
+
 
 <main>
 
-  <!-- INICIO -->
+  <!-- =========================
+       INICIO
+  ========================== -->
+
   <section id="inicio" class="hero">
+
     <div class="container">
+
       <small>Portafolio académico</small>
+
       <h1>
         Seguridad informática
         <span>documentada.</span>
       </h1>
+
       <p>
         Espacio digital destinado a organizar y presentar las evidencias
         académicas desarrolladas durante la asignatura
@@ -378,152 +647,371 @@ footer div+div{
         de aprendizaje, las actividades realizadas y los conocimientos
         adquiridos durante el curso.
       </p>
+
     </div>
+
   </section>
 
-  <!-- PRESENTACIÓN -->
-  <section id="presentacion" class="section">
+
+  <!-- =========================
+       PRESENTACION
+  ========================== -->
+
+  <section id="presentacion" class="section personal-section">
+
     <div class="container">
+
       <div class="heading">
+
         <small>01 · Presentación</small>
+
         <h2>Propósito del portafolio</h2>
-        <p>Una recopilación ordenada del proceso de aprendizaje.</p>
+
+        <p>
+          Una recopilación ordenada del proceso de aprendizaje.
+        </p>
+
       </div>
-      <div class="grid">
-        <article class="card">
+
+
+      <div class="academic-grid">
+
+        <article class="academic-card">
+
           <h3>Propósito académico</h3>
+
           <p>
-            Documentar, organizar y presentar las evidencias generadas
-            durante la asignatura, mostrando el desarrollo progresivo
-            de las competencias adquiridas.
+            Este portafolio tiene como propósito documentar, organizar y
+            presentar las evidencias generadas durante la asignatura,
+            permitiendo observar de manera clara el desarrollo progresivo
+            de las competencias adquiridas a lo largo del curso.
           </p>
+
         </article>
-        <article class="card">
+
+
+        <article class="academic-card">
+
           <h3>Enfoque del curso</h3>
+
           <p>
-            Seguridad informática, análisis de vulnerabilidades,
-            pruebas de penetración, ciberseguridad e investigación.
+            La asignatura se enfoca en el estudio de la seguridad informática,
+            análisis de vulnerabilidades, pruebas de penetración,
+            ciberseguridad, protección de sistemas y procesos de
+            investigación relacionados con la seguridad de la información.
           </p>
+
         </article>
+
       </div>
+
     </div>
+
   </section>
 
-  <!-- PERFIL -->
+
+  <!-- =========================
+       PERFIL
+  ========================== -->
+
   <section id="perfil" class="section">
+
     <div class="container">
+
       <div class="heading">
+
         <small>02 · Perfil</small>
+
         <h2>Perfil del estudiante</h2>
-        <p>Información académica e intereses profesionales.</p>
+
+        <p>
+          Información académica e intereses profesionales.
+        </p>
+
       </div>
-      <div class="grid">
-        <article class="card">
-          <h3>Formación académica</h3>
+
+
+      <div class="personal-grid">
+
+        <article class="personal-main">
+
+          <h3>Aaron Emanuel González Díaz</h3>
+
           <p>
-            Aaron Emanuel González Díaz (Alias: Aaron5321), estudiante de 9.º semestre
-            de Ingeniería en Tecnologías de la Información en la
-            Universidad Politécnica de San Luis Potosí.
+            Soy estudiante de
+            <strong>9.º semestre de Ingeniería en Tecnologías de la Información</strong>
+            en la Universidad Politécnica de San Luis Potosí.
           </p>
-        </article>
-        <article class="card">
-          <h3>Áreas de interés</h3>
+
+          <br>
+
           <p>
-            Ciberseguridad, seguridad informática, pentesting,
-            análisis de vulnerabilidades, redes e investigación.
+            Mi interés académico y profesional se encuentra principalmente
+            relacionado con la tecnología, las redes, la seguridad informática
+            y la ciberseguridad. Este portafolio representa parte del trabajo
+            y aprendizaje desarrollado durante mi formación universitaria.
           </p>
+
         </article>
+
+
+        <div class="personal-side">
+
+          <article class="personal-item">
+
+            <small>Información académica</small>
+
+            <h3>Ingeniería en Tecnologías de la Información</h3>
+
+            <p>
+              9.º semestre · Universidad Politécnica de San Luis Potosí
+            </p>
+
+          </article>
+
+
+          <article class="personal-item">
+
+            <small>Identificación</small>
+
+            <h3>Matrícula 182447</h3>
+
+            <p>
+              Alias académico: Aaron5321
+            </p>
+
+          </article>
+
+
+          <article class="personal-item">
+
+            <small>Intereses</small>
+
+            <h3>Ciberseguridad y tecnología</h3>
+
+            <p>
+              Seguridad informática · Pentesting · Redes · Vulnerabilidades
+            </p>
+
+          </article>
+
+        </div>
+
       </div>
+
     </div>
+
   </section>
 
-  <!-- INFORMACIÓN TÉCNICA -->
+
+  <!-- =========================
+       INFORMACION TECNICA
+  ========================== -->
+
   <section id="tecnica" class="section">
+
     <div class="container">
+
       <div class="heading">
+
         <small>03 · Información técnica</small>
+
         <h2>Tecnologías utilizadas</h2>
-        <p>Base técnica del desarrollo y publicación del sitio.</p>
+
+        <p>
+          Base técnica del desarrollo y publicación del sitio.
+        </p>
+
       </div>
+
+
       <div class="card info">
+
         <div class="row">
           <span>Lenguajes</span>
           <span>HTML5 · CSS3 · JavaScript</span>
         </div>
+
         <div class="row">
           <span>Diseño</span>
           <span>CSS responsivo</span>
         </div>
+
         <div class="row">
           <span>Publicación</span>
           <span>GitHub Pages</span>
         </div>
+
         <div class="row">
           <span>Control de versiones</span>
           <span>Git · GitHub</span>
         </div>
+
         <div class="row">
           <span>Formulario</span>
-          <span>Web3Forms (con respuesta automática)</span>
+          <span>Web3Forms con respuesta automática</span>
         </div>
+
         <div class="row">
           <span>Seguridad</span>
           <span>HTTPS / SSL</span>
         </div>
+
       </div>
+
     </div>
+
   </section>
 
-  <!-- INSIGNIAS Y CERTIFICACIONES -->
+
+  <!-- =========================
+       INSIGNIAS
+  ========================== -->
+
   <section id="insignias" class="section">
+
     <div class="container">
+
       <div class="heading">
+
         <small>04 · Formación complementaria</small>
+
         <h2>Insignias y Certificaciones</h2>
-        <p>Cursos y acreditaciones extracurriculares en ciberseguridad.</p>
+
+        <p>
+          Cursos y acreditaciones extracurriculares en ciberseguridad.
+        </p>
+
       </div>
+
+
       <div class="badges-grid">
+
         <article class="badge-card">
-          <div class="badge-icon">CIS</div>
+
+          <div class="badge-icon">
+            CIS
+          </div>
+
           <div>
+
             <h3>Fundamentos de Ciberseguridad</h3>
-            <p>Cisco Networking Academy · Completado</p>
+
+            <p>
+              Cisco Networking Academy · Completado
+            </p>
+
           </div>
+
         </article>
+
+
         <article class="badge-card">
-          <div class="badge-icon">THM</div>
-          <div>
-            <h3>Pre-Security Learning Path</h3>
-            <p>TryHackMe · En progreso</p>
+
+          <div class="badge-icon">
+            THM
           </div>
+
+          <div>
+
+            <h3>Pre-Security Learning Path</h3>
+
+            <p>
+              TryHackMe · En progreso
+            </p>
+
+          </div>
+
         </article>
+
       </div>
+
     </div>
+
   </section>
 
-  <!-- CONTACTO -->
-  <section id="contacto" class="section">
+
+  <!-- =========================
+       CERTIFICACIONES
+  ========================== -->
+
+  <section id="certificaciones" class="section">
+
     <div class="container">
+
       <div class="heading">
-        <small>05 · Contacto</small>
-        <h2>Contacto</h2>
-        <p>Formulario para consultas relacionadas con el portafolio.</p>
+
+        <small>05 · Certificaciones</small>
+
+        <h2>Formación adicional</h2>
+
+        <p>
+          Espacio destinado a futuras certificaciones y acreditaciones.
+        </p>
+
       </div>
+
+
+      <div class="card">
+
+        <h3>Certificaciones en construcción</h3>
+
+        <p>
+          Próximamente se incorporarán nuevas certificaciones y acreditaciones
+          obtenidas durante la formación académica y profesional.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       CONTACTO
+  ========================== -->
+
+  <section id="contacto" class="section">
+
+    <div class="container">
+
+      <div class="heading">
+
+        <small>06 · Contacto</small>
+
+        <h2>Contacto</h2>
+
+        <p>
+          Formulario para consultas relacionadas con el portafolio.
+        </p>
+
+      </div>
+
+
       <div class="contact">
+
         <article class="card">
+
           <h3>Comunicación</h3>
+
           <p>
             Utiliza este formulario para enviar consultas,
             comentarios o mensajes relacionados con la documentación
-            presentada en este sitio. Cuenta con respuesta automática al remitente.
+            presentada en este sitio. Cuenta con respuesta automática
+            al remitente.
           </p>
+
         </article>
 
+
         <div class="card">
+
           <form
             action="https://api.web3forms.com/submit"
             method="POST"
           >
+
             <input
               type="hidden"
               name="access_key"
@@ -548,54 +1036,101 @@ footer div+div{
               value="Hola, gracias por contactarme. He recibido tu mensaje a través del Portafolio de Seguridad Informática. Me pondré en contacto contigo a la brevedad. Saludos, Aaron Emanuel (Aaron5321)."
             >
 
+
             <div>
-              <label for="name">Nombre completo</label>
+
+              <label for="name">
+                Nombre completo
+              </label>
+
               <input
                 id="name"
                 name="name"
                 type="text"
                 required
               >
+
             </div>
 
+
             <div>
-              <label for="email">Correo electrónico</label>
+
+              <label for="email">
+                Correo electrónico
+              </label>
+
               <input
                 id="email"
                 name="email"
                 type="email"
                 required
               >
+
             </div>
 
+
             <div>
-              <label for="message">Mensaje</label>
+
+              <label for="message">
+                Mensaje
+              </label>
+
               <textarea
                 id="message"
                 name="message"
                 required
               ></textarea>
+
             </div>
+
 
             <button type="submit">
               Enviar mensaje
             </button>
+
           </form>
+
         </div>
+
       </div>
+
     </div>
+
   </section>
 
 </main>
 
+
+<!-- =========================
+     FOOTER
+========================== -->
+
 <footer>
+
   <div class="container">
-    <div>CNO IV · Seguridad Informática</div>
-    <div>Universidad Politécnica de San Luis Potosí</div>
-    <div>Aaron Emanuel González Díaz (Aaron5321) · Matrícula 182447</div>
-    <div>Docente: Mtro. Servando López Contreras</div>
-    <div>© 2026 · Portafolio académico · HTTPS / SSL</div>
+
+    <div>
+      CNO IV · Seguridad Informática
+    </div>
+
+    <div>
+      Universidad Politécnica de San Luis Potosí
+    </div>
+
+    <div>
+      Aaron Emanuel González Díaz (Aaron5321) · Matrícula 182447
+    </div>
+
+    <div>
+      Docente: Mtro. Servando López Contreras
+    </div>
+
+    <div>
+      © 2026 · Portafolio académico · HTTPS / SSL
+    </div>
+
   </div>
+
 </footer>
 
 </body>
