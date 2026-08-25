@@ -1,0 +1,712 @@
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta
+  name="description"
+  content="Parcial I - Actividad 1 - Portafolio académico de Aaron Emanuel González Díaz"
+>
+
+<meta
+  name="author"
+  content="Aaron Emanuel González Díaz"
+>
+
+<title>
+  Parcial I | Actividad 1 | CNO IV
+</title>
+
+
+<style>
+
+/* =========================
+   VARIABLES
+========================= */
+
+:root{
+  --bg:#0b0f14;
+  --card:#111720;
+  --line:#202934;
+  --text:#f3f4f6;
+  --muted:#9ca3af;
+  --green:#4ade80;
+}
+
+
+/* =========================
+   GENERAL
+========================= */
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:Inter,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.6;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+.container{
+  width:min(92%,1050px);
+  margin:auto;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+header{
+  position:sticky;
+  top:0;
+  z-index:10;
+
+  background:rgba(11,15,20,.95);
+
+  border-bottom:1px solid var(--line);
+
+  backdrop-filter:blur(10px);
+}
+
+.header{
+  min-height:80px;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  gap:20px;
+}
+
+.brand small{
+  display:block;
+
+  color:var(--green);
+
+  font:600 .68rem monospace;
+
+  text-transform:uppercase;
+
+  letter-spacing:.08em;
+}
+
+.brand strong{
+  display:block;
+
+  font-size:.95rem;
+}
+
+.brand span{
+  display:block;
+
+  color:var(--muted);
+
+  font-size:.7rem;
+}
+
+
+/* =========================
+   MAIN
+========================= */
+
+main{
+  padding:80px 0 70px;
+
+  min-height:calc(100vh - 160px);
+}
+
+
+/* =========================
+   TITULO
+========================= */
+
+.heading{
+  margin-bottom:35px;
+}
+
+.heading small{
+  color:var(--green);
+
+  font:600 .7rem monospace;
+
+  text-transform:uppercase;
+
+  letter-spacing:.1em;
+}
+
+.heading h1{
+  margin:8px 0 15px;
+
+  font-size:clamp(2.2rem,5vw,3.6rem);
+
+  line-height:1.05;
+
+  letter-spacing:-.03em;
+}
+
+.heading h1 span{
+  color:var(--green);
+}
+
+.heading p{
+  max-width:720px;
+
+  color:var(--muted);
+
+  font-size:.95rem;
+}
+
+
+/* =========================
+   ACTIVIDAD
+========================= */
+
+.activity-card{
+
+  background:var(--card);
+
+  border:1px solid var(--line);
+
+  border-radius:14px;
+
+  padding:30px;
+
+  transition:.2s;
+}
+
+.activity-card:hover{
+  border-color:#33404d;
+}
+
+
+/* =========================
+   ENCABEZADO DE ACTIVIDAD
+========================= */
+
+.activity-header{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:18px;
+
+  margin-bottom:25px;
+}
+
+.pdf-icon{
+
+  width:58px;
+  height:58px;
+
+  flex-shrink:0;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  background:#161d27;
+
+  border:1px solid var(--line);
+
+  border-radius:10px;
+
+  color:var(--green);
+
+  font:700 .85rem monospace;
+}
+
+.activity-header h2{
+  font-size:1.2rem;
+
+  margin-bottom:3px;
+}
+
+.activity-header p{
+  color:var(--muted);
+
+  font-size:.8rem;
+}
+
+
+/* =========================
+   INFORMACION
+========================= */
+
+.activity-info{
+
+  display:grid;
+
+  grid-template-columns:repeat(2,1fr);
+
+  gap:12px;
+
+  margin-bottom:25px;
+}
+
+.info-item{
+
+  padding:14px;
+
+  background:#0d1219;
+
+  border:1px solid var(--line);
+
+  border-radius:8px;
+}
+
+.info-item small{
+
+  display:block;
+
+  color:var(--green);
+
+  font:600 .62rem monospace;
+
+  text-transform:uppercase;
+
+  margin-bottom:3px;
+}
+
+.info-item span{
+
+  color:var(--text);
+
+  font-size:.8rem;
+}
+
+
+/* =========================
+   VISOR PDF
+========================= */
+
+.pdf-viewer{
+
+  width:100%;
+
+  height:700px;
+
+  overflow:hidden;
+
+  background:#080b0f;
+
+  border:1px solid var(--line);
+
+  border-radius:10px;
+}
+
+.pdf-viewer iframe{
+
+  width:100%;
+
+  height:100%;
+
+  border:0;
+}
+
+
+/* =========================
+   BOTONES
+========================= */
+
+.buttons{
+
+  display:flex;
+
+  flex-wrap:wrap;
+
+  gap:12px;
+
+  margin-top:20px;
+}
+
+.button{
+
+  display:inline-block;
+
+  padding:11px 18px;
+
+  border-radius:8px;
+
+  font-size:.8rem;
+
+  font-weight:700;
+
+  transition:.2s;
+}
+
+.button-primary{
+
+  background:var(--green);
+
+  color:#08110b;
+}
+
+.button-primary:hover{
+
+  background:#86efac;
+}
+
+.button-secondary{
+
+  background:#161d27;
+
+  border:1px solid var(--line);
+
+  color:var(--text);
+}
+
+.button-secondary:hover{
+
+  border-color:#33404d;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+
+  border-top:1px solid var(--line);
+
+  padding:30px 0;
+
+  color:var(--muted);
+
+  font-size:.72rem;
+}
+
+footer div+div{
+
+  margin-top:4px;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:700px){
+
+  .header{
+
+    padding:15px 0;
+  }
+
+  main{
+
+    padding:50px 0;
+  }
+
+  .activity-card{
+
+    padding:20px;
+  }
+
+  .activity-info{
+
+    grid-template-columns:1fr;
+  }
+
+  .pdf-viewer{
+
+    height:550px;
+  }
+
+  .activity-header{
+
+    align-items:flex-start;
+  }
+
+  .buttons{
+
+    flex-direction:column;
+  }
+
+  .button{
+
+    text-align:center;
+
+    width:100%;
+  }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header>
+
+  <div class="container header">
+
+    <a
+      href="index.html"
+      class="brand"
+    >
+
+      <small>
+        CNO IV · Seguridad Informática
+      </small>
+
+      <strong>
+        Aaron Emanuel González Díaz (Aaron5321)
+      </strong>
+
+      <span>
+        Matrícula 182447 · 9.º Semestre · ITI
+      </span>
+
+    </a>
+
+  </div>
+
+</header>
+
+
+<!-- =========================
+     CONTENIDO PRINCIPAL
+========================= -->
+
+<main>
+
+  <div class="container">
+
+
+    <!-- TITULO -->
+
+    <div class="heading">
+
+      <small>
+        Portafolio académico · Parcial I
+      </small>
+
+      <h1>
+        Parcial I
+        <span>· Actividad 1</span>
+      </h1>
+
+      <p>
+
+        En esta sección se presenta la primera actividad
+        correspondiente al Parcial I de la asignatura
+
+        <strong>
+          CNO IV – Seguridad Informática
+        </strong>.
+
+        La evidencia se encuentra disponible en formato PDF.
+
+      </p>
+
+    </div>
+
+
+    <!-- =========================
+         TARJETA ACTIVIDAD
+    ========================== -->
+
+    <section class="activity-card">
+
+
+      <!-- ENCABEZADO -->
+
+      <div class="activity-header">
+
+        <div class="pdf-icon">
+          PDF
+        </div>
+
+        <div>
+
+          <h2>
+            Actividad 1
+          </h2>
+
+          <p>
+            Documento de evidencia académica
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <!-- =========================
+           INFORMACION
+      ========================== -->
+
+      <div class="activity-info">
+
+
+        <div class="info-item">
+
+          <small>
+            Parcial
+          </small>
+
+          <span>
+            Parcial I
+          </span>
+
+        </div>
+
+
+        <div class="info-item">
+
+          <small>
+            Actividad
+          </small>
+
+          <span>
+            Actividad 1
+          </span>
+
+        </div>
+
+
+        <div class="info-item">
+
+          <small>
+            Asignatura
+          </small>
+
+          <span>
+            CNO IV – Seguridad Informática
+          </span>
+
+        </div>
+
+
+        <div class="info-item">
+
+          <small>
+            Evidencia
+          </small>
+
+          <span>
+            Documento PDF
+          </span>
+
+        </div>
+
+
+      </div>
+
+
+      <!-- =========================
+           VISOR PDF
+      ========================== -->
+
+      <div class="pdf-viewer">
+
+        <iframe
+          src="actividad1.pdf"
+          title="Actividad 1 - Parcial I"
+        ></iframe>
+
+      </div>
+
+
+      <!-- =========================
+           BOTONES
+      ========================== -->
+
+      <div class="buttons">
+
+
+        <!-- ABRIR PDF -->
+
+        <a
+          href="actividad1.pdf"
+          target="_blank"
+          class="button button-primary"
+        >
+          Abrir PDF
+        </a>
+
+
+        <!-- REGRESAR -->
+
+        <a
+          href="index.html"
+          class="button button-secondary"
+        >
+          ← Regresar al inicio
+        </a>
+
+
+      </div>
+
+
+    </section>
+
+  </div>
+
+</main>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+  <div class="container">
+
+    <div>
+      CNO IV · Seguridad Informática
+    </div>
+
+    <div>
+      Universidad Politécnica de San Luis Potosí
+    </div>
+
+    <div>
+      Aaron Emanuel González Díaz (Aaron5321) · Matrícula 182447
+    </div>
+
+    <div>
+      Docente: Mtro. Servando López Contreras
+    </div>
+
+    <div>
+      © 2026 · Portafolio académico · HTTPS / SSL
+    </div>
+
+  </div>
+
+</footer>
+
+
+</body>
+</html>
+```
