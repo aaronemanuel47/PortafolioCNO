@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PR - De la teoría a la práctica: walkthrough en acción</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #0b0f17;
+            --bg-card: #111726;
+            --bg-subcard: #0d121d;
+            --border-color: #1d2636;
+            --accent-green: #22c55e;
+            --accent-green-hover: #16a34a;
+            --text-white: #ffffff;
+            --text-muted: #94a3b8;
+            --code-bg: #070a0f;
+            --btn-secondary-bg: #1e293b;
+            --btn-secondary-hover: #334155;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-white);
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 32px;
+        }
+
+        /* Header */
+        .top-tag {
+            color: var(--accent-green);
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .main-title {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--text-white);
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
+        /* Meta Grid */
+        .meta-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .meta-card {
+            background-color: var(--bg-subcard);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 14px 16px;
+        }
+
+        .meta-label {
+            color: var(--accent-green);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .meta-value {
+            color: var(--text-white);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* Sections */
+        .section {
+            margin-bottom: 28px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-white);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+            margin-bottom: 14px;
+        }
+
+        .subsection-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--accent-green);
+            margin: 16px 0 8px 0;
+        }
+
+        p {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        ul, ol {
+            padding-left: 20px;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        li strong {
+            color: var(--text-white);
+        }
+
+        code {
+            background-color: rgba(34, 197, 94, 0.1);
+            color: var(--accent-green);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 13px;
+        }
+
+        .code-block {
+            background-color: var(--code-bg);
+            border: 1px solid var(--border-color);
+            color: var(--accent-green);
+            padding: 14px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 13px;
+            margin: 12px 0;
+            white-space: pre-wrap;
+        }
+
+        /* Status badges */
+        .status-badge {
+            display: inline-block;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-left: 8px;
+        }
+
+        .status-found {
+            background-color: rgba(34, 197, 94, 0.12);
+            color: var(--accent-green);
+        }
+
+        .status-pending {
+            background-color: rgba(148, 163, 184, 0.12);
+            color: var(--text-muted);
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 16px;
+            margin-top: 36px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-green);
+            color: #000000;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-green-hover);
+        }
+
+        .btn-secondary {
+            background-color: var(--btn-secondary-bg);
+            color: var(--text-white);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--btn-secondary-hover);
+        }
+
+        .embed-frame {
+            width: 100%;
+            height: 480px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: var(--bg-subcard);
+        }
+
+        .embed-caption {
+            display: block;
+            margin-top: 8px;
+            color: var(--text-muted);
+            font-size: 12px;
+            text-align: right;
+        }
+
+        .embed-caption a {
+            color: var(--accent-green);
+            text-decoration: none;
+        }
+
+        .embed-caption a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .embed-frame {
+                height: 320px;
+            }
+
+            .meta-grid {
+                grid-template-columns: 1fr;
+            }
+            .container {
+                padding: 20px;
+            }
+            .action-buttons {
+                flex-direction: column-reverse;
+            }
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="top-tag">UNIVERSIDAD POLITÉCNICA DE SAN LUIS POTOSÍ</div>
+    <h1 class="main-title">De la teoría a la práctica: walkthrough en acción</h1>
+    <p class="subtitle">Auditoría de seguridad sobre la máquina vulnerable DigitalWorld.local: SNAKEOIL (VulnHub)</p>
+
+    <!-- Metadata Grid -->
+    <div class="meta-grid">
+        <div class="meta-card">
+            <div class="meta-label">ACTIVIDAD</div>
+            <div class="meta-value">PR</div>
+        </div>
+        <div class="meta-card">
+            <div class="meta-label">ALUMNO</div>
+            <div class="meta-value">Aaron Emanuel González Díaz (182447)</div>
+        </div>
+    </div>
+
+    <!-- Content Sections -->
+    <div class="section">
+        <h2 class="section-title">1. Objetivo de la Actividad</h2>
+        <p>Demostrar la capacidad de aplicar conocimientos teóricos de seguridad informática en un entorno práctico, mediante la realización de un walkthrough detallado sobre una máquina virtual intencionalmente vulnerable, explicando las técnicas y metodologías utilizadas para comprometer el sistema objetivo.</p>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">2. Descripción del Escenario</h2>
+        <p>La práctica consistió en auditar "DigitalWorld.local: SNAKEOIL", una máquina de Debian 10 que aloja una aplicación web desarrollada en Flask con autenticación basada en JSON Web Tokens (JWT), simulando el desarrollo interno de la empresa ficticia "Good Tech Inc." El objetivo fue identificar y explotar las fallas de seguridad introducidas deliberadamente en su código.</p>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">3. Configuración del Laboratorio</h2>
+        <ul>
+            <li><strong>Sistema Operativo Atacante:</strong> Kali Linux (VirtualBox)</li>
+            <li><strong>Dirección IP del Atacante:</strong> <code>192.168.56.101</code> (interfaz <code>eth0</code>, red solo-anfitrión)</li>
+            <li><strong>Dirección IP del Objetivo:</strong> <code>192.168.56.102</code></li>
+            <li><strong>Herramientas Utilizadas:</strong> nmap, gobuster, Burp Suite, John the Ripper, netcat</li>
+            <li><strong>Servicios Objetivo:</strong> SSH (22), nginx (80 y 8080 — aplicación Flask con API JWT)</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">4. Resumen de Funcionamiento y Evidencias</h2>
+
+        <h3 class="subsection-title">4.1 Reconocimiento y Enumeración</h3>
+        <p>Se identificó la IP objetivo mediante <code>netdiscover</code> y se escanearon sus puertos con <code>nmap -sV</code>. Con <code>gobuster</code> se descubrieron los endpoints de la API: <code>login</code>, <code>users</code>, <code>registration</code>, <code>run</code>, <code>secret</code> y <code>test</code>.</p>
+
+        <h3 class="subsection-title">4.2 Control de Acceso Roto <span class="status-badge status-found">Confirmado</span></h3>
+        <p>El endpoint <code>/registration</code> permitió crear cuentas de usuario sin ninguna restricción, obteniendo un token JWT válido de forma inmediata.</p>
+
+        <h3 class="subsection-title">4.3 Exposición de Clave Secreta <span class="status-badge status-found">Confirmado</span></h3>
+        <p>El endpoint <code>/secret</code> devolvía error 500 al enviarse el token como cabecera <code>Authorization</code>. Al enviarlo como cookie <code>access_token_cookie</code>, el servidor reveló la clave requerida por <code>/run</code>:</p>
+        <div class="code-block">{"secret_key": "commandexecutionissecret"}</div>
+
+        <h3 class="subsection-title">4.4 Inyección de Comandos del Sistema Operativo <span class="status-badge status-found">Confirmado</span></h3>
+        <p>El parámetro <code>url</code> del endpoint <code>/run</code> se concatenaba sin sanitizar dentro de un comando <code>curl</code> en el servidor, permitiendo ejecución arbitraria de comandos:</p>
+        <div class="code-block">POST /run
+{"url":"192.168.56.102:22;&lt;comando&gt;","secret":"commandexecutionissecret"}</div>
+
+        <h3 class="subsection-title">4.5 Obtención de Shell Remota <span class="status-badge status-found">Confirmado</span></h3>
+        <p>Un primer intento de reverse shell en Bash fue bloqueado por un filtro de palabras ("Banned Command"). Se evadió codificando el payload en Base64 y, alternativamente, usando una reverse shell en Python, logrando una conexión interactiva hacia un listener de <code>netcat</code>.</p>
+
+        <h3 class="subsection-title">4.6 Credenciales en Código Fuente <span class="status-badge status-found">Confirmado</span></h3>
+        <p>Dentro del sistema comprometido se localizó el archivo de configuración de Flask con las claves embebidas en texto plano:</p>
+        <div class="code-block">SECRET_KEY = "snakeoilisnotgoodforcorporations"
+JWT_SECRET_KEY = "NOreasonableDOUBTthisPASSWORDisGOOD"</div>
+
+        <h3 class="subsection-title">4.7 Escalación de Privilegios a Root <span class="status-badge status-pending">Pendiente</span></h3>
+        <p>No se completó la escalación al usuario root del sistema operativo dentro del tiempo disponible para la actividad; queda documentado como trabajo futuro.</p>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">5. Flujo de Explotación</h2>
+        <ol>
+            <li><strong>Reconocimiento:</strong> escaneo de red y de puertos para identificar servicios expuestos.</li>
+            <li><strong>Enumeración:</strong> descubrimiento de endpoints ocultos de la API con gobuster.</li>
+            <li><strong>Registro y autenticación:</strong> creación de una cuenta arbitraria mediante <code>/registration</code>.</li>
+            <li><strong>Extracción de la clave secreta:</strong> uso correcto del mecanismo de cookies JWT en <code>/secret</code>.</li>
+            <li><strong>Explotación de la inyección de comandos:</strong> ejecución de comandos arbitrarios vía <code>/run</code>.</li>
+            <li><strong>Post-explotación:</strong> obtención de shell remota y descubrimiento de credenciales adicionales en el código fuente.</li>
+        </ol>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">6. Controles de Seguridad Propuestos</h2>
+        <ul>
+            <li><strong>Control de acceso y autorización:</strong> restringir y validar todos los endpoints de la API, incluyendo registro y edición de contenido.</li>
+            <li><strong>Gestión de secretos:</strong> usar variables de entorno o gestores de secretos en vez de embeber claves en el código fuente.</li>
+            <li><strong>Validación de entradas:</strong> sanear y validar estrictamente cualquier parámetro que se use en llamadas al sistema operativo, evitando la concatenación directa de comandos.</li>
+            <li><strong>Principio de menor privilegio:</strong> ejecutar los servicios de la aplicación con el mínimo de permisos necesarios para limitar el impacto ante una posible explotación.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">7. Conclusión</h2>
+        <p>Esta actividad permitió encadenar múltiples vulnerabilidades —control de acceso roto, mala configuración de JWT, exposición de secretos e inyección de comandos— para comprometer completamente el sistema objetivo, evidenciando cómo fallas aparentemente menores pueden escalar hasta comprometer un servidor por completo cuando no se aplican buenas prácticas de desarrollo seguro.</p>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">8. Reporte Completo (PDF)</h2>
+        <iframe class="embed-frame" src="ReporteProyectoP1.pdf" title="Reporte PR SNAKEOIL en PDF"></iframe>
+        <span class="embed-caption">¿No se ve bien? <a href="ReporteProyectoP1.pdf" target="_blank">Abrir en una pestaña nueva</a></span>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">9. Video Explicativo</h2>
+        <iframe class="embed-frame" src="https://youtu.be/6zhp9bGkPo4" title="Video walkthrough" allowfullscreen></iframe>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">10. Referencias</h2>
+        <ul>
+            <li>Donavan. (2021). <em>DigitalWorld.local: SNAKEOIL</em>. VulnHub.</li>
+            <li>OWASP Foundation. (2026). <em>OWASP Top 10 - Broken Access Control</em>.</li>
+            <li>OWASP Foundation. (2026). <em>JSON Web Token (JWT) Cheat Sheet</em>.</li>
+            <li>flask-jwt-extended. (2026). <em>Documentación oficial</em>.</li>
+        </ul>
+    </div>
+
+    <!-- Botones de Acción -->
+    <div class="action-buttons">
+        <a class="btn btn-primary" href="../../Parcial1.html">Volver atrás</a>
+    </div>
+    </div>
+</div>
+
+</body>
+</html>
