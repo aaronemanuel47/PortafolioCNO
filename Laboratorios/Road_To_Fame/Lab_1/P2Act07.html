@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad 07 - Lab: File Path Traversal, Simple Case</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+/* =========================================================
+   TEMA COMPARTIDO — PÁGINAS DE ACTIVIDADES / DOCUMENTOS
+   (ACT1, ACT2, ACT4, Proyecto, etc.)
+   Estilo oscuro (tema original en tonos negros/verdes)
+========================================================= */
+
+:root{
+  --bg-main:#0b0f17;
+  --bg-card:#111726;
+  --bg-subcard:#0d121d;
+  --border-color:#1d2636;
+  --accent:#22c55e;
+  --accent-hover:#16a34a;
+  --accent-soft:rgba(34,197,94,.12);
+  --text-main:#ffffff;
+  --text-muted:#94a3b8;
+  --code-bg:#070a0f;
+  --btn-secondary-bg:#1e293b;
+  --btn-secondary-hover:#334155;
+  --shadow-md:0 12px 28px rgba(0,0,0,.35);
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+}
+
+body{
+  background-color:var(--bg-main);
+  color:var(--text-main);
+  padding:40px 20px;
+  line-height:1.6;
+}
+
+a{
+  color:var(--accent);
+}
+
+.container{
+  max-width:900px;
+  margin:0 auto;
+  background-color:var(--bg-card);
+  border:1px solid var(--border-color);
+  border-radius:12px;
+  padding:32px;
+  box-shadow:var(--shadow-md);
+}
+
+/* Header */
+.top-tag{
+  color:var(--accent);
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+
+.main-title,
+h1{
+  font-size:28px;
+  font-weight:800;
+  color:var(--text-main);
+  margin-bottom:8px;
+}
+
+.subtitle{
+  color:var(--text-muted);
+  font-size:14px;
+  margin-bottom:24px;
+}
+
+/* Meta Grid */
+.meta-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:16px;
+  margin-bottom:24px;
+}
+
+.meta-card{
+  background-color:var(--bg-subcard);
+  border:1px solid var(--border-color);
+  border-radius:8px;
+  padding:14px 16px;
+}
+
+.meta-label,
+.meta-card span{
+  color:var(--accent);
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  margin-bottom:4px;
+  display:block;
+}
+
+.meta-value,
+.meta-card strong{
+  color:var(--text-main);
+  font-size:14px;
+  font-weight:500;
+}
+
+/* Equipo */
+.team-card{
+  background-color:var(--bg-subcard);
+  border:1px solid var(--border-color);
+  border-radius:8px;
+  padding:14px 16px;
+  margin-bottom:32px;
+}
+
+.team-card ul{
+  list-style:none;
+  padding:0;
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:6px;
+  margin-top:6px;
+}
+
+.team-card li{
+  color:var(--text-main);
+  font-size:13px;
+  margin-bottom:0;
+}
+
+.team-card li span{
+  color:var(--text-muted);
+}
+
+/* Sections */
+.section{
+  margin-bottom:28px;
+}
+
+.section-title{
+  font-size:18px;
+  font-weight:700;
+  color:var(--text-main);
+  border-bottom:1px solid var(--border-color);
+  padding-bottom:8px;
+  margin-bottom:14px;
+}
+
+.subsection-title{
+  font-size:15px;
+  font-weight:600;
+  color:var(--accent);
+  margin:16px 0 8px 0;
+}
+
+p{
+  color:var(--text-muted);
+  font-size:14px;
+  margin-bottom:12px;
+}
+
+ul,ol{
+  padding-left:20px;
+  color:var(--text-muted);
+  font-size:14px;
+}
+
+li{
+  margin-bottom:8px;
+}
+
+li strong{
+  color:var(--text-main);
+}
+
+code{
+  background-color:var(--accent-soft);
+  color:var(--accent);
+  padding:2px 6px;
+  border-radius:4px;
+  font-family:monospace;
+  font-size:13px;
+}
+
+.code-block{
+  background-color:var(--code-bg);
+  border:1px solid var(--border-color);
+  color:var(--accent);
+  padding:14px;
+  border-radius:6px;
+  font-family:monospace;
+  font-size:13px;
+  margin:12px 0;
+  white-space:pre-wrap;
+}
+
+/* Tabla */
+.data-table{
+  width:100%;
+  border-collapse:collapse;
+  margin:12px 0 20px;
+  font-size:13px;
+  background-color:var(--bg-card);
+  border:1px solid var(--border-color);
+  border-radius:8px;
+  overflow:hidden;
+}
+
+.data-table th{
+  background-color:var(--accent-soft);
+  color:var(--accent);
+  text-align:left;
+  padding:10px 12px;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  border-bottom:1px solid var(--border-color);
+}
+
+.data-table td{
+  padding:10px 12px;
+  color:var(--text-muted);
+  border-bottom:1px solid var(--border-color);
+  vertical-align:top;
+}
+
+.data-table tr:last-child td{
+  border-bottom:none;
+}
+
+.data-table td strong,
+.data-table td.highlight{
+  color:var(--text-main);
+}
+
+.data-table td.money{
+  color:var(--accent);
+  font-weight:700;
+  white-space:nowrap;
+}
+
+.total-row td{
+  background-color:var(--accent-soft);
+}
+
+/* Timeline */
+.timeline{
+  position:relative;
+  padding-left:24px;
+  margin:16px 0;
+  border-left:2px solid var(--border-color);
+}
+
+.timeline-item{
+  position:relative;
+  padding-bottom:20px;
+}
+
+.timeline-item::before{
+  content:"";
+  position:absolute;
+  left:-29px;
+  top:4px;
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background-color:var(--accent);
+}
+
+.timeline-date{
+  color:var(--accent);
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  margin-bottom:4px;
+}
+
+.timeline-text{
+  color:var(--text-muted);
+  font-size:13px;
+}
+
+.note-box{
+  background-color:var(--bg-subcard);
+  border:1px solid var(--border-color);
+  border-left:3px solid var(--accent);
+  border-radius:6px;
+  padding:12px 16px;
+  margin:12px 0 20px;
+  font-size:13px;
+  color:var(--text-muted);
+}
+
+.note-box strong{
+  color:var(--text-main);
+}
+
+/* Status badges */
+.status-badge{
+  display:inline-block;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  padding:3px 8px;
+  border-radius:4px;
+  margin-left:8px;
+}
+
+.status-found{
+  background-color:var(--accent-soft);
+  color:var(--accent);
+}
+
+.status-pending{
+  background-color:#1e293b;
+  color:var(--text-muted);
+}
+
+/* Referencias */
+.references{
+  font-size:12px;
+  color:var(--text-muted);
+  word-break:break-word;
+}
+
+.references li{
+  margin-bottom:12px;
+}
+
+.references a{
+  color:var(--accent);
+  text-decoration:none;
+}
+
+.references a:hover{
+  text-decoration:underline;
+}
+
+/* Figuras / capturas de pantalla */
+figure{
+  margin:16px 0;
+}
+
+.section figure img,
+.section > img{
+  max-width:100%;
+  display:block;
+  border:1px solid var(--border-color);
+  border-radius:8px;
+  box-shadow:0 8px 20px rgba(0,0,0,.35);
+}
+
+figcaption{
+  color:var(--text-muted);
+  font-size:12px;
+  font-style:italic;
+  text-align:center;
+  margin-top:8px;
+}
+
+/* Embeds / PDF */
+.embed-frame,
+.pdf-viewer{
+  width:100%;
+  height:480px;
+  border:1px solid var(--border-color);
+  border-radius:8px;
+  background-color:var(--bg-subcard);
+}
+
+.embed-caption{
+  display:block;
+  margin-top:8px;
+  color:var(--text-muted);
+  font-size:12px;
+  text-align:right;
+}
+
+.embed-caption a{
+  color:var(--accent);
+  text-decoration:none;
+}
+
+.embed-caption a:hover{
+  text-decoration:underline;
+}
+
+.pdf-box{
+  background-color:var(--bg-subcard);
+  border:1px solid var(--border-color);
+  border-radius:8px;
+  padding:16px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+.pdf-icon{
+  width:44px;
+  height:44px;
+  border-radius:8px;
+  background:var(--accent-soft);
+  color:var(--accent);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:18px;
+  flex-shrink:0;
+}
+
+.pdf-info,
+.info-item{
+  color:var(--text-muted);
+  font-size:13px;
+}
+
+.card-number{
+  color:var(--accent);
+  font-weight:800;
+}
+
+/* Action Buttons */
+.action-buttons,
+.buttons{
+  display:flex;
+  gap:16px;
+  margin-top:36px;
+  padding-top:24px;
+  border-top:1px solid var(--border-color);
+  flex-wrap:wrap;
+}
+
+.btn,
+.button{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:12px 20px;
+  border-radius:8px;
+  font-size:14px;
+  font-weight:600;
+  text-decoration:none;
+  cursor:pointer;
+  transition:all .2s ease;
+  border:none;
+}
+
+.btn-primary,
+.button-primary{
+  background-color:var(--accent);
+  color:#000000;
+}
+
+.btn-primary:hover,
+.button-primary:hover{
+  background-color:var(--accent-hover);
+}
+
+.btn-secondary{
+  background-color:var(--btn-secondary-bg);
+  color:var(--text-main);
+  border:1px solid var(--border-color);
+}
+
+.btn-secondary:hover{
+  background-color:var(--btn-secondary-hover);
+}
+
+@media (max-width:600px){
+  .embed-frame,
+  .pdf-viewer{
+    height:320px;
+  }
+
+  .meta-grid,
+  .team-card ul{
+    grid-template-columns:1fr;
+  }
+
+  .data-table,
+  .data-table thead{
+    grid-template-columns:1fr;
+  }
+
+  .data-table,
+  .data-table thead,
+  .data-table tbody,
+  .data-table th,
+  .data-table td,
+  .data-table tr{
+    display:block;
+  }
+
+  .data-table thead tr{
+    display:none;
+  }
+
+  .data-table td{
+    border-bottom:none;
+    padding:4px 12px;
+  }
+
+  .data-table tr{
+    border-bottom:1px solid var(--border-color);
+    padding:8px 0;
+  }
+
+  .data-table td::before{
+    content:attr(data-label);
+    display:block;
+    color:var(--accent);
+    font-size:10px;
+    font-weight:800;
+    text-transform:uppercase;
+    margin-bottom:2px;
+  }
+
+  .container{
+    padding:20px;
+  }
+
+  .action-buttons,
+  .buttons{
+    flex-direction:column-reverse;
+  }
+
+  .btn,
+  .button{
+    width:100%;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="top-tag">UNIVERSIDAD POLITÉCNICA DE SAN LUIS POTOSÍ</div>
+    <h1 class="main-title">Lab: File Path Traversal, Simple Case</h1>
+    <p class="subtitle">Road to Hall of Fame · Actividad 07 · PortSwigger Web Security Academy</p>
+
+    <!-- Metadata -->
+    <div class="meta-grid">
+        <div class="meta-card">
+            <div class="meta-label">ACTIVIDAD</div>
+            <div class="meta-value">Actividad 07</div>
+        </div>
+        <div class="meta-card">
+            <div class="meta-label">ALUMNO</div>
+            <div class="meta-value">Aaron Emanuel González Díaz (182447)</div>
+        </div>
+        <div class="meta-card">
+            <div class="meta-label">ASIGNATURA</div>
+            <div class="meta-value">Parcial I · Fundamentos de Ciberseguridad</div>
+        </div>
+        <div class="meta-card">
+            <div class="meta-label">DOCENTE</div>
+            <div class="meta-value">Mtro. Servando López Contreras</div>
+        </div>
+    </div>
+
+    <!-- 1. Nombre del laboratorio -->
+    <div class="section">
+        <h2 class="section-title">1. Nombre del Laboratorio</h2>
+        <p><strong>File path traversal, simple case</strong></p>
+        <p>
+            Fuente oficial:
+            <a href="https://portswigger.net/web-security/file-path-traversal/lab-simple" target="_blank" rel="noopener">
+                portswigger.net/web-security/file-path-traversal/lab-simple
+            </a>
+        </p>
+    </div>
+
+    <!-- 2. Nivel -->
+    <div class="section">
+        <h2 class="section-title">2. Nivel</h2>
+        <p><span class="status-badge status-found">Apprentice</span></p>
+    </div>
+
+    <!-- 3. Tipo de explotación -->
+    <div class="section">
+        <h2 class="section-title">3. Tipo de Explotación</h2>
+        <p>
+            <strong>Path Traversal / Directory Traversal (CWE-22).</strong> Explotación del lado del
+            servidor mediante manipulación del parámetro que referencia un nombre de archivo, sin
+            validación ni canonicalización adecuada de la ruta resultante.
+        </p>
+    </div>
+
+    <!-- 4. Objetivo del laboratorio -->
+    <div class="section">
+        <h2 class="section-title">4. Objetivo del Laboratorio</h2>
+        <p>
+            La aplicación vulnerable es una tienda en línea que permite visualizar imágenes de los
+            productos a través del endpoint <code>/image?filename=NOMBRE</code>. El objetivo del
+            laboratorio es abusar de este mecanismo para leer el contenido del archivo
+            <code>/etc/passwd</code> del sistema operativo subyacente, demostrando que el servidor
+            no restringe el acceso a archivos fuera del directorio de imágenes previsto.
+        </p>
+    </div>
+
+    <!-- 5. Explicación técnica -->
+    <div class="section">
+        <h2 class="section-title">5. Explicación Técnica de la Vulnerabilidad</h2>
+
+        <h3 class="subsection-title">5.1 Concepto y Mecanismo</h3>
+        <p>
+            El Path Traversal (o Directory Traversal) ocurre cuando una aplicación recibe un dato del
+            usuario (por ejemplo, un nombre de archivo) y lo concatena directamente a una ruta del
+            sistema de archivos sin validarlo. En Unix/Linux, cada <code>../</code> hace que el sistema
+            operativo suba un nivel en la jerarquía de directorios; esta resolución ocurre a nivel de
+            kernel y es ajena a la lógica de la aplicación.
+        </p>
+        <p>
+            Si el servidor construye una ruta como <code>base_dir + "/" + filename</code>, y
+            <code>filename</code> es <code>../../../etc/passwd</code>, la ruta resultante equivale a
+            <code>/etc/passwd</code>, aunque el desarrollador nunca la escribió de forma literal. La
+            aplicación la entrega igualmente porque nunca comparó la ruta final contra el directorio
+            base permitido. Tres niveles de <code>../</code> bastan para llegar a la raíz del sistema
+            de archivos desde cualquier subdirectorio razonablemente profundo, y de ahí descender
+            hacia <code>etc/passwd</code>.
+        </p>
+
+        <h3 class="subsection-title">5.2 Variantes y Técnicas de Evasión de Filtros</h3>
+        <p>
+            Cuando la aplicación intenta filtrar la entrada de forma ingenua (por ejemplo, eliminando
+            <code>../</code> una sola vez), existen variantes que evaden esa validación insuficiente:
+        </p>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Variante</th>
+                    <th>Ejemplo de payload</th>
+                    <th>Filtro que evade</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td data-label="Variante"><strong>Traversal simple</strong></td>
+                    <td data-label="Payload"><code>../../../etc/passwd</code></td>
+                    <td data-label="Filtro">Ausencia total de validación (caso de este laboratorio).</td>
+                </tr>
+                <tr>
+                    <td data-label="Variante"><strong>Codificación URL</strong></td>
+                    <td data-label="Payload"><code>..%2f..%2f..%2fetc%2fpasswd</code></td>
+                    <td data-label="Filtro">Filtros que buscan el carácter "/" literal antes de decodificar la URL.</td>
+                </tr>
+                <tr>
+                    <td data-label="Variante"><strong>Doble codificación</strong></td>
+                    <td data-label="Payload"><code>..%252f..%252fetc%252fpasswd</code></td>
+                    <td data-label="Filtro">Servidores/proxies que decodifican una sola vez.</td>
+                </tr>
+                <tr>
+                    <td data-label="Variante"><strong>Sustitución no recursiva</strong></td>
+                    <td data-label="Payload"><code>....//....//etc/passwd</code></td>
+                    <td data-label="Filtro">Filtros que eliminan "../" una sola vez (....// &rarr; ../ tras el reemplazo).</td>
+                </tr>
+                <tr>
+                    <td data-label="Variante"><strong>Ruta absoluta</strong></td>
+                    <td data-label="Payload"><code>/etc/passwd</code></td>
+                    <td data-label="Filtro">Filtros que solo bloquean secuencias relativas.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 class="subsection-title">5.3 Impacto y Clasificación Estándar</h3>
+        <p>
+            El pilar principalmente afectado es la <strong>confidencialidad</strong> (exposición de
+            credenciales, configuración o archivos del sistema); en variantes combinadas con
+            escritura de archivos puede comprometerse también la integridad y, de forma indirecta,
+            la disponibilidad. En este laboratorio el impacto demostrado es lectura de
+            <code>/etc/passwd</code>, clasificada como <strong>CWE-22</strong> (Improper Limitation
+            of a Pathname to a Restricted Directory) y encuadrada en
+            <strong>OWASP Top 10 2021 — A01:2021 Broken Access Control</strong>, ya que en el fondo
+            representa una falla de control de acceso sobre los recursos del sistema de archivos.
+        </p>
+        <div class="note-box">
+            <strong>Defensa efectiva:</strong> combina no confiar en la entrada del usuario,
+            canonicalizar y validar la ruta resultante contra el directorio base permitido, y aplicar
+            el principio de menor privilegio como capa adicional (ver sección 8, Mitigación
+            recomendada).
+        </div>
+    </div>
+
+    <!-- 6. Procedimiento paso a paso -->
+    <div class="section">
+        <h2 class="section-title">6. Procedimiento Paso a Paso</h2>
+
+        <h3 class="subsection-title">Paso 1 — Reconocimiento de la Aplicación</h3>
+        <p>
+            Se accede a la aplicación vulnerable (una tienda en línea) y se navega por la página
+            principal para identificar la funcionalidad de carga de imágenes de producto, la cual
+            constituye el vector de ataque.
+        </p>
+        <figure>
+            <img src="img/fig1-home.jpg" alt="Página principal de la aplicación vulnerable We Like To Shop">
+            <figcaption>Figura 1. Página principal de la aplicación vulnerable ("We Like To Shop").</figcaption>
+        </figure>
+
+        <h3 class="subsection-title">Paso 2 — Interceptación del Tráfico con Burp Suite</h3>
+        <p>
+            Con el proxy de Burp Suite activo y el navegador configurado para enviar el tráfico a
+            través de él, se navega por el sitio y se revisa el historial de peticiones
+            (Proxy &gt; HTTP history). Se identifica que las imágenes de los productos se solicitan
+            mediante el endpoint <code>GET /image?filename=NOMBRE</code>, lo cual confirma el
+            parámetro controlable por el usuario.
+        </p>
+        <figure>
+            <img src="img/fig2-burp-history.jpg" alt="Historial de peticiones en Burp Suite">
+            <figcaption>Figura 2. Historial de peticiones en Burp Suite mostrando solicitudes al endpoint /image?filename=.</figcaption>
+        </figure>
+
+        <h3 class="subsection-title">Paso 3 — Identificación de la Solicitud Original</h3>
+        <p>
+            Se selecciona una de las solicitudes de imagen y se envía al módulo Repeater para su
+            análisis y manipulación controlada.
+        </p>
+        <figure>
+            <img src="img/fig3-request-original.png" alt="Solicitud original interceptada GET /image?filename=22.jpg">
+            <figcaption>Figura 3. Solicitud original interceptada: GET /image?filename=22.jpg HTTP/2.</figcaption>
+        </figure>
+
+        <h3 class="subsection-title">Paso 4 — Análisis de la Solicitud Completa</h3>
+        <p>
+            Se revisan los encabezados completos de la solicitud (Host, Cookie de sesión, User-Agent,
+            Referer, etc.) para comprender el contexto de la petición antes de modificarla.
+        </p>
+        <figure>
+            <img src="img/fig4-headers.png" alt="Encabezados completos de la solicitud interceptada en Burp Repeater">
+            <figcaption>Figura 4. Encabezados completos de la solicitud interceptada en Burp Repeater.</figcaption>
+        </figure>
+
+        <h3 class="subsection-title">Paso 5 — Construcción y Envío del Payload</h3>
+        <p>
+            En el valor del parámetro <code>filename</code> se sustituye el nombre de archivo original
+            por la secuencia de traversal <code>../../../etc/passwd</code>, con el propósito de
+            retroceder desde el directorio de imágenes hasta la raíz del sistema de archivos y luego
+            descender hacia el archivo de credenciales del sistema.
+        </p>
+        <figure>
+            <img src="img/fig5-payload.png" alt="Payload utilizado GET /image?filename=../../../etc/passwd">
+            <figcaption>Figura 5. Payload utilizado: GET /image?filename=../../../etc/passwd HTTP/2.</figcaption>
+        </figure>
+
+        <h3 class="subsection-title">Paso 6 — Confirmación de la Respuesta Vulnerable</h3>
+        <p>
+            Al enviar la solicitud modificada, el servidor responde con estado <strong>200 OK</strong>
+            y devuelve en el cuerpo de la respuesta el contenido íntegro del archivo
+            <code>/etc/passwd</code>, confirmando que la aplicación no valida ni restringe la ruta
+            solicitada.
+        </p>
+        <figure>
+            <img src="img/fig6-respuesta-vulnerable.png" alt="Respuesta vulnerable del servidor mostrando el contenido de /etc/passwd">
+            <figcaption>Figura 6. Respuesta vulnerable del servidor mostrando el contenido de /etc/passwd.</figcaption>
+        </figure>
+
+        <h3 class="subsection-title">Paso 7 — Confirmación de Resolución del Laboratorio</h3>
+        <p>
+            PortSwigger Web Security Academy confirma automáticamente la explotación exitosa
+            marcando el laboratorio como <span class="status-badge status-found">Solved</span>.
+        </p>
+        <figure>
+            <img src="img/fig7-lab-solved.png" alt="Confirmación Lab Solved en PortSwigger Web Security Academy">
+            <figcaption>Figura 7. Confirmación "Lab Solved" en PortSwigger Web Security Academy.</figcaption>
+        </figure>
+    </div>
+
+    <!-- 7. Explicación del payload -->
+    <div class="section">
+        <h2 class="section-title">7. Explicación del Payload</h2>
+        <p><strong>Payload utilizado:</strong></p>
+        <div class="code-block">../../../etc/passwd</div>
+
+        <p><strong>Funcionamiento técnico:</strong></p>
+        <ul>
+            <li>La aplicación construye internamente una ruta similar a <code>/var/www/images/</code> + <code>filename</code> para localizar y servir el archivo solicitado.</li>
+            <li>Cada secuencia <code>../</code> le indica al sistema de archivos que suba un nivel de directorio respecto al directorio base de imágenes (por ejemplo, de <code>/var/www/images/</code> a <code>/var/www/</code> y luego a <code>/var/</code>).</li>
+            <li>Se emplean tres secuencias <code>../</code> para garantizar que, independientemente de la profundidad exacta del directorio base de imágenes, la ruta resultante llegue a la raíz del sistema de archivos (<code>/</code>).</li>
+            <li>A partir de la raíz, se añade la ruta <code>etc/passwd</code>, que en sistemas Unix/Linux contiene el listado de cuentas de usuario del sistema operativo (nombre de usuario, UID, GID, directorio home y shell asignado).</li>
+            <li>Como el servidor no valida que el nombre de archivo resultante permanezca dentro del directorio de imágenes autorizado (no aplica canonicalización ni comparación contra una whitelist), procesa la ruta manipulada como si fuera legítima y devuelve el contenido del archivo del sistema en la respuesta HTTP.</li>
+        </ul>
+
+        <div class="note-box">
+            El hecho de que el archivo <code>/etc/passwd</code> sea legible por el proceso del
+            servidor web (aunque no contenga los hashes de contraseñas, que residen en
+            <code>/etc/shadow</code>) lo convierte en un objetivo estándar para demostrar path
+            traversal, ya que su formato es predecible y fácilmente verificable.
+        </div>
+    </div>
+
+    <!-- 8. Mitigación recomendada -->
+    <div class="section">
+        <h2 class="section-title">8. Mitigación Recomendada</h2>
+        <ul>
+            <li>Evitar pasar directamente la entrada del usuario a las APIs del sistema de archivos; en su lugar, usar un identificador indirecto (por ejemplo, un ID numérico o un nombre de archivo interno) que el servidor traduzca a la ruta real mediante un mapeo controlado del lado del servidor.</li>
+            <li>Validar la entrada contra una lista blanca (allow-list) de nombres o extensiones de archivo permitidos, rechazando cualquier valor que no coincida exactamente con el patrón esperado.</li>
+            <li>Canonicalizar la ruta resultante (resolver secuencias <code>../</code>, enlaces simbólicos y codificaciones) antes de compararla, y verificar que la ruta canonicalizada siga estando dentro del directorio base permitido.</li>
+            <li>Eliminar o rechazar secuencias de traversal (<code>../</code>, <code>..\</code>, variantes codificadas en URL o Unicode) en lugar de intentar solo removerlas con expresiones regulares simples, que suelen ser evadibles.</li>
+            <li>Aplicar el principio de menor privilegio: ejecutar el proceso del servidor con un usuario restringido que no tenga permisos de lectura sobre archivos sensibles del sistema operativo.</li>
+            <li>Aislar el directorio de archivos servidos mediante mecanismos como chroot jails, contenedores o sistemas de archivos dedicados de solo lectura para el contenido público.</li>
+            <li>Configurar reglas de un WAF (Web Application Firewall) como capa adicional de defensa para detectar patrones de traversal en los parámetros de la solicitud.</li>
+            <li>Registrar y monitorear solicitudes con patrones anómalos en parámetros de archivo (<code>../</code>, <code>%2e%2e</code>, rutas absolutas) para detectar intentos de explotación.</li>
+        </ul>
+    </div>
+
+    <!-- Botones de acción -->
+    <div class="action-buttons">
+        <a href="../road-to-fame.html" target="_blank" class="btn btn-secondary">
+            Volver Atras
+        </a>
+        <a href="Act07-182447.pdf" target="_blank" class="btn btn-primary">
+            Abrir PDF
+        </a>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad 01 - Análisis del ciberataque a PEMEX</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #0b0f17;
+            --bg-card: #111726;
+            --bg-subcard: #0d121d;
+            --border-color: #1d2636;
+            --accent-green: #22c55e;
+            --accent-green-hover: #16a34a;
+            --text-white: #ffffff;
+            --text-muted: #94a3b8;
+            --code-bg: #070a0f;
+            --btn-secondary-bg: #1e293b;
+            --btn-secondary-hover: #334155;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-white);
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 32px;
+        }
+
+        .top-tag {
+            color: var(--accent-green);
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .main-title {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--text-white);
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
+        .meta-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .meta-card {
+            background-color: var(--bg-subcard);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 14px 16px;
+        }
+
+        .meta-label {
+            color: var(--accent-green);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .meta-value {
+            color: var(--text-white);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .team-card {
+            background-color: var(--bg-subcard);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 14px 16px;
+            margin-bottom: 32px;
+        }
+
+        .team-card ul {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px;
+            margin-top: 6px;
+        }
+
+        .team-card li {
+            color: var(--text-white);
+            font-size: 13px;
+            margin-bottom: 0;
+        }
+
+        .team-card li span {
+            color: var(--text-muted);
+        }
+
+        .section {
+            margin-bottom: 28px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-white);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+            margin-bottom: 14px;
+        }
+
+        .subsection-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--accent-green);
+            margin: 16px 0 8px 0;
+        }
+
+        p {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        ul, ol {
+            padding-left: 20px;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        li strong {
+            color: var(--text-white);
+        }
+
+        code {
+            background-color: rgba(34, 197, 94, 0.1);
+            color: var(--accent-green);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 13px;
+        }
+
+        /* Tabla estilo tarjeta */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0 20px;
+            font-size: 13px;
+            background-color: var(--bg-subcard);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .data-table th {
+            background-color: rgba(34, 197, 94, 0.12);
+            color: var(--accent-green);
+            text-align: left;
+            padding: 10px 12px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .data-table td {
+            padding: 10px 12px;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: top;
+        }
+
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .data-table td strong,
+        .data-table td.highlight {
+            color: var(--text-white);
+        }
+
+        .data-table td.money {
+            color: var(--accent-green);
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 24px;
+            margin: 16px 0;
+            border-left: 2px solid var(--border-color);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 20px;
+        }
+
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            left: -29px;
+            top: 4px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--accent-green);
+        }
+
+        .timeline-date {
+            color: var(--accent-green);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .timeline-text {
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        .note-box {
+            background-color: var(--bg-subcard);
+            border: 1px solid var(--border-color);
+            border-left: 3px solid var(--accent-green);
+            border-radius: 6px;
+            padding: 12px 16px;
+            margin: 12px 0 20px;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .note-box strong {
+            color: var(--text-white);
+        }
+
+        .total-row td {
+            background-color: rgba(34, 197, 94, 0.06);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 16px;
+            margin-top: 36px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-green);
+            color: #000000;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-green-hover);
+        }
+
+        .btn-secondary {
+            background-color: var(--btn-secondary-bg);
+            color: var(--text-white);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--btn-secondary-hover);
+        }
+
+        .references {
+            font-size: 12px;
+            color: var(--text-muted);
+            word-break: break-word;
+        }
+
+        .references li {
+            margin-bottom: 12px;
+        }
+
+        .references a {
+            color: var(--accent-green);
+            text-decoration: none;
+        }
+
+        .references a:hover {
+            text-decoration: underline;
+        }
+
+        .embed-frame {
+            width: 100%;
+            height: 480px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: var(--bg-subcard);
+        }
+
+        .embed-caption {
+            display: block;
+            margin-top: 8px;
+            color: var(--text-muted);
+            font-size: 12px;
+            text-align: right;
+        }
+
+        .embed-caption a {
+            color: var(--accent-green);
+            text-decoration: none;
+        }
+
+        .embed-caption a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .embed-frame {
+                height: 320px;
+            }
+            .meta-grid, .team-card ul, .data-table, .data-table thead {
+                grid-template-columns: 1fr;
+            }
+            .data-table, .data-table thead, .data-table tbody, .data-table th, .data-table td, .data-table tr {
+                display: block;
+            }
+            .data-table thead tr {
+                display: none;
+            }
+            .data-table td {
+                border-bottom: none;
+                padding: 4px 12px;
+            }
+            .data-table tr {
+                border-bottom: 1px solid var(--border-color);
+                padding: 8px 0;
+            }
+            .data-table td::before {
+                content: attr(data-label);
+                display: block;
+                color: var(--accent-green);
+                font-size: 10px;
+                font-weight: 800;
+                text-transform: uppercase;
+                margin-bottom: 2px;
+            }
+            .container {
+                padding: 20px;
+            }
+            .action-buttons {
+                flex-direction: column-reverse;
+            }
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="top-tag">UNIVERSIDAD POLITÉCNICA DE SAN LUIS POTOSÍ</div>
+    <h1 class="main-title">Análisis en grupo de un ciberataque real y su impacto empresarial</h1>
+    <p class="subtitle">Caso de estudio: Ciberataque a PEMEX (ransomware DoppelPaymer, noviembre 2019)</p>
+
+    <div class="meta-grid">
+        <div class="meta-card">
+            <div class="meta-label">ACTIVIDAD</div>
+            <div class="meta-value">Actividad 01</div>
+        </div>
+        <div class="meta-card">
+            <div class="meta-label">PROFESOR</div>
+            <div class="meta-value">Servando López Contreras</div>
+        </div>
+    </div>
+
+    <div class="team-card">
+        <div class="meta-label">EQUIPO 5</div>
+        <ul>
+            <li><span>184914 ·</span> Briano Montalvo Luis Enrique</li>
+            <li><span>184565 ·</span> Contreras Esparza Arturo</li>
+            <li><span>183793 ·</span> García Morales Alejandro</li>
+            <li><span>184918 ·</span> Ortega Jiménez Juan Francisco</li>
+            <li><span>182447 ·</span> González Díaz Aaron Emanuel</li>
+            <li><span>182928 ·</span> González Espinoza Karla Vanessa</li>
+            <li><span>18426 ·</span> Lizeth Infante Martínez</li>
+        </ul>
+    </div>
+
+    <!-- 1. Introducción y contexto -->
+    <div class="section">
+        <h2 class="section-title">1. Introducción y Contexto General del Ataque</h2>
+        <p>En noviembre de 2019, Petróleos Mexicanos (PEMEX), una de las empresas estratégicas más importantes del sector energético mexicano, sufrió un ciberataque mediante el ransomware DoppelPaymer. El incidente comprometió parte de su infraestructura corporativa de Tecnologías de la Información, provocó el cifrado de sistemas y estuvo relacionado con la extracción de información sensible. Aunque PEMEX informó que sus actividades de producción y abastecimiento continuaron operando, diversos procesos administrativos y equipos de cómputo resultaron afectados.</p>
+        <p>El caso resulta relevante debido a que investigaciones posteriores identificaron deficiencias previas de ciberseguridad, como sistemas operativos obsoletos, falta de actualización de parches y vulnerabilidades en servidores Microsoft SharePoint. El objetivo de este documento es analizar técnicamente el desarrollo del ataque, sus posibles vectores de entrada, las vulnerabilidades y fallas que facilitaron el incidente, así como sus consecuencias operativas, económicas y estratégicas.</p>
+
+        <h3 class="subsection-title">Contexto general del ataque</h3>
+        <p>El día 10 de noviembre del 2019, México sufrió un ataque en uno de sus organismos más importantes: PEMEX. La empresa aseguró, ante la ola de desinformación y documentos apócrifos, que sus equipos de operación y producción se encontraban completamente blindados. La red interna de PEMEX, al igual que todas las grandes empresas e instituciones gubernamentales y financieras, recibe con frecuencia amenazas y ataques cibernéticos que, hasta ese momento, no habían prosperado.</p>
+        <p>DoppelPaymer tuvo distintos acercamientos, principalmente el spear phishing dirigido a los empleados, lo cual permitió el uso de diferentes técnicas como Drive-by Compromise (Técnica T0817). Esto facilitó descargar software malicioso y la infección de documentos de Microsoft Office, comprometiendo los equipos de los empleados.</p>
+    </div>
+
+    <!-- 2. Línea de tiempo -->
+    <div class="section">
+        <h2 class="section-title">2. Línea de Tiempo</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-date">10 de noviembre de 2019</div>
+                <div class="timeline-text">El incidente comienza cuando un empleado descarga malware; de acuerdo con CyOTE, el acercamiento inicial fue spear phishing.</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">Acceso inicial</div>
+                <div class="timeline-text">Los operadores de Dridex también pudieron tener un acercamiento inicial mediante Drive-by Compromise (Técnica T0817): el usuario infecta su equipo con solo visitar una página web comprometida, cuyo navegador descarga software malicioso haciéndose pasar por una actualización.</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">Propagación</div>
+                <div class="timeline-text">Mediante la técnica Modify Parameter (T0836), la infección continuó propagándose a más equipos de empleados.</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">Escalación y despliegue</div>
+                <div class="timeline-text">Tras escalar privilegios, los atacantes desplegaron DoppelPaymer, un tipo de ransomware.</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">Exfiltración</div>
+                <div class="timeline-text">Información sensible fue filtrada a través del sitio de DoppelPaymer, incluyendo también la configuración de Tecnologías de la Operación (OT).</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">Extorsión</div>
+                <div class="timeline-text">Los atacantes exigieron un pago de 565 BTC, equivalente a $4,899,295.80 USD y aproximadamente $95,879,278.80 MXN (tipo de cambio de la época: $19.57 MXN/USD).</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">11 de noviembre de 2019</div>
+                <div class="timeline-text">PEMEX afirma públicamente que la operación y producción funcionan con normalidad.</div>
+            </div>
+        </div>
+        <div class="note-box">
+            <strong>Notas:</strong> "OT" (Operational Technology) es, de acuerdo con IBM, la tecnología utilizada para controlar, monitorear y automatizar dispositivos industriales. "Dridex", también conocido como Evil Corp, es un grupo criminal asociado a un troyano del mismo nombre.
+        </div>
+    </div>
+
+    <!-- 3. Tabla técnica -->
+    <div class="section">
+        <h2 class="section-title">3. Tabla Técnica del Ataque</h2>
+        <table class="data-table">
+            <thead><tr><th>Elemento</th><th>Descripción</th></tr></thead>
+            <tbody>
+                <tr><td data-label="Elemento" class="highlight"><strong>Tipo de ataque</strong></td><td data-label="Descripción">Ransomware y extorsión cibernética de doble impacto: combinó el cifrado masivo de sistemas con la exfiltración previa de datos sensibles.</td></tr>
+                <tr><td data-label="Elemento" class="highlight"><strong>Actor o grupo atacante</strong></td><td data-label="Descripción">Múltiples actores organizados por etapas: operadores de botnets (Emotet/Dridex), intermediarios de acceso inicial (Initial Access Brokers) y el grupo operador de DoppelPaymer.</td></tr>
+                <tr><td data-label="Elemento" class="highlight"><strong>Vector de entrada</strong></td><td data-label="Descripción">Campañas de spear phishing con adjuntos de Microsoft Office infectados con macros, complementadas con drive-by compromise mediante el marco FakeUpdates/SocGhoulish.</td></tr>
+                <tr><td data-label="Elemento" class="highlight"><strong>Vulnerabilidad explotada</strong></td><td data-label="Descripción">Factor humano mediante ingeniería social (interacción con alertas o macros engañosas), combinado con robo y abuso de credenciales válidas.</td></tr>
+                <tr><td data-label="Elemento" class="highlight"><strong>Etapas del ataque</strong></td><td data-label="Descripción">1) Acceso inicial; 2) Ejecución y persistencia (VBA, JavaScript, PowerShell); 3) Movimiento lateral y escalada de privilegios (Mimikatz, PoshC2); 4) Exfiltración masiva (Rclone, Mega); 5) Inhibición de mecanismos de seguridad; 6) Impacto: cifrado masivo (.doppeled) y notas de rescate.</td></tr>
+                <tr><td data-label="Elemento" class="highlight"><strong>Sistemas comprometidos</strong></td><td data-label="Descripción">Infraestructura de red empresarial de TI de PEMEX y exfiltración de información de arquitecturas de Tecnologías de la Operación (OT). Afectó aproximadamente el 5% de sus equipos y 180,000 archivos.</td></tr>
+                <tr><td data-label="Elemento" class="highlight"><strong>Duración del incidente</strong></td><td data-label="Descripción">Aproximadamente dos meses: desde la infiltración inicial a principios de septiembre de 2019 hasta la detonación masiva el 10 de noviembre de 2019.</td></tr>
+                <tr><td data-label="Elemento" class="highlight"><strong>Detección y respuesta</strong></td><td data-label="Descripción">Detección mediante análisis de tráfico de red anómalo y registros en endpoints. La respuesta obligó a una desconexión de emergencia y adopción temporal de procesos manuales.</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 4. CIA -->
+    <div class="section">
+        <h2 class="section-title">4. Evaluación del Impacto (Modelo CIA)</h2>
+        <table class="data-table">
+            <thead><tr><th>Principio</th><th>Descripción del impacto</th><th>Evidencia del caso</th></tr></thead>
+            <tbody>
+                <tr>
+                    <td data-label="Principio" class="highlight"><strong>Confidencialidad</strong></td>
+                    <td data-label="Impacto">Exfiltración sistemática y posterior divulgación en la Darknet de propiedad intelectual, esquemas de red industrial y credenciales corporativas tras negarse al pago del rescate.</td>
+                    <td data-label="Evidencia">Se exfiltraron ~5.8 GB de datos comprimidos, incluyendo manuales de control operativo, diagramas de arquitectura de red (INL, 2020) y directorios con usuarios/contraseñas de administradores (ASF, 2019).</td>
+                </tr>
+                <tr>
+                    <td data-label="Principio" class="highlight"><strong>Integridad</strong></td>
+                    <td data-label="Impacto">Alteración de sistemas de almacenamiento y destrucción de las capacidades de recuperación inherentes del sistema operativo.</td>
+                    <td data-label="Evidencia">Se cifraron volúmenes enteros de estaciones de trabajo (Mandiant, 2020); se eliminaron permanentemente los Puntos de Restauración y Copias de Sombra de Volumen antes del cifrado (ESET Research, 2020).</td>
+                </tr>
+                <tr>
+                    <td data-label="Principio" class="highlight"><strong>Disponibilidad</strong></td>
+                    <td data-label="Impacto">Parálisis por aislamiento preventivo de la infraestructura de red corporativa, colapso de portales de facturación e interrupción en la logística de distribución.</td>
+                    <td data-label="Evidencia">Desconexión física y lógica de terminales administrativas a nivel nacional (ENISA, 2021); caída sistémica de los portales transaccionales de PEMEX (Lakshmanan, 2019).</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 5. Costo -->
+    <div class="section">
+        <h2 class="section-title">5. Cálculo del Costo Total del Ciberataque</h2>
+        <table class="data-table">
+            <thead><tr><th>Tipo de costo</th><th>Descripción</th><th>Estimación (MXN)</th></tr></thead>
+            <tbody>
+                <tr><td data-label="Tipo" class="highlight"><strong>Pérdidas operativas</strong></td><td data-label="Descripción">Días de inactividad, cancelación de operaciones o servicios.</td><td data-label="Estimación" class="money">$383,500,000</td></tr>
+                <tr><td data-label="Tipo" class="highlight"><strong>Daños reputacionales</strong></td><td data-label="Descripción">Pérdida de clientes, caída en el valor de acciones, pérdida de confianza.</td><td data-label="Estimación" class="money">$50,000,000</td></tr>
+                <tr><td data-label="Tipo" class="highlight"><strong>Costos técnicos</strong></td><td data-label="Descripción">Recuperación de sistemas, consultorías externas, reemplazo de equipos.</td><td data-label="Estimación" class="money">$95,600,000</td></tr>
+                <tr><td data-label="Tipo" class="highlight"><strong>Costos legales/regulatorios</strong></td><td data-label="Descripción">Multas, demandas o sanciones por incumplimiento (GDPR, ISO, etc.)</td><td data-label="Estimación" class="money">$10,000,000</td></tr>
+                <tr><td data-label="Tipo" class="highlight"><strong>Pago de rescate o extorsión</strong></td><td data-label="Descripción">Monto pagado o solicitado en caso de ransomware.</td><td data-label="Estimación" class="money">$95,064,640</td></tr>
+                <tr class="total-row"><td data-label="Tipo" class="highlight"><strong>Total estimado</strong></td><td data-label="Descripción"><strong>Suma total en pesos mexicanos (MXN)</strong></td><td data-label="Estimación" class="money"><strong>$634,164,640</strong></td></tr>
+            </tbody>
+        </table>
+        <p>La conversión de dólares (USD) a pesos mexicanos (MXN), según el tipo de cambio de Banxico para 2019, fue de $19.12 MXN por dólar. El costo total estimado del ataque (~$634.2 millones MXN) resulta relevante frente a la inversión específica en software y servicios de ciberseguridad de la industria de aquel año, que rondaba los 80 millones de pesos: el costo de recuperación e impacto del ransomware DoppelPaymer fue casi <strong>8 veces mayor</strong> que el presupuesto destinado a prevenirlo. Esto demuestra financieramente que la seguridad debe tratarse como una inversión crítica de infraestructura.</p>
+    </div>
+
+    <!-- 6. Conclusiones -->
+    <div class="section">
+        <h2 class="section-title">6. Conclusión: Lecciones Aprendidas y Recomendaciones</h2>
+
+        <h3 class="subsection-title">Fallas técnicas identificadas</h3>
+        <ul>
+            <li><strong>Sistemas obsoletos:</strong> más del 76% de los servidores comprometidos utilizaban versiones antiguas de Windows sin soporte.</li>
+            <li><strong>Falta de parches:</strong> sin actualización de vulnerabilidades en SharePoint, arregladas meses antes del ataque.</li>
+            <li><strong>Controles deficientes:</strong> inventario no actualizado de software autorizado/no autorizado, ausencia de agentes de protección avanzada y escasa comunicación interna.</li>
+        </ul>
+
+        <h3 class="subsection-title">Medidas preventivas recomendadas</h3>
+        <ul>
+            <li>Gestión de actualizaciones recientes y parches periódicos.</li>
+            <li>Controles técnicos básicos: agentes de protección avanzada, inventario, monitoreo continuo y pruebas de penetración regulares.</li>
+            <li>Capacitación en ciberseguridad y concientización contra phishing y malware.</li>
+        </ul>
+
+        <h3 class="subsection-title">Marco normativo aplicable</h3>
+        <p><strong>Nacional:</strong> Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDPPP) y Ley de Seguridad Nacional. Al no existir una ley específica de ciberseguridad en México, se recomienda avanzar hacia una ley general similar a la NIS Directive de la Unión Europea, que obligue a empresas críticas a cumplir estándares mínimos.</p>
+        <p><strong>Internacional:</strong> ISO/IEC 27001 (gestión de seguridad de la información), NIST Cybersecurity Framework (aplicable como guía en Latinoamérica) y la Estrategia Interamericana de Ciberseguridad de la OEA.</p>
+
+        <h3 class="subsection-title">Conclusiones finales</h3>
+        <p>El ataque a PEMEX en 2019 reveló graves fallas en la gestión tecnológica: sistemas obsoletos, falta de parches de seguridad y controles débiles de ciberseguridad, lo que expuso información sensible. Para prevenir incidentes similares se recomienda fortalecer los CERTs nacionales y regionales, establecer mecanismos obligatorios de reporte de incidentes y realizar auditorías externas en infraestructura crítica. En México y Latinoamérica, la adopción de marcos legales claros, estándares internacionales (ISO/IEC 27001, NIST CSF), instituciones sólidas y capacitación continua del personal son claves. El caso demuestra que la ciberseguridad debe ser parte esencial de la protección de la infraestructura crítica, no una reacción posterior a los ataques.</p>
+    </div>
+
+    <!-- 7. Bibliografía -->
+    <div class="section">
+        <h2 class="section-title">7. Bibliografía</h2>
+        <ul class="references">
+            <li>Auditoría Superior de la Federación. (2019). <em>Evaluación y Fiscalización de las Tecnologías de la Información y Comunicaciones de Petróleos Mexicanos</em> (Informe 413). Cámara de Diputados. <a href="https://www.asf.gob.mx/Trans/Informes/IR2019b/Documentos/Auditorias/2019_0413_a.pdf" target="_blank">asf.gob.mx</a></li>
+            <li>Cybersecurity for the Operational Technology Environment (CyOTE). (2022). <em>Precursor analysis report: Doppelpaymer ransomware attack on Petroleos Mexicanos (PEMEX) 2019</em>.</li>
+            <li>Centro de Estudios de las Finanzas Públicas. (2023). <em>Indicadores Económicos de Coyuntura</em>. <a href="http://docencia.uaeh.edu.mx/estudios-pertinencia/docs/AGENDA%20ECONOMICA/Indicadores%20Economicos%20de%20Coyuntura%20III.pdf" target="_blank">docencia.uaeh.edu.mx</a></li>
+            <li>Computing. (2019, 18 de noviembre). <em>La petrolera Pemex, víctima de un ransomware de 5 millones de dólares</em>. <a href="https://www.computing.es/noticias/la-petrolera-pemex-victima-de-un-ransomware-de-5-millones-de-dolares/" target="_blank">computing.es</a></li>
+            <li>CrowdStrike. (2019, 12 de julio). <em>CrowdStrike Discovers New DoppelPaymer Ransomware & Dridex Variant</em>. <a href="https://www.crowdstrike.com/en-us/blog/doppelpaymer-ransomware-and-dridex-2/" target="_blank">crowdstrike.com</a></li>
+            <li>ESET Research. (2020). <em>In-Depth Analysis of DoppelPaymer's Crypto-Routines, Process Termination, and System Recovery Sabotage</em>. WeLiveSecurity. <a href="https://www.welivesecurity.com/threat-research/" target="_blank">welivesecurity.com</a></li>
+            <li>European Union Agency for Cybersecurity. (2021). <em>ENISA Threat Landscape: Ransomware Attacks on Critical Infrastructure</em>. <a href="https://www.enisa.europa.eu/publications/enisa-threat-landscape-2021" target="_blank">enisa.europa.eu</a></li>
+            <li>Idaho National Laboratory. (2020). <em>Precursor Analysis Report: DoppelPaymer Ransomware Attack on Petróleos Mexicanos</em> (CyOTE Case Study Series). <a href="https://www.osti.gov/biblio/1826042" target="_blank">osti.gov</a></li>
+            <li>Instituto Mexicano para la Competitividad [IMCO]. (2023). <em>Pemex en la mira: Resultados al cuarto trimestre</em>. <a href="https://imco.org.mx/wp-content/uploads/2023/02/Pemex-en-la-mira_4T2022.pdf" target="_blank">imco.org.mx</a></li>
+            <li>Lakshmanan, R. (2019, 13 de noviembre). <em>Mexican State Oil Giant Pemex Hit by DoppelPaymer Ransomware Attack</em>. The Hacker News. <a href="https://thehackernews.com/2019/11/pemex-ransomware-attack.html" target="_blank">thehackernews.com</a></li>
+            <li>Mandiant. (2020). <em>Big Game Hunting with DoppelPaymer: Lateral Movement, Evasion Techniques, and Volume Shadow Deletion</em>. <a href="https://www.mandiant.com/resources/blog/unc1151-and-doppelpaymer-tactics" target="_blank">mandiant.com</a></li>
+            <li>MITRE. (2025, 16 de abril). <em>Drive-by compromise</em>. MITRE ATT&CK. <a href="https://attack.mitre.org/techniques/T0817/" target="_blank">attack.mitre.org</a></li>
+            <li>Mizzi, A. (2025). <em>Diary of an IT Madman: A Story of Systems, Start-ups, and Surviving the Digital Revolution</em>. Independently Published.</li>
+            <li>Petróleos Mexicanos. (2019, 11 de noviembre). <em>"Pemex opera con normalidad"</em>, Comunicado nacional 48. <a href="https://www.pemex.com/saladeprensa/boletines_nacionales/Paginas/2019-47_nacional.aspx" target="_blank">pemex.com</a></li>
+            <li>The Block. (2019, 14 de noviembre). <em>Hackers demand $5M in bitcoin from Mexico's national oil company Pemex</em>. <a href="https://www.theblock.co/news/ecosystems/2019-11-14-hackers-demand-5m-in-bitcoin-from-mexicos-national-oil-company-pemex-47099" target="_blank">theblock.co</a></li>
+        </ul>
+    </div>
+
+    <!-- 8. PDF embebido -->
+    <div class="section">
+        <h2 class="section-title">8. Documento Original (PDF)</h2>
+        <iframe class="embed-frame" src="Equipo5-act01.pdf" title="PDF Actividad 01 - Ciberataque PEMEX"></iframe>
+        <span class="embed-caption">¿No se ve bien? <a href="Equipo5-act01.pdf" target="_blank">Abrir en una pestaña nueva</a></span>
+    </div>
+
+    <div class="action-buttons">
+        <a class="btn btn-primary" href="../../Parcial1.html">Volver atrás</a>
+    </div>
+</div>
+
+</body>
+</html>

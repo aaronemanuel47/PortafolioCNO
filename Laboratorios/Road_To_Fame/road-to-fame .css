@@ -1,0 +1,719 @@
+:root {
+  --bg: #0b0f17;
+  --card: #111726;
+  --subcard: #0d121d;
+  --border: #1d2636;
+  --green: #22c55e;
+  --green-hover: #16a34a;
+  --cyan: #38bdf8;
+  --white: #ffffff;
+  --muted: #94a3b8;
+  --dim: #64748b;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(34, 197, 94, .06), transparent 30%),
+    var(--bg);
+  color: var(--white);
+  padding: 40px 20px;
+  line-height: 1.6;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  opacity: .22;
+  background-image:
+    linear-gradient(rgba(56, 189, 248, .025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56, 189, 248, .025) 1px, transparent 1px);
+  background-size: 55px 55px;
+  animation: gridMove 18s linear infinite;
+}
+
+@keyframes gridMove {
+  to {
+    background-position: 55px 55px;
+  }
+}
+
+/* =========================
+   CONTENEDOR
+========================= */
+
+.container {
+  max-width: 950px;
+  margin: auto;
+  padding: 34px;
+  background: rgba(17, 23, 38, .96);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 25px 70px rgba(0, 0, 0, .35);
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+  margin-bottom: 34px;
+}
+
+.top-tag {
+  color: var(--green);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.header h1 {
+  margin: 7px 0 5px;
+  font-size: clamp(28px, 5vw, 40px);
+  font-weight: 800;
+  letter-spacing: -.8px;
+}
+
+.subtitle {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* =========================
+   INFORMACIÓN
+========================= */
+
+.meta-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 25px;
+}
+
+.meta-card {
+  padding: 13px 15px;
+  background: var(--subcard);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.meta-card span,
+.document-action span,
+.progress-info span {
+  display: block;
+  color: var(--green);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.meta-card strong {
+  display: block;
+  margin-top: 3px;
+  color: var(--white);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* =========================
+   SECCIONES
+========================= */
+
+.section {
+  margin-bottom: 27px;
+}
+
+.section-title {
+  padding-bottom: 8px;
+  margin-bottom: 13px;
+  border-bottom: 1px solid var(--border);
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.section-title span {
+  color: var(--green);
+}
+
+.section p,
+.section li {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.section p {
+  margin-bottom: 10px;
+}
+
+.section ul {
+  padding-left: 20px;
+}
+
+.section li {
+  margin-bottom: 9px;
+}
+
+.section strong {
+  color: var(--white);
+}
+
+/* =========================
+   DOCUMENTO
+========================= */
+
+.document-action {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 17px;
+  margin: 34px 0 55px;
+  background: var(--subcard);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+}
+
+.document-action strong {
+  display: block;
+  margin-top: 3px;
+  font-size: 13px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 15px;
+  border-radius: 7px;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: .2s ease;
+}
+
+.btn-primary {
+  background: var(--green);
+  color: #000;
+}
+
+.btn-primary:hover {
+  background: var(--green-hover);
+  transform: translateY(-2px);
+}
+
+/* =========================
+   CABECERA ROADMAP
+========================= */
+
+.roadmap-section {
+  margin-top: 20px;
+}
+
+.roadmap-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 25px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--border);
+}
+
+.roadmap-heading h2 {
+  margin: 6px 0;
+  font-size: 30px;
+  line-height: 1.1;
+}
+
+.roadmap-heading h2 span {
+  color: var(--green);
+}
+
+.roadmap-heading p {
+  max-width: 550px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.progress-info {
+  min-width: 120px;
+  text-align: right;
+}
+
+.progress-info strong {
+  display: block;
+  font-size: 24px;
+}
+
+.progress-info span {
+  color: var(--muted);
+  letter-spacing: 0;
+  font-size: 9px;
+}
+
+/* =========================
+   RUTA
+========================= */
+
+.road {
+  position: relative;
+  padding: 25px 0;
+}
+
+.road::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 3px;
+  transform: translateX(-50%);
+  background: linear-gradient(
+    var(--green),
+    #276749 25%,
+    #243244 55%,
+    #1b2431
+  );
+  border-radius: 10px;
+  opacity: .7;
+}
+
+/* =========================
+   ETAPAS
+========================= */
+
+.stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 50%;
+  min-height: 190px;
+}
+
+.stage.left {
+  justify-content: flex-end;
+  padding-right: 52px;
+}
+
+.stage.right {
+  margin-left: 50%;
+  padding-left: 52px;
+}
+
+/* =========================
+   PUNTOS
+========================= */
+
+.point {
+  position: relative;
+  z-index: 3;
+  width: 72px;
+  height: 72px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #101827;
+  border: 3px solid #182638;
+  border-radius: 50%;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, .35);
+  transition: .25s ease;
+}
+
+.point span {
+  color: var(--green);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .05em;
+}
+
+.point i {
+  margin-top: 2px;
+  color: var(--white);
+  font-size: 19px;
+}
+
+.stage.available .point {
+  border-color: rgba(34, 197, 94, .45);
+}
+
+.stage.available:hover .point {
+  transform: scale(1.08);
+  box-shadow:
+    0 0 0 5px rgba(34, 197, 94, .06),
+    0 10px 30px rgba(0, 0, 0, .4);
+}
+
+/* =========================
+   CONECTORES
+========================= */
+
+.stage::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 52px;
+  height: 2px;
+  background: #26374a;
+}
+
+.stage.left::after {
+  right: 0;
+}
+
+.stage.right::after {
+  left: 0;
+}
+
+/* =========================
+   TARJETAS
+========================= */
+
+.lab-card {
+  position: absolute;
+  top: 50%;
+  width: 310px;
+  padding: 18px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, .3);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-50%) translateY(8px);
+  transition: .2s ease;
+}
+
+.stage.left .lab-card {
+  right: calc(50% + 68px);
+}
+
+.stage.right .lab-card {
+  left: calc(50% + 68px);
+}
+
+.stage:hover .lab-card {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(-50%);
+}
+
+/* =========================
+   CONTENIDO LABORATORIOS
+========================= */
+
+.status {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--dim);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .08em;
+}
+
+.available-status {
+  color: var(--green);
+}
+
+.lab-card h3 {
+  margin-bottom: 8px;
+  font-size: 16px;
+  line-height: 1.3;
+}
+
+.lab-card p {
+  margin-bottom: 12px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+/* =========================
+   PDF
+========================= */
+
+.pdf-box {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px;
+  margin-bottom: 11px;
+  background: var(--subcard);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+}
+
+.pdf-preview {
+  width: 35px;
+  height: 43px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  background: #21141a;
+  border: 1px solid #4b252d;
+  border-radius: 5px;
+  color: #ef6678;
+  font-size: 17px;
+}
+
+.pdf-info {
+  flex: 1;
+}
+
+.pdf-info strong,
+.pdf-info span {
+  display: block;
+}
+
+.pdf-info strong {
+  color: var(--white);
+  font-size: 11px;
+}
+
+.pdf-info span {
+  margin-top: 2px;
+  color: var(--dim);
+  font-size: 9px;
+}
+
+.pdf-box > a {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 6px;
+  background: #172231;
+  color: var(--cyan);
+  text-decoration: none;
+  transition: .2s ease;
+}
+
+.pdf-box > a:hover {
+  background: #203348;
+  transform: translateY(-2px);
+}
+
+.pdf-viewer {
+  margin-bottom: 11px;
+  padding: 8px;
+  background: var(--subcard);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+}
+
+.pdf-viewer > span {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--green);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .08em;
+}
+
+.pdf-viewer iframe {
+  display: block;
+  width: 100%;
+  height: 180px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: #fff;
+}
+
+/* =========================
+   BOTÓN LABORATORIO
+========================= */
+
+.lab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 11px;
+  border: 1px solid rgba(34, 197, 94, .25);
+  border-radius: 6px;
+  background: rgba(34, 197, 94, .07);
+  color: var(--green);
+  font-size: 11px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: .2s ease;
+}
+
+.lab-btn:hover {
+  background: rgba(34, 197, 94, .13);
+  transform: translateX(3px);
+}
+
+/* =========================
+   PENDIENTES / BLOQUEADOS
+========================= */
+
+.stage.pending .point,
+.stage.locked .point {
+  background: #10151e;
+  border-color: #1c2633;
+}
+
+.stage.pending .point span,
+.stage.locked .point span {
+  color: #64748b;
+}
+
+.stage.pending .point i,
+.stage.locked .point i {
+  color: #66758a;
+}
+
+.stage.pending .lab-card,
+.stage.locked .lab-card {
+  background: #0f151f;
+  border-color: #1a2431;
+}
+
+.stage.pending .lab-card h3,
+.stage.locked .lab-card h3 {
+  color: #a3afbd;
+}
+
+.stage.pending .lab-card p,
+.stage.locked .lab-card p {
+  color: #657487;
+}
+
+.stage.locked {
+  opacity: .82;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer {
+  display: flex;
+  justify-content: center;
+  gap: 9px;
+  padding-top: 30px;
+  margin-top: 30px;
+  border-top: 1px solid var(--border);
+  color: #59687a;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .06em;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 760px) {
+  body {
+    padding: 20px 10px;
+  }
+
+  .container {
+    padding: 22px 16px;
+  }
+
+  .meta-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .document-action {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .document-action .btn {
+    width: 100%;
+  }
+
+  .roadmap-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .progress-info {
+    text-align: left;
+  }
+
+  .road::before {
+    left: 36px;
+  }
+
+  .stage,
+  .stage.right {
+    width: 100%;
+    min-height: 150px;
+    margin-left: 0;
+    justify-content: flex-start;
+    padding: 0;
+  }
+
+  .stage::after {
+    display: none;
+  }
+
+  .point {
+    width: 64px;
+    height: 64px;
+  }
+
+  .stage .lab-card {
+    position: relative;
+    inset: auto;
+    width: calc(100% - 82px);
+    margin-left: 18px;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: none;
+  }
+
+  .stage.locked .lab-card {
+    opacity: .75;
+  }
+
+  .footer {
+    flex-wrap: wrap;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .header h1 {
+    font-size: 27px;
+  }
+
+  .roadmap-heading h2 {
+    font-size: 24px;
+  }
+
+  .lab-card {
+    padding: 14px;
+  }
+
+  .lab-card h3 {
+    font-size: 14px;
+  }
+
+  .lab-card p {
+    font-size: 11px;
+  }
+}

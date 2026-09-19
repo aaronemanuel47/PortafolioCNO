@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad 04 - Una página demasiado convincente</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #0b0f17;
+            --bg-card: #111726;
+            --bg-subcard: #0d121d;
+            --border-color: #1d2636;
+            --accent-green: #22c55e;
+            --accent-green-hover: #16a34a;
+            --text-white: #ffffff;
+            --text-muted: #94a3b8;
+            --code-bg: #070a0f;
+            --btn-secondary-bg: #1e293b;
+            --btn-secondary-hover: #334155;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-white);
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 32px;
+        }
+
+        /* Header */
+        .top-tag {
+            color: var(--accent-green);
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .main-title {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--text-white);
+            margin-bottom: 24px;
+        }
+
+        /* Meta Grid */
+        .meta-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .meta-card {
+            background-color: var(--bg-subcard);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 14px 16px;
+        }
+
+        .meta-label {
+            color: var(--accent-green);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .meta-value {
+            color: var(--text-white);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* Sections */
+        .section {
+            margin-bottom: 28px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-white);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+            margin-bottom: 14px;
+        }
+
+        .subsection-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--accent-green);
+            margin: 16px 0 8px 0;
+        }
+
+        p {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        ul, ol {
+            padding-left: 20px;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        li strong {
+            color: var(--text-white);
+        }
+
+        code {
+            background-color: rgba(34, 197, 94, 0.1);
+            color: var(--accent-green);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 13px;
+        }
+
+        .code-block {
+            background-color: var(--code-bg);
+            border: 1px solid var(--border-color);
+            color: var(--accent-green);
+            padding: 14px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 13px;
+            margin: 12px 0;
+            white-space: pre-wrap;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 16px;
+            margin-top: 36px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-green);
+            color: #000000;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-green-hover);
+        }
+
+        .btn-secondary {
+            background-color: var(--btn-secondary-bg);
+            color: var(--text-white);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--btn-secondary-hover);
+        }
+
+        @media (max-width: 600px) {
+            .meta-grid {
+                grid-template-columns: 1fr;
+            }
+            .container {
+                padding: 20px;
+            }
+            .action-buttons {
+                flex-direction: column-reverse;
+            }
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="top-tag">UNIVERSIDAD POLITÉCNICA DE SAN LUIS POTOSÍ</div>
+    <h1 class="main-title">Una página demasiado convincente</h1>
+
+    <!-- Metadata Grid -->
+    <div class="meta-grid">
+        <div class="meta-card">
+            <div class="meta-label">ACTIVIDAD</div>
+            <div class="meta-value">Actividad 04</div>
+        </div>
+        <div class="meta-card">
+            <div class="meta-label">ALUMNO</div>
+            <div class="meta-value">Aaron Emanuel González Diaz (182447)</div>
+        </div>
+    </div>
+
+    <!-- Content Sections -->
+    <div class="section">
+        <h2 class="section-title">1. Objetivo de la Actividad</h2>
+        <p>Configurar e implementar un escenario de concientización y prueba de ingeniería social en un entorno controlado utilizando Kali Linux y la herramienta Social-Engineer Toolkit (SET). El propósito es comprender el funcionamiento técnico del método de ataque Credential Harvester para analizar los vectores de riesgo y diseñar medidas defensivas eficaces dentro de una infraestructura de red.</p>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">2. Descripción del Escenario</h2>
+        <p>La práctica simula un escenario de suplantación de identidad (phishing) en un entorno strictly controlado de laboratorio. Un atacante interno o externo despliega un sitio web señuelo que imita un formulario de inicio de sesión institucional/empresarial para interceptar las credenciales ingresadas por un usuario desprevenido. El entorno se ejecuta sobre una red local privada sin conexión o exposición a servicios o dominios reales de Internet.</p>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">3. Configuración del Laboratorio</h2>
+        <ul>
+            <li><strong>Sistema Operativo Atacante:</strong> Kali Linux (VirtualBox)</li>
+            <li><strong>Dirección IP de la Interfaz:</strong> <code>10.0.2.15</code> (interfaz <code>eth0</code>)</li>
+            <li><strong>Herramientas Utilizadas:</strong> Apache Web Server (puerto 80) y Social-Engineer Toolkit (SET) - Módulo Credential Harvester Attack Method</li>
+            <li><strong>Entorno Cliente:</strong> Navegador web en máquina de pruebas local conectada al mismo segmento de red</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">4. Resumen de Funcionamiento y Evidencias</h2>
+        
+        <h3 class="subsection-title">4.1 Identificación de Parámetros y Lanzamiento</h3>
+        <p>Se verificó la IP local mediante <code>ifconfig</code> (10.0.2.15). Se inició la herramienta mediante <code>sudo setoolkit</code> navegando en el menú: <code>Social-Engineering Attacks &gt; Website Attack Vectors &gt; Credential Harvester Attack Method</code>.</p>
+
+        <h3 class="subsection-title">4.2 Gestión de Servicios</h3>
+        <p>Ante el conflicto por la ejecución previa de Apache en el puerto 80, se autorizó la detención automática del servicio local para permitir que el módulo harvester tomara el control exclusivo del puerto.</p>
+
+        <h3 class="subsection-title">4.3 Intercepción de Credenciales</h3>
+        <p>Al enviar datos en el formulario clonado desde la máquina cliente, la consola procesó la solicitud POST extrayendo exitosamente la información:</p>
+
+        <div class="code-block">POSSIBLE USERNAME FIELD FOUND: Username=Juanito Alcachofa
+POSSIBLE PASSWORD FIELD FOUND: password=Hola123</div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">5. Flujo de Captura de Información</h2>
+        <ol>
+            <li><strong>Petición HTTP GET:</strong> El navegador del usuario solicita la IP del servidor atacante, la cual sirve la estructura HTML/CSS clonada.</li>
+            <li><strong>Envío de Datos vía HTTP POST:</strong> El formulario envía los parámetros de texto directamente al servidor en el puerto 80 de Kali Linux.</li>
+            <li><strong>Procesamiento e Intercepción:</strong> El script de SET despliega las variables en consola y las almacena en <code>/root/.set/reports/</code>.</li>
+            <li><strong>Redirección Disimulada:</strong> El servidor responde con una instrucción de redirección HTTP (302) hacia el sitio original para ocultar la captura.</li>
+        </ol>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">6. Controles de Seguridad Propuestos</h2>
+        <ul>
+            <li><strong>Autenticación Multi-Factor (MFA / 2FA):</strong> Implementar esquemas basados en tokens o llaves FIDO2/WebAuthn.</li>
+            <li><strong>Filtros de Correo y Antiphishing:</strong> Configurar registros SPF, DKIM y DMARC en los servidores institucionales.</li>
+            <li><strong>Gestores de Contraseñas Corporativos:</strong> Promover el uso de gestores que reconozcan automáticamente el dominio exacto del sitio.</li>
+            <li><strong>Capacitación y Concientización:</strong> Ejecutar campañas periódicas de simulación de phishing.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">7. Conclusión</h2>
+        <p>La realización de esta práctica permitió comprender la simplicidad técnica con la que un atacante puede estructurar un vector de captura de credenciales mediante herramientas automatizadas como Social-Engineer Toolkit. Se constató la importancia de aplicar controles de autenticación robustos y mantener esquemas continuos de concientización dentro de las organizaciones.</p>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">8. Referencias</h2>
+        <ul>
+            <li>TrustedSec. (2026). <em>The Social-Engineer Toolkit (SET) Documentation</em>.</li>
+            <li>Offensive Security. (2026). <em>Kali Linux Documentation: Social Engineering Tools</em>.</li>
+            <li>INCIBE. (2026). <em>Guía de protección contra el phishing y técnicas de ingeniería social</em>.</li>
+        </ul>
+    </div>
+
+    <!-- Botones de Acción -->
+    <div class="action-buttons">
+        <button onclick="history.back()" class="btn btn-secondary">
+            &larr; Volver atrás
+        </button>
+        <a href="Act04-182447.pdf" target="_blank" class="btn btn-primary">
+            Abrir PDF
+        </a>
+    </div>
+</div>
+
+</body>
+</html>
