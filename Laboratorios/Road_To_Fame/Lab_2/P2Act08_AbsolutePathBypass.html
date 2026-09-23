@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab: File Path Traversal, Traversal Sequences Blocked with Absolute Path Bypass</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+/* =========================================================
+   TEMA COMPARTIDO — PÁGINAS DE ACTIVIDADES / DOCUMENTOS
+   (ACT1, ACT2, ACT4, Proyecto, etc.)
+   Estilo oscuro (tema original en tonos negros/verdes)
+========================================================= */
+
+:root{
+  --bg-main:#0b0f17;
+  --bg-card:#111726;
+  --bg-subcard:#0d121d;
+  --border-color:#1d2636;
+  --accent:#22c55e;
+  --accent-hover:#16a34a;
+  --accent-soft:rgba(34,197,94,.12);
+  --text-main:#ffffff;
+  --text-muted:#94a3b8;
+  --code-bg:#070a0f;
+  --btn-secondary-bg:#1e293b;
+  --btn-secondary-hover:#334155;
+  --shadow-md:0 12px 28px rgba(0,0,0,.35);
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+}
+
+body{
+  background-color:var(--bg-main);
+  color:var(--text-main);
+  padding:40px 20px;
+  line-height:1.6;
+}
+
+a{
+  color:var(--accent);
+}
+
+.container{
+  max-width:900px;
+  margin:0 auto;
+  background-color:var(--bg-card);
+  border:1px solid var(--border-color);
+  border-radius:12px;
+  padding:32px;
+  box-shadow:var(--shadow-md);
+}
+
+/* Header */
+.top-tag{
+  color:var(--accent);
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+
+.main-title,
+h1{
+  font-size:28px;
+  font-weight:800;
+  color:var(--text-main);
+  margin-bottom:8px;
+}
+
+.subtitle{
+  color:var(--text-muted);
+  font-size:14px;
+  margin-bottom:24px;
+}
+
+/* Meta Grid */
+.meta-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:16px;
+  margin-bottom:24px;
+}
+
+.meta-card{
+  background-color:var(--bg-subcard);
+  border:1px solid var(--border-color);
+  border-radius:8px;
+  padding:14px 16px;
+}
+
+.meta-label,
+.meta-card span{
+  color:var(--accent);
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  margin-bottom:4px;
+  display:block;
+}
+
+.meta-value,
+.meta-card strong{
+  color:var(--text-main);
+  font-size:14px;
+  font-weight:500;
+}
+
+/* Sections */
+.section{
+  margin-bottom:28px;
+}
+
+.section-title{
+  font-size:18px;
+  font-weight:700;
+  color:var(--text-main);
+  border-bottom:1px solid var(--border-color);
+  padding-bottom:8px;
+  margin-bottom:14px;
+}
+
+.subsection-title{
+  font-size:15px;
+  font-weight:600;
+  color:var(--accent);
+  margin:16px 0 8px 0;
+}
+
+p{
+  color:var(--text-muted);
+  font-size:14px;
+  margin-bottom:12px;
+}
+
+ul,ol{
+  padding-left:20px;
+  color:var(--text-muted);
+  font-size:14px;
+}
+
+li{
+  margin-bottom:8px;
+}
+
+li strong{
+  color:var(--text-main);
+}
+
+code{
+  background-color:var(--accent-soft);
+  color:var(--accent);
+  padding:2px 6px;
+  border-radius:4px;
+  font-family:monospace;
+  font-size:13px;
+}
+
+.code-block{
+  background-color:var(--code-bg);
+  border:1px solid var(--border-color);
+  color:var(--accent);
+  padding:14px;
+  border-radius:6px;
+  font-family:monospace;
+  font-size:13px;
+  margin:12px 0;
+  white-space:pre-wrap;
+}
+
+/* Tabla */
+.data-table{
+  width:100%;
+  border-collapse:collapse;
+  margin:12px 0 20px;
+  font-size:13px;
+  background-color:var(--bg-card);
+  border:1px solid var(--border-color);
+  border-radius:8px;
+  overflow:hidden;
+}
+
+.data-table th{
+  background-color:var(--accent-soft);
+  color:var(--accent);
+  text-align:left;
+  padding:10px 12px;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  border-bottom:1px solid var(--border-color);
+}
+
+.data-table td{
+  padding:10px 12px;
+  color:var(--text-muted);
+  border-bottom:1px solid var(--border-color);
+  vertical-align:top;
+}
+
+.data-table tr:last-child td{
+  border-bottom:none;
+}
+
+.data-table td strong,
+.data-table td.highlight{
+  color:var(--text-main);
+}
+
+.note-box{
+  background-color:var(--bg-subcard);
+  border:1px solid var(--border-color);
+  border-left:3px solid var(--accent);
+  border-radius:6px;
+  padding:12px 16px;
+  margin:12px 0 20px;
+  font-size:13px;
+  color:var(--text-muted);
+}
+
+.note-box strong{
+  color:var(--text-main);
+}
+
+/* Status badges */
+.status-badge{
+  display:inline-block;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  padding:3px 8px;
+  border-radius:4px;
+  margin-left:8px;
+}
+
+.status-found{
+  background-color:var(--accent-soft);
+  color:var(--accent);
+}
+
+.status-pending{
+  background-color:#1e293b;
+  color:var(--text-muted);
+}
+
+/* Figuras / capturas de pantalla */
+figure{
+  margin:16px 0;
+}
+
+.section figure img,
+.section > img{
+  max-width:100%;
+  display:block;
+  border:1px solid var(--border-color);
+  border-radius:8px;
+  box-shadow:0 8px 20px rgba(0,0,0,.35);
+}
+
+figcaption{
+  color:var(--text-muted);
+  font-size:12px;
+  font-style:italic;
+  text-align:center;
+  margin-top:8px;
+}
+
+/* Action Buttons */
+.action-buttons,
+.buttons{
+  display:flex;
+  gap:16px;
+  margin-top:36px;
+  padding-top:24px;
+  border-top:1px solid var(--border-color);
+  flex-wrap:wrap;
+}
+
+.btn,
+.button{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:12px 20px;
+  border-radius:8px;
+  font-size:14px;
+  font-weight:600;
+  text-decoration:none;
+  cursor:pointer;
+  transition:all .2s ease;
+  border:none;
+}
+
+.btn-primary,
+.button-primary{
+  background-color:var(--accent);
+  color:#000000;
+}
+
+.btn-primary:hover,
+.button-primary:hover{
+  background-color:var(--accent-hover);
+}
+
+.btn-secondary{
+  background-color:var(--btn-secondary-bg);
+  color:var(--text-main);
+  border:1px solid var(--border-color);
+}
+
+.btn-secondary:hover{
+  background-color:var(--btn-secondary-hover);
+}
+
+@media (max-width:600px){
+  .meta-grid{
+    grid-template-columns:1fr;
+  }
+
+  .data-table,
+  .data-table thead,
+  .data-table tbody,
+  .data-table th,
+  .data-table td,
+  .data-table tr{
+    display:block;
+  }
+
+  .data-table thead tr{
+    display:none;
+  }
+
+  .data-table td{
+    border-bottom:none;
+    padding:4px 12px;
+  }
+
+  .data-table tr{
+    border-bottom:1px solid var(--border-color);
+    padding:8px 0;
+  }
+
+  .data-table td::before{
+    content:attr(data-label);
+    display:block;
+    color:var(--accent);
+    font-size:10px;
+    font-weight:800;
+    text-transform:uppercase;
+    margin-bottom:2px;
+  }
+
+  .container{
+    padding:20px;
+  }
+
+  .action-buttons,
+  .buttons{
+    flex-direction:column-reverse;
+  }
+
+  .btn,
+  .button{
+    width:100%;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="top-tag">UNIVERSIDAD POLITÉCNICA DE SAN LUIS POTOSÍ</div>
+    <h1 class="main-title">Lab: File Path Traversal, Traversal Sequences Blocked with Absolute Path Bypass</h1>
+    <p class="subtitle">Road to Hall of Fame · Actividad 08 · PortSwigger Web Security Academy</p>
+
+    <!-- Metadata -->
+    <div class="meta-grid">
+        <div class="meta-card">
+            <div class="meta-label">ACTIVIDAD</div>
+            <div class="meta-value">Actividad 08</div>
+        </div>
+        <div class="meta-card">
+            <div class="meta-label">ALUMNO</div>
+            <div class="meta-value">Aaron Emanuel González Díaz (182447)</div>
+        </div>
+        <div class="meta-card">
+            <div class="meta-label">ASIGNATURA</div>
+            <div class="meta-value">Parcial I · Fundamentos de Ciberseguridad</div>
+        </div>
+        <div class="meta-card">
+            <div class="meta-label">DOCENTE</div>
+            <div class="meta-value">Mtro. Servando López Contreras</div>
+        </div>
+    </div>
+
+    <!-- 1. Nombre del laboratorio -->
+    <div class="section">
+        <h2 class="section-title">1. Nombre del Laboratorio</h2>
+        <p><strong>File path traversal, traversal sequences blocked with absolute path bypass</strong></p>
+        <p>
+            Fuente oficial:
+            <a href="https://portswigger.net/web-security/file-path-traversal/lab-absolute-path-bypass" target="_blank" rel="noopener">
+                portswigger.net/web-security/file-path-traversal/lab-absolute-path-bypass
+            </a>
+        </p>
+    </div>
+
+    <!-- 2. Nivel -->
+    <div class="section">
+        <h2 class="section-title">2. Nivel</h2>
+        <p><span class="status-badge status-found">Practitioner</span></p>
+    </div>
+
+    <!-- 3. Tipo de explotación -->
+    <div class="section">
+        <h2 class="section-title">3. Tipo de Explotación</h2>
+        <p>
+            <strong>Path Traversal / Directory Traversal (CWE-22)</strong>, con bypass de un filtro de
+            secuencias de traversal (blacklist de <code>../</code>) mediante el uso de una ruta absoluta
+            del sistema de archivos.
+        </p>
+    </div>
+
+    <!-- 4. Objetivo del laboratorio -->
+    <div class="section">
+        <h2 class="section-title">4. Objetivo del Laboratorio</h2>
+        <p>
+            La aplicación vulnerable es la misma tienda en línea que sirve imágenes de producto a través
+            de <code>GET /image?filename=NOMBRE</code>. A diferencia del caso simple, aquí el servidor sí
+            bloquea activamente las secuencias de traversal ("../") en el parámetro <code>filename</code>.
+            El objetivo es identificar esta defensa parcial y evadirla para leer el contenido del archivo
+            <code>/etc/passwd</code> del sistema.
+        </p>
+    </div>
+
+    <!-- 5. Explicación técnica -->
+    <div class="section">
+        <h2 class="section-title">5. Explicación Técnica de la Vulnerabilidad</h2>
+
+        <h3 class="subsection-title">5.1 Concepto y Mecanismo del Bypass</h3>
+        <p>
+            El servidor implementa una defensa básica contra path traversal: antes de usar el parámetro
+            <code>filename</code>, revisa (y bloquea) la presencia de secuencias como <code>../</code>.
+            Sin embargo, esta validación solo cubre las rutas relativas; el servidor sigue tratando el
+            valor de <code>filename</code> como una ruta relativa a un directorio de trabajo por defecto
+            (por ejemplo, <code>/var/www/images/</code>), pero no verifica si dicho valor es en realidad
+            una ruta absoluta.
+        </p>
+        <p>
+            Cuando una aplicación construye la ruta final usando una función de unión de rutas del sistema
+            operativo o del lenguaje (equivalente a <code>path.join(base_dir, filename)</code>), muchas de
+            estas funciones tienen un comportamiento especial y poco conocido: si el segundo argumento
+            (<code>filename</code>) es una ruta absoluta (comienza con "/" en Unix), el resultado de la
+            unión es esa ruta absoluta, descartando por completo el directorio base. Esto ocurre, por
+            ejemplo, en <code>os.path.join</code> de Python y en funciones equivalentes de otros
+            lenguajes/entornos.
+        </p>
+        <p>
+            Por lo tanto, aunque el filtro de la aplicación bloquee con éxito cualquier valor que contenga
+            <code>../</code>, nunca llega a evaluar el caso en que <code>filename</code> es directamente
+            <code>/etc/passwd</code>: no hay secuencia de traversal que bloquear, y la función de unión de
+            rutas entrega el archivo absoluto solicitado en lugar de buscarlo dentro de
+            <code>/var/www/images/</code>.
+        </p>
+
+        <h3 class="subsection-title">5.2 Por Qué el Traversal Simple Falla Aquí</h3>
+        <p>
+            Al enviar el payload <code>../../../etc/passwd</code> (idéntico al usado en el laboratorio
+            "simple case"), el servidor responde con <strong>400 Bad Request</strong> y el mensaje
+            <code>"No such file"</code>, confirmando que el filtro de secuencias de traversal está activo
+            y detecta la subcadena <code>../</code> antes de intentar acceder al archivo. Este es
+            precisamente el obstáculo que distingue a este laboratorio del anterior: la defensa funciona
+            correctamente contra el ataque más obvio, pero deja abierta la variante de ruta absoluta.
+        </p>
+
+        <h3 class="subsection-title">5.3 Impacto y Clasificación Estándar</h3>
+        <p>
+            El impacto es idéntico al del caso simple: exposición de información sensible del sistema
+            operativo (confidencialidad), clasificada como <strong>CWE-22</strong> (Improper Limitation of
+            a Pathname to a Restricted Directory) y encuadrada en
+            <strong>OWASP Top 10 2021 — A01:2021 Broken Access Control</strong>. La diferencia relevante
+            está en la causa raíz: aquí no es la ausencia total de validación, sino una validación
+            incompleta que cubre un solo vector (secuencias relativas) y omite otro (rutas absolutas), un
+            patrón de fallo muy común en defensas basadas en listas negras (blacklist) en lugar de listas
+            blancas (allow-list).
+        </p>
+        <div class="note-box">
+            <strong>Defensa efectiva:</strong> combina no confiar en ninguna forma de la entrada del
+            usuario para construir rutas de archivo, canonicalizar y validar la ruta resultante contra el
+            directorio base permitido —incluyendo explícitamente el caso de rutas absolutas—, y aplicar el
+            principio de menor privilegio como capa adicional (ver sección 8, Mitigación recomendada).
+        </div>
+    </div>
+
+    <!-- 6. Procedimiento paso a paso -->
+    <div class="section">
+        <h2 class="section-title">6. Procedimiento Paso a Paso</h2>
+
+        <h3 class="subsection-title">Paso 1 — Reconocimiento de la Aplicación</h3>
+        <p>
+            Se navega por la tienda en línea y se identifica nuevamente la funcionalidad de imágenes de
+            producto servidas mediante <code>GET /image?filename=NOMBRE</code>.
+        </p>
+        <figure>
+            <img src="img/fig1-home.jpg" alt="Catálogo de productos de la aplicación vulnerable">
+            <figcaption>Figura 1. Catálogo de productos de la aplicación vulnerable.</figcaption>
+        </figure>
+
+        <h3 class="subsection-title">Paso 2 — Interceptación del Tráfico con Burp Suite</h3>
+        <p>
+            Se activa el interceptor de Burp Suite y se recarga la página principal para capturar la
+            solicitud inicial y confirmar que el proxy está interceptando correctamente el tráfico del
+            navegador.
+        </p>
+        <figure>
+            <img src="img/fig2-intercept-get.png" alt="Solicitud GET / interceptada en Burp Suite">
+            <figcaption>Figura 2. Solicitud GET / interceptada en Burp Suite al recargar la página.</figcaption>
+        </figure>
+
+        <h3 class="subsection-title">Paso 3 — Identificación del Endpoint Vulnerable</h3>
+        <p>
+            En el historial de peticiones (Proxy &gt; HTTP history) se localizan las solicitudes
+            <code>GET /image?filename=X.jpg</code> correspondientes a las imágenes de los productos,
+            confirmando el parámetro controlable por el usuario.
+        </p>
+        <figure>
+            <img src="img/fig3-proxy-history.png" alt="Historial de peticiones al endpoint /image?filename=">
+            <figcaption>Figura 3. Historial de peticiones mostrando solicitudes al endpoint /image?filename=.</figcaption>
+        </figure>
+
+        <h3 class="subsection-title">Paso 4 — Envío de la Solicitud a Repeater</h3>
+        <p>
+            Se selecciona una de las solicitudes de imagen y, mediante el menú contextual, se envía al
+            módulo Repeater para manipular el parámetro <code>filename</code> de forma controlada.
+        </p>
+        <figure>
+            <img src="img/fig4-send-to-repeater.png" alt="Envío de la solicitud interceptada al módulo Repeater">
+            <figcaption>Figura 4. Envío de la solicitud interceptada al módulo Repeater ("Send to Repeater").</figcaption>
+        </figure>
+
+        <h3 class="subsection-title">Paso 5 — Prueba de Traversal Simple (Bloqueada)</h3>
+        <p>
+            Se prueba primero el payload clásico <code>../../../etc/passwd</code>. El servidor responde
+            con <strong>400 Bad Request</strong> y el mensaje <code>"No such file"</code>, confirmando que
+            existe un filtro que bloquea las secuencias de traversal relativas.
+        </p>
+        <figure>
+            <img src="img/fig5-payload-bloqueado.png" alt="Payload ../../../etc/passwd bloqueado por el servidor">
+            <figcaption>Figura 5. Payload ../../../etc/passwd bloqueado por el servidor (400 Bad Request, "No such file").</figcaption>
+        </figure>
+
+        <h3 class="subsection-title">Paso 6 — Bypass Mediante Ruta Absoluta</h3>
+        <p>
+            Se sustituye el valor del parámetro <code>filename</code> por la ruta absoluta
+            <code>/etc/passwd</code>, sin ninguna secuencia de traversal. El servidor responde con
+            <strong>200 OK</strong> y devuelve el contenido íntegro del archivo, confirmando el bypass del
+            filtro.
+        </p>
+        <figure>
+            <img src="img/fig6-bypass-exitoso.png" alt="Payload /etc/passwd — respuesta 200 OK con el contenido del archivo">
+            <figcaption>Figura 6. Payload /etc/passwd (ruta absoluta) — respuesta 200 OK con el contenido del archivo.</figcaption>
+        </figure>
+
+        <h3 class="subsection-title">Paso 7 — Confirmación de Resolución del Laboratorio</h3>
+        <p>
+            PortSwigger Web Security Academy confirma la explotación exitosa marcando el laboratorio como
+            <span class="status-badge status-found">Solved</span>.
+        </p>
+        <figure>
+            <img src="img/fig7-lab-solved.png" alt="Confirmación Lab Solved en PortSwigger Web Security Academy">
+            <figcaption>Figura 7. Confirmación "Lab Solved" en PortSwigger Web Security Academy.</figcaption>
+        </figure>
+    </div>
+
+    <!-- 7. Explicación del payload -->
+    <div class="section">
+        <h2 class="section-title">7. Explicación del Payload</h2>
+
+        <p><strong>Payload bloqueado:</strong></p>
+        <div class="code-block">../../../etc/passwd</div>
+
+        <p><strong>Payload exitoso:</strong></p>
+        <div class="code-block">/etc/passwd</div>
+
+        <p><strong>Funcionamiento técnico:</strong></p>
+        <ul>
+            <li>El primer payload (<code>../../../etc/passwd</code>) es detectado por el filtro de la aplicación, que busca activamente la subcadena <code>../</code> en el valor de <code>filename</code> y rechaza la solicitud con 400 Bad Request antes de tocar el sistema de archivos.</li>
+            <li>El segundo payload (<code>/etc/passwd</code>) no contiene ninguna secuencia de traversal, por lo que pasa el filtro sin ser detectado.</li>
+            <li>Al construir la ruta final, el servidor combina su directorio base (por ejemplo, <code>/var/www/images/</code>) con el valor de <code>filename</code> mediante una función de unión de rutas. Como <code>filename</code> ya es una ruta absoluta (comienza con "/"), esa función descarta el directorio base y devuelve directamente <code>/etc/passwd</code>.</li>
+            <li>El sistema de archivos localiza y lee <code>/etc/passwd</code> sin ninguna restricción adicional, y el servidor lo devuelve en el cuerpo de la respuesta HTTP como si fuera una imagen más.</li>
+        </ul>
+
+        <div class="note-box">
+            En esencia, el bypass no rompe el filtro de traversal: lo evita por completo, aprovechando un
+            caso que el filtro nunca fue diseñado para cubrir. Esto ilustra un principio central en
+            seguridad de aplicaciones: una defensa que bloquea un patrón específico ("../") no equivale a
+            validar que la entrada completa sea segura.
+        </div>
+    </div>
+
+    <!-- 8. Mitigación recomendada -->
+    <div class="section">
+        <h2 class="section-title">8. Mitigación Recomendada</h2>
+        <ul>
+            <li>No basar la validación únicamente en el bloqueo de secuencias de traversal ("../"); rechazar explícitamente cualquier valor de <code>filename</code> que comience con "/" (o con una letra de unidad en Windows, como "C:\"), es decir, cualquier ruta absoluta.</li>
+            <li>Preferir un identificador indirecto (un ID numérico o nombre interno) que el servidor traduzca a la ruta real mediante un mapeo controlado, en lugar de usar directamente la entrada del usuario para construir rutas de archivo.</li>
+            <li>Validar la entrada contra una lista blanca (allow-list) de nombres o extensiones permitidos, en lugar de listas negras que bloquean patrones específicos y son fáciles de evadir.</li>
+            <li>Canonicalizar la ruta resultante (resolver "../", enlaces simbólicos y rutas absolutas) y verificar de forma explícita que la ruta canonicalizada permanezca dentro del directorio base permitido, sin confiar en el comportamiento por defecto de las funciones de unión de rutas del lenguaje.</li>
+            <li>Aplicar el principio de menor privilegio: ejecutar el proceso del servidor con un usuario restringido sin permisos de lectura sobre archivos sensibles del sistema operativo.</li>
+            <li>Aislar el directorio de archivos servidos mediante chroot jails, contenedores o sistemas de archivos de solo lectura para el contenido público.</li>
+            <li>Registrar y monitorear solicitudes con patrones anómalos en parámetros de archivo (rutas absolutas, "../", codificaciones) para detectar intentos de explotación.</li>
+        </ul>
+    </div>
+
+    <!-- Botones de acción -->
+    <div class="action-buttons">
+        <a href="../road-to-fame.html" target="_blank" class="btn btn-secondary">
+            Volver Atras
+        </a>
+        <a href="Act08-182447.pdf" target="_blank" class="btn btn-primary">
+            Abrir PDF
+        </a>
+    </div>
+</div>
+
+</body>
+</html>
