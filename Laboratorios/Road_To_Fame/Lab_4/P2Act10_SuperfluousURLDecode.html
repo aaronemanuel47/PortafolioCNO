@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab: File Path Traversal, Traversal Sequences Stripped with Superfluous URL-Decode</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+/* =========================================================
+   TEMA COMPARTIDO — PÁGINAS DE ACTIVIDADES / DOCUMENTOS
+   (ACT1, ACT2, ACT4, Proyecto, etc.)
+   Estilo oscuro (tema original en tonos negros/verdes)
+========================================================= */
+
+:root{
+  --bg-main:#0b0f17;
+  --bg-card:#111726;
+  --bg-subcard:#0d121d;
+  --border-color:#1d2636;
+  --accent:#22c55e;
+  --accent-hover:#16a34a;
+  --accent-soft:rgba(34,197,94,.12);
+  --text-main:#ffffff;
+  --text-muted:#94a3b8;
+  --code-bg:#070a0f;
+  --btn-secondary-bg:#1e293b;
+  --btn-secondary-hover:#334155;
+  --shadow-md:0 12px 28px rgba(0,0,0,.35);
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+}
+
+body{
+  background-color:var(--bg-main);
+  color:var(--text-main);
+  padding:40px 20px;
+  line-height:1.6;
+}
+
+a{
+  color:var(--accent);
+}
+
+.container{
+  max-width:900px;
+  margin:0 auto;
+  background-color:var(--bg-card);
+  border:1px solid var(--border-color);
+  border-radius:12px;
+  padding:32px;
+  box-shadow:var(--shadow-md);
+}
+
+.top-tag{
+  color:var(--accent);
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+
+.main-title,
+h1{
+  font-size:28px;
+  font-weight:800;
+  color:var(--text-main);
+  margin-bottom:8px;
+}
+
+.subtitle{
+  color:var(--text-muted);
+  font-size:14px;
+  margin-bottom:24px;
+}
+
+.meta-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:16px;
+  margin-bottom:24px;
+}
+
+.meta-card{
+  background-color:var(--bg-subcard);
+  border:1px solid var(--border-color);
+  border-radius:8px;
+  padding:14px 16px;
+}
+
+.meta-label,
+.meta-card span{
+  color:var(--accent);
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  margin-bottom:4px;
+  display:block;
+}
+
+.meta-value,
+.meta-card strong{
+  color:var(--text-main);
+  font-size:14px;
+  font-weight:500;
+}
+
+.section{
+  margin-bottom:28px;
+}
+
+.section-title{
+  font-size:18px;
+  font-weight:700;
+  color:var(--text-main);
+  border-bottom:1px solid var(--border-color);
+  padding-bottom:8px;
+  margin-bottom:14px;
+}
+
+.subsection-title{
+  font-size:15px;
+  font-weight:600;
+  color:var(--accent);
+  margin:16px 0 8px 0;
+}
+
+p{
+  color:var(--text-muted);
+  font-size:14px;
+  margin-bottom:12px;
+}
+
+ul,ol{
+  padding-left:20px;
+  color:var(--text-muted);
+  font-size:14px;
+}
+
+li{
+  margin-bottom:8px;
+}
+
+li strong{
+  color:var(--text-main);
+}
+
+code{
+  background-color:var(--accent-soft);
+  color:var(--accent);
+  padding:2px 6px;
+  border-radius:4px;
+  font-family:monospace;
+  font-size:13px;
+}
+
+.code-block{
+  background-color:var(--code-bg);
+  border:1px solid var(--border-color);
+  color:var(--accent);
+  padding:14px;
+  border-radius:6px;
+  font-family:monospace;
+  font-size:13px;
+  margin:12px 0;
+  white-space:pre-wrap;
+}
+
+.note-box{
+  background-color:var(--bg-subcard);
+  border:1px solid var(--border-color);
+  border-left:3px solid var(--accent);
+  border-radius:6px;
+  padding:12px 16px;
+  margin:12px 0 20px;
+  font-size:13px;
+  color:var(--text-muted);
+}
+
+.note-box strong{
+  color:var(--text-main);
+}
+
+.status-badge{
+  display:inline-block;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  padding:3px 8px;
+  border-radius:4px;
+  margin-left:8px;
+}
+
+.status-found{
+  background-color:var(--accent-soft);
+  color:var(--accent);
+}
+
+figure{
+  margin:16px 0;
+}
+
+.section figure img,
+.section > img{
+  max-width:100%;
+  display:block;
+  border:1px solid var(--border-color);
+  border-radius:8px;
+  box-shadow:0 8px 20px rgba(0,0,0,.35);
+}
+
+figcaption{
+  color:var(--text-muted);
+  font-size:12px;
+  font-style:italic;
+  text-align:center;
+  margin-top:8px;
+}
+
+.action-buttons,
+.buttons{
+  display:flex;
+  gap:16px;
+  margin-top:36px;
+  padding-top:24px;
+  border-top:1px solid var(--border-color);
+  flex-wrap:wrap;
+}
+
+.btn,
+.button{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:12px 20px;
+  border-radius:8px;
+  font-size:14px;
+  font-weight:600;
+  text-decoration:none;
+  cursor:pointer;
+  transition:all .2s ease;
+  border:none;
+}
+
+.btn-primary,
+.button-primary{
+  background-color:var(--accent);
+  color:#000000;
+}
+
+.btn-primary:hover,
+.button-primary:hover{
+  background-color:var(--accent-hover);
+}
+
+.btn-secondary{
+  background-color:var(--btn-secondary-bg);
+  color:var(--text-main);
+  border:1px solid var(--border-color);
+}
+
+.btn-secondary:hover{
+  background-color:var(--btn-secondary-hover);
+}
+
+@media (max-width:600px){
+  .meta-grid{
+    grid-template-columns:1fr;
+  }
+
+  .container{
+    padding:20px;
+  }
+
+  .action-buttons,
+  .buttons{
+    flex-direction:column-reverse;
+  }
+
+  .btn,
+  .button{
+    width:100%;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="top-tag">UNIVERSIDAD POLITÉCNICA DE SAN LUIS POTOSÍ</div>
+    <h1 class="main-title">Lab: File Path Traversal, Traversal Sequences Stripped with Superfluous URL-Decode</h1>
+    <p class="subtitle">Road to Hall of Fame · Actividad 10 · PortSwigger Web Security Academy</p>
+
+    <div class="meta-grid">
+        <div class="meta-card">
+            <div class="meta-label">ACTIVIDAD</div>
+            <div class="meta-value">Actividad 10</div>
+        </div>
+        <div class="meta-card">
+            <div class="meta-label">ALUMNO</div>
+            <div class="meta-value">Aaron Emanuel González Díaz (182447)</div>
+        </div>
+        <div class="meta-card">
+            <div class="meta-label">ASIGNATURA</div>
+            <div class="meta-value">Parcial I · Fundamentos de Ciberseguridad</div>
+        </div>
+        <div class="meta-card">
+            <div class="meta-label">DOCENTE</div>
+            <div class="meta-value">Mtro. Servando López Contreras</div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">1. Nombre del Laboratorio</h2>
+        <p><strong>File path traversal, traversal sequences stripped with superfluous URL-decode</strong></p>
+        <p>
+            Fuente oficial:
+            <a href="https://portswigger.net/web-security/file-path-traversal/lab-superfluous-url-decode" target="_blank" rel="noopener">
+                portswigger.net/web-security/file-path-traversal/lab-superfluous-url-decode
+            </a>
+        </p>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">2. Nivel</h2>
+        <p><span class="status-badge status-found">Practitioner</span></p>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">3. Tipo de Explotación</h2>
+        <p>
+            <strong>Path Traversal / Directory Traversal (CWE-22)</strong>, con bypass de un filtro de
+            bloqueo (blacklist de "../") mediante doble codificación URL, aprovechando un URL-decode
+            adicional ("superfluo") que la aplicación aplica después de validar la entrada.
+        </p>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">4. Objetivo del Laboratorio</h2>
+        <p>
+            La aplicación vulnerable sirve imágenes de producto a través de <code>GET /image?filename=NOMBRE</code>.
+            El servidor bloquea cualquier entrada que contenga secuencias de traversal ("../"), pero
+            después de ese bloqueo realiza un URL-decode adicional del valor de <code>filename</code> antes
+            de usarlo. El objetivo es construir un payload que pase la validación en su forma codificada y
+            solo se convierta en una secuencia de traversal válida después de ese segundo decode, para leer
+            <code>/etc/passwd</code>.
+        </p>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">5. Explicación Técnica de la Vulnerabilidad</h2>
+
+        <h3 class="subsection-title">5.1 Concepto: Dos Decodificaciones, Una Sola Validación</h3>
+        <p>
+            Cuando un navegador o Burp Repeater envía un parámetro de consulta (query string), el servidor
+            web realiza automáticamente un URL-decode implícito al parsear ese parámetro; esto es un
+            comportamiento estándar de cualquier framework HTTP y ocurre antes de que el código de la
+            aplicación vea el valor. Sobre ese valor ya decodificado una vez, la aplicación aplica su filtro
+            de seguridad: busca la subcadena <code>../</code> y bloquea la solicitud si la encuentra.
+        </p>
+        <p>
+            El problema es que, después de ese filtro, la aplicación vuelve a llamar explícitamente a una
+            función de URL-decode sobre el mismo valor, antes de usarlo para construir la ruta del archivo.
+            Esta segunda decodificación es "superflua": no debería ser necesaria (el valor ya fue
+            decodificado por el framework), pero el desarrollador la agregó de todas formas —quizá para
+            manejar algún caso de codificación específico— sin darse cuenta de que abre una ventana de
+            explotación entre el punto donde se valida la entrada y el punto donde realmente se usa.
+        </p>
+
+        <h3 class="subsection-title">5.2 Por Qué Fallan el Traversal Simple y la Codificación Simple</h3>
+        <p>
+            Al enviar <code>../../../etc/passwd</code> directamente, el filtro encuentra "../" de inmediato
+            y bloquea la solicitud (400 Bad Request, "No such file").
+        </p>
+        <p>
+            Al enviar una codificación URL simple, como <code>..%2F..%2F..%2Fetc%2Fpasswd</code>, el decode
+            implícito del framework (el que ocurre automáticamente al parsear el parámetro) ya convierte
+            %2F en "/" antes de que el filtro revise la cadena. Por lo tanto, el filtro ve la cadena ya
+            como <code>../../../etc/passwd</code> y la bloquea igual que en el caso anterior. Codificar una
+            sola vez no ayuda porque el decode implícito ocurre antes del punto de validación, no después.
+        </p>
+
+        <h3 class="subsection-title">5.3 El Bypass: Doble Codificación URL</h3>
+        <p>
+            La clave es codificar la entrada dos veces, de forma que el decode implícito del framework solo
+            retire la primera capa de codificación, dejando una entrada que todavía no contiene "../"
+            literal en el momento en que el filtro la revisa. Por ejemplo, el carácter "%" se codifica como
+            <code>%25</code>; al codificar dos veces el carácter "/", se obtiene <code>%252f</code>:
+        </p>
+        <ul>
+            <li>Payload enviado por la red: <code>..%252f..%252f..%252fetc%252fpasswd</code></li>
+            <li>Decode implícito (1, hecho por el framework antes de llegar al filtro): <code>%25</code> se convierte en "%", por lo que <code>..%252f</code> se convierte en <code>..%2f</code>. Nótese que "2f" sigue siendo texto literal, no una barra; la cadena resultante NO contiene "../".</li>
+            <li>El filtro de seguridad revisa esta cadena (<code>..%2f..%2f..%2fetc%2fpasswd</code>), no encuentra ninguna coincidencia de "../" y deja pasar la solicitud.</li>
+            <li>Decode explícito y superfluo (2, aplicado por la propia aplicación después de la validación): <code>%2f</code> se convierte ahora en "/", reconstruyendo <code>../../../etc/passwd</code>.</li>
+            <li>La aplicación usa esta cadena ya reconstruida para localizar el archivo, y el sistema operativo resuelve la ruta hasta <code>/etc/passwd</code>.</li>
+        </ul>
+
+        <h3 class="subsection-title">5.4 Impacto y Clasificación Estándar</h3>
+        <p>
+            El impacto es el mismo de toda la familia de laboratorios de path traversal: exposición de
+            información sensible del sistema (confidencialidad), clasificada como <strong>CWE-22</strong>
+            (Improper Limitation of a Pathname to a Restricted Directory) y encuadrada en
+            <strong>OWASP Top 10 2021 — A01:2021 Broken Access Control</strong>. La causa raíz específica
+            de este caso es un problema de orden de operaciones entre saneamiento y decodificación (justo
+            al revés de la práctica recomendada "canonicalizar antes de validar"): validar antes de
+            decodificar por completo permite reintroducir el patrón peligroso después del punto de control.
+        </p>
+        <div class="note-box">
+            <strong>Defensa efectiva:</strong> decodificar y canonicalizar por completo antes de cualquier
+            validación —nunca después—, rechazar entradas que aún contengan caracteres de codificación tras
+            decodificar por completo, y aplicar el principio de menor privilegio como capa adicional (ver
+            sección 8, Mitigación recomendada).
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">6. Procedimiento Paso a Paso</h2>
+
+        <h3 class="subsection-title">Paso 1 — Reconocimiento del Laboratorio</h3>
+        <p>
+            Se accede a la descripción oficial del laboratorio, confirmando el nivel Practitioner: la
+            aplicación bloquea secuencias de traversal y luego realiza un URL-decode adicional del valor
+            antes de usarlo.
+        </p>
+        <figure>
+            <img src="img/fig1-intro.png" alt="Descripción oficial del laboratorio">
+            <figcaption>Figura 1. Descripción oficial del laboratorio en PortSwigger Web Security Academy.</figcaption>
+        </figure>
+
+        <h3 class="subsection-title">Paso 2 — Interceptación del Tráfico Inicial</h3>
+        <p>
+            Se activa el interceptor de Burp Suite y se recarga la página principal para confirmar que el
+            proxy captura correctamente el tráfico del navegador.
+        </p>
+        <figure>
+            <img src="img/fig2-initial-get.png" alt="Solicitud GET / interceptada">
+            <figcaption>Figura 2. Solicitud GET / interceptada al recargar la página.</figcaption>
+        </figure>
+
+        <h3 class="subsection-title">Paso 3 — Estado Inicial del Laboratorio</h3>
+        <p>
+            Se confirma el estado "Not solved" del laboratorio antes de iniciar la explotación, y se navega
+            por el catálogo de la tienda.
+        </p>
+        <figure>
+            <img src="img/fig3-home-not-solved.png" alt="Catálogo de productos, laboratorio no resuelto">
+            <figcaption>Figura 3. Catálogo de productos con el laboratorio aún en estado "Not solved".</figcaption>
+        </figure>
+
+        <h3 class="subsection-title">Paso 4 — Localización del Endpoint Vulnerable</h3>
+        <p>
+            En el historial de peticiones (Proxy &gt; HTTP history) se localizan las solicitudes
+            <code>GET /image?filename=X.jpg</code> correspondientes a las imágenes de los productos.
+        </p>
+        <figure>
+            <img src="img/fig4-proxy-history.png" alt="Historial de peticiones al endpoint /image?filename=">
+            <figcaption>Figura 4. Historial de peticiones mostrando solicitudes al endpoint /image?filename=.</figcaption>
+        </figure>
+
+        <h3 class="subsection-title">Paso 5 — Envío de la Solicitud a Repeater</h3>
+        <p>
+            Se selecciona una de las solicitudes de imagen y, mediante el menú contextual, se envía al
+            módulo Repeater para manipular el parámetro <code>filename</code> de forma controlada.
+        </p>
+        <figure>
+            <img src="img/fig5-send-to-repeater.png" alt="Envío de la solicitud al módulo Repeater">
+            <figcaption>Figura 5. Envío de la solicitud interceptada al módulo Repeater ("Send to Repeater").</figcaption>
+        </figure>
+
+        <h3 class="subsection-title">Paso 6 — Solicitud Base en Repeater</h3>
+        <p>
+            Se confirma en Repeater la solicitud original sin modificar, como punto de partida antes de
+            probar los distintos payloads.
+        </p>
+        <figure>
+            <img src="img/fig6-repeater-baseline.png" alt="Solicitud original en Repeater">
+            <figcaption>Figura 6. Solicitud original en el módulo Repeater, sin modificar.</figcaption>
+        </figure>
+
+        <h3 class="subsection-title">Paso 7 — Prueba de Traversal Simple (Bloqueada)</h3>
+        <p>
+            Se prueba el payload clásico <code>../../../etc/passwd</code>. El servidor responde con
+            <strong>400 Bad Request</strong> y "No such file", confirmando que el filtro de secuencias de
+            traversal está activo.
+        </p>
+        <figure>
+            <img src="img/fig7-blocked-simple.png" alt="Payload simple bloqueado">
+            <figcaption>Figura 7. Payload ../../../etc/passwd bloqueado (400 Bad Request, "No such file").</figcaption>
+        </figure>
+
+        <h3 class="subsection-title">Paso 8 — Prueba de Codificación URL Simple (También Bloqueada)</h3>
+        <p>
+            Se prueba una codificación URL simple: <code>..%2F..%2F..%2Fetc%2Fpasswd</code>. El decode
+            implícito del framework la convierte en "../" antes de llegar al filtro, por lo que también es
+            bloqueada (400 Bad Request).
+        </p>
+        <figure>
+            <img src="img/fig8-blocked-single-encode.png" alt="Codificación simple bloqueada">
+            <figcaption>Figura 8. Payload con codificación URL simple, también bloqueado.</figcaption>
+        </figure>
+
+        <h3 class="subsection-title">Paso 9 — Bypass con Doble Codificación URL</h3>
+        <p>
+            Se sustituye <code>filename</code> por <code>..%252f..%252f..%252fetc%252fpasswd</code>. El
+            decode implícito solo retira la primera capa (dejando "..%2f", que no contiene "../" literal),
+            el filtro deja pasar la solicitud, y el decode superfluo posterior de la aplicación reconstruye
+            la secuencia de traversal. El servidor responde <strong>200 OK</strong> con el contenido
+            completo de <code>/etc/passwd</code>.
+        </p>
+        <figure>
+            <img src="img/fig9-bypass-double-encode.png" alt="Bypass con doble codificación exitoso">
+            <figcaption>Figura 9. Payload ..%252f..%252f..%252fetc%252fpasswd — respuesta 200 OK con el contenido del archivo.</figcaption>
+        </figure>
+
+        <h3 class="subsection-title">Paso 10 — Confirmación de Resolución del Laboratorio</h3>
+        <p>
+            PortSwigger Web Security Academy confirma la explotación exitosa marcando el laboratorio como
+            <span class="status-badge status-found">Solved</span>.
+        </p>
+        <figure>
+            <img src="img/fig10-lab-solved.png" alt="Confirmación Lab Solved">
+            <figcaption>Figura 10. Confirmación "Lab Solved" en PortSwigger Web Security Academy.</figcaption>
+        </figure>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">7. Explicación del Payload</h2>
+
+        <p><strong>Payloads bloqueados:</strong></p>
+        <div class="code-block">../../../etc/passwd</div>
+        <div class="code-block">..%2F..%2F..%2Fetc%2Fpasswd</div>
+
+        <p><strong>Payload exitoso:</strong></p>
+        <div class="code-block">..%252f..%252f..%252fetc%252fpasswd</div>
+
+        <p><strong>Funcionamiento técnico:</strong></p>
+        <ul>
+            <li>El primer payload contiene "../" en texto plano; el filtro lo detecta de inmediato y responde 400 Bad Request.</li>
+            <li>El segundo payload está codificado una sola vez. El decode implícito que el framework aplica al parsear el parámetro de consulta ocurre antes del filtro, así que para cuando el filtro revisa la cadena, %2F ya se convirtió en "/" y la secuencia "../" ya es visible; el filtro la bloquea igual que al payload en texto plano.</li>
+            <li>El tercer payload está codificado dos veces: %25 (la codificación de "%") seguido de "2f". El decode implícito solo retira una capa, convirtiendo %252f en %2f — una cadena que aún no contiene ninguna barra literal ni, por tanto, ninguna secuencia "../". El filtro no encuentra nada que bloquear.</li>
+            <li>Después de superar el filtro, la aplicación ejecuta su propio decode adicional (el "superfluo") sobre el valor ya filtrado, convirtiendo %2f en "/" y reconstruyendo ../../../etc/passwd.</li>
+            <li>Esta ruta reconstruida se usa para localizar el archivo, y el sistema operativo la resuelve subiendo tres niveles hasta la raíz y descendiendo hacia etc/passwd, devolviendo su contenido en la respuesta HTTP.</li>
+        </ul>
+
+        <div class="note-box">
+            El principio detrás de este laboratorio es que decodificar después de validar deja abierta una
+            ventana: cualquier capa de codificación adicional que el atacante agregue y que el validador no
+            anticipe puede "reaparecer" después del punto de control, en forma de patrón peligroso, cuando
+            la aplicación decodifica de nuevo antes de usar el dato.
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">8. Mitigación Recomendada</h2>
+        <ul>
+            <li>Decodificar y canonicalizar la entrada por completo antes de aplicar cualquier validación —nunca después—, de modo que el filtro siempre analice la forma final que realmente se usará para construir la ruta.</li>
+            <li>Tras decodificar por completo, rechazar cualquier entrada que aún contenga caracteres de codificación ("%") residuales, ya que su presencia indica una posible codificación múltiple sospechosa.</li>
+            <li>Eliminar por completo la necesidad de decodificar manualmente dentro de la lógica de la aplicación; confiar en una única capa de decodificación estándar del framework.</li>
+            <li>Preferir un identificador indirecto (ID numérico o nombre interno) traducido a la ruta real mediante un mapeo controlado del servidor, evitando construir rutas directamente a partir de la entrada del usuario.</li>
+            <li>Validar la entrada contra una lista blanca (allow-list) de nombres o extensiones permitidos, en lugar de intentar bloquear patrones específicos de una lista negra.</li>
+            <li>Canonicalizar la ruta final y verificar explícitamente que permanezca dentro del directorio base permitido, como último control antes de leer el archivo.</li>
+            <li>Aplicar el principio de menor privilegio: ejecutar el proceso del servidor con un usuario restringido sin permisos de lectura sobre archivos sensibles del sistema operativo.</li>
+            <li>Registrar y monitorear solicitudes con patrones de codificación múltiple ("%25", dobles codificaciones) en parámetros de archivo, ya que son un fuerte indicador de intentos de bypass.</li>
+        </ul>
+    </div>
+
+    <div class="action-buttons">
+        <a href="../road-to-fame.html" target="_blank" class="btn btn-secondary">
+            Volver Atras
+        </a>
+        <a href="Lab_File_Path_Traversal_Superfluous_URL_Decode.pdf" target="_blank" class="btn btn-primary">
+            Abrir PDF
+        </a>
+    </div>
+</div>
+
+</body>
+</html>
