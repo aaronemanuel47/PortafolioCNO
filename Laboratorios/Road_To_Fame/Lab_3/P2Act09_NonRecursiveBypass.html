@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab: File Path Traversal, Traversal Sequences Stripped Non-Recursively</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+/* =========================================================
+   TEMA COMPARTIDO — PÁGINAS DE ACTIVIDADES / DOCUMENTOS
+   (ACT1, ACT2, ACT4, Proyecto, etc.)
+   Estilo oscuro (tema original en tonos negros/verdes)
+========================================================= */
+
+:root{
+  --bg-main:#0b0f17;
+  --bg-card:#111726;
+  --bg-subcard:#0d121d;
+  --border-color:#1d2636;
+  --accent:#22c55e;
+  --accent-hover:#16a34a;
+  --accent-soft:rgba(34,197,94,.12);
+  --text-main:#ffffff;
+  --text-muted:#94a3b8;
+  --code-bg:#070a0f;
+  --btn-secondary-bg:#1e293b;
+  --btn-secondary-hover:#334155;
+  --shadow-md:0 12px 28px rgba(0,0,0,.35);
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+}
+
+body{
+  background-color:var(--bg-main);
+  color:var(--text-main);
+  padding:40px 20px;
+  line-height:1.6;
+}
+
+a{
+  color:var(--accent);
+}
+
+.container{
+  max-width:900px;
+  margin:0 auto;
+  background-color:var(--bg-card);
+  border:1px solid var(--border-color);
+  border-radius:12px;
+  padding:32px;
+  box-shadow:var(--shadow-md);
+}
+
+.top-tag{
+  color:var(--accent);
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+
+.main-title,
+h1{
+  font-size:28px;
+  font-weight:800;
+  color:var(--text-main);
+  margin-bottom:8px;
+}
+
+.subtitle{
+  color:var(--text-muted);
+  font-size:14px;
+  margin-bottom:24px;
+}
+
+.meta-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:16px;
+  margin-bottom:24px;
+}
+
+.meta-card{
+  background-color:var(--bg-subcard);
+  border:1px solid var(--border-color);
+  border-radius:8px;
+  padding:14px 16px;
+}
+
+.meta-label,
+.meta-card span{
+  color:var(--accent);
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  margin-bottom:4px;
+  display:block;
+}
+
+.meta-value,
+.meta-card strong{
+  color:var(--text-main);
+  font-size:14px;
+  font-weight:500;
+}
+
+.section{
+  margin-bottom:28px;
+}
+
+.section-title{
+  font-size:18px;
+  font-weight:700;
+  color:var(--text-main);
+  border-bottom:1px solid var(--border-color);
+  padding-bottom:8px;
+  margin-bottom:14px;
+}
+
+.subsection-title{
+  font-size:15px;
+  font-weight:600;
+  color:var(--accent);
+  margin:16px 0 8px 0;
+}
+
+p{
+  color:var(--text-muted);
+  font-size:14px;
+  margin-bottom:12px;
+}
+
+ul,ol{
+  padding-left:20px;
+  color:var(--text-muted);
+  font-size:14px;
+}
+
+li{
+  margin-bottom:8px;
+}
+
+li strong{
+  color:var(--text-main);
+}
+
+code{
+  background-color:var(--accent-soft);
+  color:var(--accent);
+  padding:2px 6px;
+  border-radius:4px;
+  font-family:monospace;
+  font-size:13px;
+}
+
+.code-block{
+  background-color:var(--code-bg);
+  border:1px solid var(--border-color);
+  color:var(--accent);
+  padding:14px;
+  border-radius:6px;
+  font-family:monospace;
+  font-size:13px;
+  margin:12px 0;
+  white-space:pre-wrap;
+}
+
+.note-box{
+  background-color:var(--bg-subcard);
+  border:1px solid var(--border-color);
+  border-left:3px solid var(--accent);
+  border-radius:6px;
+  padding:12px 16px;
+  margin:12px 0 20px;
+  font-size:13px;
+  color:var(--text-muted);
+}
+
+.note-box strong{
+  color:var(--text-main);
+}
+
+.status-badge{
+  display:inline-block;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  padding:3px 8px;
+  border-radius:4px;
+  margin-left:8px;
+}
+
+.status-found{
+  background-color:var(--accent-soft);
+  color:var(--accent);
+}
+
+figure{
+  margin:16px 0;
+}
+
+.section figure img,
+.section > img{
+  max-width:100%;
+  display:block;
+  border:1px solid var(--border-color);
+  border-radius:8px;
+  box-shadow:0 8px 20px rgba(0,0,0,.35);
+}
+
+figcaption{
+  color:var(--text-muted);
+  font-size:12px;
+  font-style:italic;
+  text-align:center;
+  margin-top:8px;
+}
+
+.action-buttons,
+.buttons{
+  display:flex;
+  gap:16px;
+  margin-top:36px;
+  padding-top:24px;
+  border-top:1px solid var(--border-color);
+  flex-wrap:wrap;
+}
+
+.btn,
+.button{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:12px 20px;
+  border-radius:8px;
+  font-size:14px;
+  font-weight:600;
+  text-decoration:none;
+  cursor:pointer;
+  transition:all .2s ease;
+  border:none;
+}
+
+.btn-primary,
+.button-primary{
+  background-color:var(--accent);
+  color:#000000;
+}
+
+.btn-primary:hover,
+.button-primary:hover{
+  background-color:var(--accent-hover);
+}
+
+.btn-secondary{
+  background-color:var(--btn-secondary-bg);
+  color:var(--text-main);
+  border:1px solid var(--border-color);
+}
+
+.btn-secondary:hover{
+  background-color:var(--btn-secondary-hover);
+}
+
+@media (max-width:600px){
+  .meta-grid{
+    grid-template-columns:1fr;
+  }
+
+  .container{
+    padding:20px;
+  }
+
+  .action-buttons,
+  .buttons{
+    flex-direction:column-reverse;
+  }
+
+  .btn,
+  .button{
+    width:100%;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="top-tag">UNIVERSIDAD POLITÉCNICA DE SAN LUIS POTOSÍ</div>
+    <h1 class="main-title">Lab: File Path Traversal, Traversal Sequences Stripped Non-Recursively</h1>
+    <p class="subtitle">Road to Hall of Fame · Actividad 09 · PortSwigger Web Security Academy</p>
+
+    <div class="meta-grid">
+        <div class="meta-card">
+            <div class="meta-label">ACTIVIDAD</div>
+            <div class="meta-value">Actividad 09</div>
+        </div>
+        <div class="meta-card">
+            <div class="meta-label">ALUMNO</div>
+            <div class="meta-value">Aaron Emanuel González Díaz (182447)</div>
+        </div>
+        <div class="meta-card">
+            <div class="meta-label">ASIGNATURA</div>
+            <div class="meta-value">Parcial I · Fundamentos de Ciberseguridad</div>
+        </div>
+        <div class="meta-card">
+            <div class="meta-label">DOCENTE</div>
+            <div class="meta-value">Mtro. Servando López Contreras</div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">1. Nombre del Laboratorio</h2>
+        <p><strong>File path traversal, traversal sequences stripped non-recursively</strong></p>
+        <p>
+            Fuente oficial:
+            <a href="https://portswigger.net/web-security/file-path-traversal/lab-sequences-stripped-non-recursively" target="_blank" rel="noopener">
+                portswigger.net/web-security/file-path-traversal/lab-sequences-stripped-non-recursively
+            </a>
+        </p>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">2. Nivel</h2>
+        <p><span class="status-badge status-found">Practitioner</span></p>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">3. Tipo de Explotación</h2>
+        <p>
+            <strong>Path Traversal / Directory Traversal (CWE-22)</strong>, con bypass de un filtro de
+            saneamiento no recursivo (elimina secuencias "../" en un solo paso) mediante secuencias de
+            traversal anidadas/superpuestas.
+        </p>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">4. Objetivo del Laboratorio</h2>
+        <p>
+            La aplicación vulnerable sirve imágenes de producto a través de <code>GET /image?filename=NOMBRE</code>.
+            A diferencia de los laboratorios anteriores, aquí el servidor elimina activamente las
+            secuencias "../" del valor de <code>filename</code> antes de usarlo. El objetivo es identificar
+            que esa eliminación se aplica una sola vez (no recursivamente) y construir un payload que, tras
+            el filtrado, se reconstruya en una secuencia de traversal válida para leer <code>/etc/passwd</code>.
+        </p>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">5. Explicación Técnica de la Vulnerabilidad</h2>
+
+        <h3 class="subsection-title">5.1 Concepto y Mecanismo del Filtro No Recursivo</h3>
+        <p>
+            El servidor sanea el parámetro <code>filename</code> eliminando la subcadena <code>../</code>
+            en cuanto la encuentra, pero realiza esta eliminación en un único paso (una sola pasada) sobre
+            la cadena original, en lugar de repetir el proceso hasta que ya no queden coincidencias. Esta
+            distinción —una pasada vs. un bucle hasta punto fijo— es exactamente lo que hace explotable al
+            filtro.
+        </p>
+        <p>
+            Al enviar la secuencia <code>....//....//....//etc/passwd</code>, el filtro localiza la
+            subcadena <code>../</code> escondida dentro de cada grupo de cuatro puntos y dos barras
+            (<code>....//</code>), y la elimina. Pero al retirar esos tres caracteres del centro, los
+            caracteres que quedan a los lados (dos puntos antes y una barra después) se reagrupan
+            automáticamente en una nueva secuencia <code>../</code> completa, que el filtro ya no vuelve a
+            revisar porque su pasada de limpieza ya terminó.
+        </p>
+
+        <h3 class="subsection-title">5.2 Por Qué Falla el Bypass de Ruta Absoluta del Laboratorio Anterior</h3>
+        <p>
+            En el laboratorio de "absolute path bypass", el servidor construía la ruta final con una
+            función de unión de rutas que, al recibir una ruta absoluta, descartaba el directorio base.
+            Aquí, en cambio, el intento con <code>filename=/etc/passwd</code> responde 400 Bad Request
+            ("No such file"): esto indica que este servidor concatena el directorio base con
+            <code>filename</code> de forma literal (por ejemplo, <code>/var/www/images/</code> +
+            <code>/etc/passwd</code>), en lugar de usar una función de unión de rutas con ese comportamiento
+            especial. El resultado, algo como <code>/var/www/images//etc/passwd</code>, simplemente no
+            existe, así que la ruta absoluta no ofrece ninguna ventaja en este servidor: la única vía de
+            explotación es evadir el filtro de secuencias relativas.
+        </p>
+
+        <h3 class="subsection-title">5.3 Reconstrucción Carácter por Carácter del Payload</h3>
+        <p>
+            Tomando un solo grupo <code>....//</code> (cuatro puntos seguidos de dos barras) y aplicando
+            una eliminación única de la subcadena <code>../</code>:
+        </p>
+        <ul>
+            <li>Cadena original: <code>. . . . / /</code> (posiciones 1 a 6)</li>
+            <li>El filtro encuentra <code>../</code> exactamente en las posiciones 3-4-5 (el tercer punto, el cuarto punto y la primera barra) y la elimina.</li>
+            <li>Lo que queda son los caracteres de las posiciones 1, 2 y 6: dos puntos y una barra, es decir, otra vez <code>../</code> — pero ahora el filtro ya pasó por esa zona y no vuelve a analizar el resultado.</li>
+        </ul>
+        <p>
+            Repitiendo esta lógica en los tres grupos del payload <code>....//....//....//etc/passwd</code>,
+            el resultado final después del filtrado es exactamente <code>../../../etc/passwd</code>, la
+            misma secuencia clásica de traversal usada en el laboratorio "simple case", ahora reconstruida
+            a partir de una entrada que el filtro consideró segura.
+        </p>
+
+        <h3 class="subsection-title">5.4 Impacto y Clasificación Estándar</h3>
+        <p>
+            El impacto es el mismo de la familia de laboratorios de path traversal: exposición de
+            información sensible del sistema (confidencialidad), clasificada como <strong>CWE-22</strong>
+            (Improper Limitation of a Pathname to a Restricted Directory) y encuadrada en
+            <strong>OWASP Top 10 2021 — A01:2021 Broken Access Control</strong>. La causa raíz específica
+            de este caso —una sanitización de un solo paso que no se aplica de forma recursiva/iterativa—
+            es un patrón de fallo bien documentado: saneamiento incompleto (incomplete blacklist /
+            improper neutralization), ya que remueve el patrón peligroso pero no revalida la cadena
+            resultante.
+        </p>
+        <div class="note-box">
+            <strong>Defensa efectiva:</strong> combina no confiar en ningún saneamiento basado en eliminar
+            patrones específicos, canonicalizar la ruta resultante y validarla contra el directorio base
+            permitido, y aplicar el principio de menor privilegio como capa adicional (ver sección 8,
+            Mitigación recomendada).
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">6. Procedimiento Paso a Paso</h2>
+
+        <h3 class="subsection-title">Paso 1 — Reconocimiento del Laboratorio</h3>
+        <p>
+            Se accede a la descripción oficial del laboratorio, confirmando el nivel Practitioner y el
+            objetivo: la aplicación elimina las secuencias de traversal del parámetro <code>filename</code>
+            antes de usarlo.
+        </p>
+        <figure>
+            <img src="img/fig1-intro.png" alt="Descripción oficial del laboratorio">
+            <figcaption>Figura 1. Descripción oficial del laboratorio en PortSwigger Web Security Academy.</figcaption>
+        </figure>
+
+        <h3 class="subsection-title">Paso 2 — Interceptación y Localización del Endpoint</h3>
+        <p>
+            Con Burp Suite interceptando el tráfico, se navega por la tienda y se localiza en el historial
+            de peticiones el endpoint <code>GET /image?filename=X.jpg</code> utilizado para servir las
+            imágenes de producto.
+        </p>
+        <figure>
+            <img src="img/fig2-proxy-history.png" alt="Historial de peticiones al endpoint /image?filename=">
+            <figcaption>Figura 2. Historial de peticiones mostrando solicitudes al endpoint /image?filename=.</figcaption>
+        </figure>
+
+        <h3 class="subsection-title">Paso 3 — Envío de la Solicitud a Repeater</h3>
+        <p>
+            Se envía una de las solicitudes de imagen al módulo Repeater para manipular el parámetro
+            <code>filename</code> de forma controlada.
+        </p>
+        <figure>
+            <img src="img/fig3-send-to-repeater.png" alt="Envío de la solicitud al módulo Repeater">
+            <figcaption>Figura 3. Envío de la solicitud interceptada al módulo Repeater ("Send to Repeater").</figcaption>
+        </figure>
+
+        <h3 class="subsection-title">Paso 4 — Prueba de Ruta Absoluta (Bloqueada)</h3>
+        <p>
+            Se prueba primero el payload <code>/etc/passwd</code> (la técnica que funcionó en el
+            laboratorio anterior). El servidor responde con <strong>400 Bad Request</strong> y "No such
+            file", confirmando que aquí la construcción de rutas no favorece las rutas absolutas.
+        </p>
+        <figure>
+            <img src="img/fig4-blocked-absolute.png" alt="Payload /etc/passwd bloqueado">
+            <figcaption>Figura 4. Payload /etc/passwd bloqueado (400 Bad Request, "No such file").</figcaption>
+        </figure>
+
+        <h3 class="subsection-title">Paso 5 — Bypass del Filtro No Recursivo</h3>
+        <p>
+            Se sustituye <code>filename</code> por <code>....//....//....//etc/passwd</code>. El filtro
+            elimina la secuencia "../" interna de cada grupo en una sola pasada, dejando tras de sí una
+            nueva secuencia "../" que no vuelve a ser revisada. El servidor responde
+            <strong>200 OK</strong> con el contenido completo de <code>/etc/passwd</code>.
+        </p>
+        <figure>
+            <img src="img/fig5-bypass-success.png" alt="Payload ....//....//....//etc/passwd exitoso">
+            <figcaption>Figura 5. Payload ....//....//....//etc/passwd — respuesta 200 OK con el contenido del archivo.</figcaption>
+        </figure>
+
+        <h3 class="subsection-title">Paso 6 — Confirmación de Resolución del Laboratorio</h3>
+        <p>
+            PortSwigger Web Security Academy confirma la explotación exitosa marcando el laboratorio como
+            <span class="status-badge status-found">Solved</span>.
+        </p>
+        <figure>
+            <img src="img/fig6-lab-solved.png" alt="Confirmación Lab Solved">
+            <figcaption>Figura 6. Confirmación "Lab Solved" en PortSwigger Web Security Academy.</figcaption>
+        </figure>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">7. Explicación del Payload</h2>
+
+        <p><strong>Payload bloqueado:</strong></p>
+        <div class="code-block">/etc/passwd</div>
+
+        <p><strong>Payload exitoso:</strong></p>
+        <div class="code-block">....//....//....//etc/passwd</div>
+
+        <p><strong>Funcionamiento técnico:</strong></p>
+        <ul>
+            <li>El primer payload no contiene secuencias "../", por lo que pasa el filtro sin cambios; pero como el servidor concatena literalmente el directorio base con <code>filename</code> (sin la función de unión de rutas del laboratorio anterior), la ruta absoluta no reemplaza el directorio base y el archivo resultante no existe (400 Bad Request).</li>
+            <li>El segundo payload está compuesto por tres grupos <code>....//</code>. El filtro detecta y elimina la subcadena "../" ubicada en el centro de cada grupo (los caracteres 3, 4 y 5 de cada bloque de cuatro puntos y dos barras).</li>
+            <li>Al eliminar esos tres caracteres, los dos puntos sobrantes al inicio del grupo y la barra sobrante al final se quedan adyacentes, formando una nueva secuencia "../" completa — pero el filtro ya completó su única pasada y no vuelve a examinar el resultado.</li>
+            <li>Tras el filtrado, la cadena resultante es exactamente <code>../../../etc/passwd</code>, la secuencia de traversal clásica que sube tres niveles hasta la raíz del sistema de archivos y desciende hacia <code>etc/passwd</code>.</li>
+            <li>El servidor concatena esta ruta ya "limpia" (según el filtro) con su directorio base, y el sistema operativo la resuelve al abrir el archivo, entregando su contenido en la respuesta HTTP.</li>
+        </ul>
+
+        <div class="note-box">
+            La lección central de este laboratorio es que remover un patrón peligroso de una cadena no es
+            lo mismo que validar que la cadena resultante sea segura: el orden de operaciones (sanear una
+            sola vez, sin revalidar) crea una ventana de explotación aunque la intención del filtro sea
+            correcta.
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">8. Mitigación Recomendada</h2>
+        <ul>
+            <li>Aplicar el saneamiento de forma recursiva/iterativa hasta alcanzar un punto fijo (repetir la eliminación de "../" hasta que una nueva pasada no produzca cambios), o mejor aún, rechazar directamente cualquier entrada que contenga ".." en cualquier forma.</li>
+            <li>Preferir un identificador indirecto (ID numérico o nombre interno) traducido a la ruta real mediante un mapeo controlado del servidor, evitando por completo construir rutas a partir de la entrada del usuario.</li>
+            <li>Validar la entrada contra una lista blanca (allow-list) de nombres o extensiones permitidos, en lugar de intentar eliminar patrones peligrosos de una lista negra.</li>
+            <li>Canonicalizar la ruta final (resolver "../", enlaces simbólicos, dobles barras) y verificar que el resultado permanezca dentro del directorio base permitido, después de cualquier saneamiento, nunca antes.</li>
+            <li>Aplicar el principio de menor privilegio: ejecutar el proceso del servidor con un usuario restringido sin permisos de lectura sobre archivos sensibles del sistema operativo.</li>
+            <li>Aislar el directorio de archivos servidos mediante chroot jails, contenedores o sistemas de archivos de solo lectura para el contenido público.</li>
+            <li>Registrar y monitorear solicitudes con patrones anómalos en parámetros de archivo (secuencias de puntos repetidas, rutas absolutas, codificaciones) para detectar intentos de explotación.</li>
+        </ul>
+    </div>
+
+    <div class="action-buttons">
+        <a href="../road-to-fame.html" target="_blank" class="btn btn-secondary">
+            Volver Atras
+        </a>
+      <a href="Lab_File_Path_Traversal_Non_Recursive_Bypass.pdf" target="_blank" class="btn btn-primary">
+            Abrir PDF
+        </a>
+    </div>
+</div>
+
+</body>
+</html>
