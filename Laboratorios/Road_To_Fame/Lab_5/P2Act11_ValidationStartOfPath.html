@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab: File Path Traversal, Validation of Start of Path</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+/* =========================================================
+   TEMA COMPARTIDO — PÁGINAS DE ACTIVIDADES / DOCUMENTOS
+   (ACT1, ACT2, ACT4, Proyecto, etc.)
+   Estilo oscuro (tema original en tonos negros/verdes)
+========================================================= */
+
+:root{
+  --bg-main:#0b0f17;
+  --bg-card:#111726;
+  --bg-subcard:#0d121d;
+  --border-color:#1d2636;
+  --accent:#22c55e;
+  --accent-hover:#16a34a;
+  --accent-soft:rgba(34,197,94,.12);
+  --text-main:#ffffff;
+  --text-muted:#94a3b8;
+  --code-bg:#070a0f;
+  --btn-secondary-bg:#1e293b;
+  --btn-secondary-hover:#334155;
+  --shadow-md:0 12px 28px rgba(0,0,0,.35);
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+}
+
+body{
+  background-color:var(--bg-main);
+  color:var(--text-main);
+  padding:40px 20px;
+  line-height:1.6;
+}
+
+a{
+  color:var(--accent);
+}
+
+.container{
+  max-width:900px;
+  margin:0 auto;
+  background-color:var(--bg-card);
+  border:1px solid var(--border-color);
+  border-radius:12px;
+  padding:32px;
+  box-shadow:var(--shadow-md);
+}
+
+.top-tag{
+  color:var(--accent);
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+
+.main-title,
+h1{
+  font-size:28px;
+  font-weight:800;
+  color:var(--text-main);
+  margin-bottom:8px;
+}
+
+.subtitle{
+  color:var(--text-muted);
+  font-size:14px;
+  margin-bottom:24px;
+}
+
+.meta-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:16px;
+  margin-bottom:24px;
+}
+
+.meta-card{
+  background-color:var(--bg-subcard);
+  border:1px solid var(--border-color);
+  border-radius:8px;
+  padding:14px 16px;
+}
+
+.meta-label,
+.meta-card span{
+  color:var(--accent);
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  margin-bottom:4px;
+  display:block;
+}
+
+.meta-value,
+.meta-card strong{
+  color:var(--text-main);
+  font-size:14px;
+  font-weight:500;
+}
+
+.section{
+  margin-bottom:28px;
+}
+
+.section-title{
+  font-size:18px;
+  font-weight:700;
+  color:var(--text-main);
+  border-bottom:1px solid var(--border-color);
+  padding-bottom:8px;
+  margin-bottom:14px;
+}
+
+.subsection-title{
+  font-size:15px;
+  font-weight:600;
+  color:var(--accent);
+  margin:16px 0 8px 0;
+}
+
+p{
+  color:var(--text-muted);
+  font-size:14px;
+  margin-bottom:12px;
+}
+
+ul,ol{
+  padding-left:20px;
+  color:var(--text-muted);
+  font-size:14px;
+}
+
+li{
+  margin-bottom:8px;
+}
+
+li strong{
+  color:var(--text-main);
+}
+
+code{
+  background-color:var(--accent-soft);
+  color:var(--accent);
+  padding:2px 6px;
+  border-radius:4px;
+  font-family:monospace;
+  font-size:13px;
+}
+
+.code-block{
+  background-color:var(--code-bg);
+  border:1px solid var(--border-color);
+  color:var(--accent);
+  padding:14px;
+  border-radius:6px;
+  font-family:monospace;
+  font-size:13px;
+  margin:12px 0;
+  white-space:pre-wrap;
+}
+
+.note-box{
+  background-color:var(--bg-subcard);
+  border:1px solid var(--border-color);
+  border-left:3px solid var(--accent);
+  border-radius:6px;
+  padding:12px 16px;
+  margin:12px 0 20px;
+  font-size:13px;
+  color:var(--text-muted);
+}
+
+.note-box strong{
+  color:var(--text-main);
+}
+
+.status-badge{
+  display:inline-block;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  padding:3px 8px;
+  border-radius:4px;
+  margin-left:8px;
+}
+
+.status-found{
+  background-color:var(--accent-soft);
+  color:var(--accent);
+}
+
+figure{
+  margin:16px 0;
+}
+
+.section figure img,
+.section > img{
+  max-width:100%;
+  display:block;
+  border:1px solid var(--border-color);
+  border-radius:8px;
+  box-shadow:0 8px 20px rgba(0,0,0,.35);
+}
+
+figcaption{
+  color:var(--text-muted);
+  font-size:12px;
+  font-style:italic;
+  text-align:center;
+  margin-top:8px;
+}
+
+.action-buttons,
+.buttons{
+  display:flex;
+  gap:16px;
+  margin-top:36px;
+  padding-top:24px;
+  border-top:1px solid var(--border-color);
+  flex-wrap:wrap;
+}
+
+.btn,
+.button{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:12px 20px;
+  border-radius:8px;
+  font-size:14px;
+  font-weight:600;
+  text-decoration:none;
+  cursor:pointer;
+  transition:all .2s ease;
+  border:none;
+}
+
+.btn-primary,
+.button-primary{
+  background-color:var(--accent);
+  color:#000000;
+}
+
+.btn-primary:hover,
+.button-primary:hover{
+  background-color:var(--accent-hover);
+}
+
+.btn-secondary{
+  background-color:var(--btn-secondary-bg);
+  color:var(--text-main);
+  border:1px solid var(--border-color);
+}
+
+.btn-secondary:hover{
+  background-color:var(--btn-secondary-hover);
+}
+
+@media (max-width:600px){
+  .meta-grid{
+    grid-template-columns:1fr;
+  }
+
+  .container{
+    padding:20px;
+  }
+
+  .action-buttons,
+  .buttons{
+    flex-direction:column-reverse;
+  }
+
+  .btn,
+  .button{
+    width:100%;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="top-tag">UNIVERSIDAD POLITÉCNICA DE SAN LUIS POTOSÍ</div>
+    <h1 class="main-title">Lab: File Path Traversal, Validation of Start of Path</h1>
+    <p class="subtitle">Road to Hall of Fame · Actividad 11 · PortSwigger Web Security Academy</p>
+
+    <div class="meta-grid">
+        <div class="meta-card">
+            <div class="meta-label">ACTIVIDAD</div>
+            <div class="meta-value">Actividad 11</div>
+        </div>
+        <div class="meta-card">
+            <div class="meta-label">ALUMNO</div>
+            <div class="meta-value">Aaron Emanuel González Díaz (182447)</div>
+        </div>
+        <div class="meta-card">
+            <div class="meta-label">ASIGNATURA</div>
+            <div class="meta-value">Parcial I · Fundamentos de Ciberseguridad</div>
+        </div>
+        <div class="meta-card">
+            <div class="meta-label">DOCENTE</div>
+            <div class="meta-value">Mtro. Servando López Contreras</div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">1. Nombre del Laboratorio</h2>
+        <p><strong>File path traversal, validation of start of path</strong></p>
+        <p>
+            Fuente oficial:
+            <a href="https://portswigger.net/web-security/file-path-traversal/lab-validate-start-of-path" target="_blank" rel="noopener">
+                portswigger.net/web-security/file-path-traversal/lab-validate-start-of-path
+            </a>
+        </p>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">2. Nivel</h2>
+        <p><span class="status-badge status-found">Practitioner</span></p>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">3. Tipo de Explotación</h2>
+        <p>
+            <strong>Path Traversal / Directory Traversal (CWE-22)</strong>, con bypass de una validación de
+            prefijo ("starts with") mediante la construcción de una ruta que comienza con el directorio
+            esperado pero continúa con secuencias de traversal.
+        </p>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">4. Objetivo del Laboratorio</h2>
+        <p>
+            A diferencia de los laboratorios anteriores, aquí la aplicación transmite la ruta completa del
+            archivo a través del parámetro <code>filename</code> (por ejemplo,
+            <code>filename=/var/www/images/30.jpg</code>), y valida que el valor recibido comience con la
+            carpeta esperada (<code>/var/www/images</code>). El objetivo es construir un payload que
+            satisfaga esa validación de prefijo y, al mismo tiempo, contenga una secuencia de traversal que
+            escape del directorio para leer <code>/etc/passwd</code>.
+        </p>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">5. Explicación Técnica de la Vulnerabilidad</h2>
+
+        <h3 class="subsection-title">5.1 Concepto: Validar el Inicio de la Cadena no es Validar la Ruta Completa</h3>
+        <p>
+            La aplicación implementa un control de seguridad que parece razonable a primera vista: comprueba
+            que el valor de <code>filename</code> comience con la ruta del directorio de imágenes permitido,
+            algo equivalente a <code>filename.startsWith("/var/www/images")</code>. Si la comprobación pasa,
+            el servidor usa ese mismo valor —tal cual, sin canonicalizar— para localizar y leer el archivo en
+            el sistema de archivos.
+        </p>
+        <p>
+            El fallo es que una comprobación de prefijo solo mira los primeros caracteres de la cadena; no
+            dice nada sobre lo que viene después. Nada impide que, tras satisfacer el prefijo esperado, el
+            resto de la cadena contenga secuencias "../" que el sistema operativo interpretará y resolverá
+            al momento de abrir el archivo, sacando la ruta resultante fuera del directorio que la
+            validación creyó estar protegiendo.
+        </p>
+
+        <h3 class="subsection-title">5.2 Por Qué Fallan los Intentos Directos</h3>
+        <p>
+            Al enviar <code>../../../../etc/passwd</code> directamente, el valor no comienza con
+            "/var/www/images", por lo que la validación de prefijo falla de inmediato (el servidor responde
+            400 Bad Request, con el mensaje "Missing parameter 'filename'", tratando la solicitud como si
+            el parámetro no cumpliera el formato esperado).
+        </p>
+        <p>
+            Al enviar <code>var/www/images/../../../../etc/passwd</code> (sin la barra inicial), el valor
+            tampoco coincide exactamente con el prefijo esperado "/var/www/images" —le falta la barra
+            diagonal al inicio—, así que la validación también falla con el mismo error. Esto confirma que
+            la comprobación es una coincidencia de cadena literal y estricta contra el prefijo, no una
+            interpretación más flexible de rutas.
+        </p>
+
+        <h3 class="subsection-title">5.3 El Bypass: Satisfacer el Prefijo y Viajar Después</h3>
+        <p>
+            La solución consiste en construir un valor que arranque exactamente con el prefijo exigido y
+            luego agregue la secuencia de traversal necesaria para regresar a la raíz del sistema de
+            archivos y descender hacia <code>/etc/passwd</code>:
+        </p>
+        <ul>
+            <li>Payload: <code>/var/www/images/../../../../etc/passwd</code></li>
+            <li>La validación de prefijo revisa únicamente si la cadena comienza con "/var/www/images" — y en efecto lo hace, así que la comprobación se satisface por completo.</li>
+            <li>La aplicación nunca vuelve a examinar el resto de la cadena ni canonicaliza el resultado antes de usarlo; simplemente pasa el valor completo, tal cual, al sistema de archivos.</li>
+            <li>El sistema operativo, al resolver la ruta, procesa cada componente en orden: entra a /var/www/images/, y luego cada "../" lo hace retroceder un nivel, hasta llegar a la raíz del sistema de archivos, desde donde desciende hacia etc/passwd.</li>
+            <li>El resultado final equivale exactamente a /etc/passwd, y el servidor responde 200 OK con su contenido.</li>
+        </ul>
+
+        <h3 class="subsection-title">5.4 Impacto y Clasificación Estándar</h3>
+        <p>
+            El impacto es el mismo de toda la familia de laboratorios de path traversal: exposición de
+            información sensible del sistema (confidencialidad), clasificada como <strong>CWE-22</strong>
+            (Improper Limitation of a Pathname to a Restricted Directory) y encuadrada en
+            <strong>OWASP Top 10 2021 — A01:2021 Broken Access Control</strong>. La causa raíz específica de
+            este caso es confundir "validar el prefijo de una cadena" con "validar que la ruta resultante
+            esté contenida dentro de un directorio": son verificaciones distintas, y solo la segunda ofrece
+            una garantía real, porque opera sobre la ruta ya canonicalizada (resuelta) en lugar de sobre el
+            texto crudo proporcionado por el usuario.
+        </p>
+        <div class="note-box">
+            <strong>Defensa efectiva:</strong> canonicalizar la ruta completa antes de cualquier validación,
+            comparar el resultado canonicalizado (no el texto crudo) contra el directorio base permitido, y
+            aplicar el principio de menor privilegio como capa adicional (ver sección 8, Mitigación
+            recomendada).
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">6. Procedimiento Paso a Paso</h2>
+
+        <h3 class="subsection-title">Paso 1 — Reconocimiento del Laboratorio</h3>
+        <p>
+            Se accede a la descripción oficial del laboratorio, confirmando el nivel Practitioner: la
+            aplicación transmite la ruta completa del archivo y valida que comience con la carpeta esperada.
+        </p>
+        <figure>
+            <img src="img/fig1-intro.png" alt="Descripción oficial del laboratorio">
+            <figcaption>Figura 1. Descripción oficial del laboratorio en PortSwigger Web Security Academy.</figcaption>
+        </figure>
+
+        <h3 class="subsection-title">Paso 2 — Interceptación del Tráfico Inicial</h3>
+        <p>
+            Se activa el interceptor de Burp Suite y se recarga la página principal para confirmar que el
+            proxy captura correctamente el tráfico del navegador.
+        </p>
+        <figure>
+            <img src="img/fig2-initial-get.png" alt="Solicitud GET / interceptada">
+            <figcaption>Figura 2. Solicitud GET / interceptada al recargar la página.</figcaption>
+        </figure>
+
+        <h3 class="subsection-title">Paso 3 — Exploración del Catálogo</h3>
+        <p>
+            Se navega por el catálogo de productos de la tienda, donde cada imagen se sirve mediante el
+            endpoint vulnerable.
+        </p>
+        <figure>
+            <img src="img/fig3-home-catalog.png" alt="Catálogo de productos">
+            <figcaption>Figura 3. Catálogo de productos de la aplicación vulnerable.</figcaption>
+        </figure>
+
+        <h3 class="subsection-title">Paso 4 — Localización del Endpoint y su Formato de Parámetro</h3>
+        <p>
+            En el historial de peticiones se observa que el parámetro <code>filename</code> transmite la
+            ruta completa del archivo, por ejemplo <code>filename=/var/www/images/30.jpg</code>, revelando
+            explícitamente el directorio base esperado por el servidor.
+        </p>
+        <figure>
+            <img src="img/fig4-proxy-history.png" alt="Historial de peticiones con ruta completa">
+            <figcaption>Figura 4. Historial de peticiones mostrando la ruta completa en el parámetro filename.</figcaption>
+        </figure>
+
+        <h3 class="subsection-title">Paso 5 — Envío de la Solicitud a Repeater</h3>
+        <p>
+            Se selecciona una de las solicitudes de imagen y se envía al módulo Repeater para manipular el
+            parámetro <code>filename</code> de forma controlada.
+        </p>
+        <figure>
+            <img src="img/fig5-send-to-repeater.png" alt="Envío de la solicitud al módulo Repeater">
+            <figcaption>Figura 5. Envío de la solicitud interceptada al módulo Repeater ("Send to Repeater").</figcaption>
+        </figure>
+
+        <h3 class="subsection-title">Paso 6 — Solicitud Base en Repeater</h3>
+        <p>
+            Se confirma en Repeater la solicitud original sin modificar, como punto de partida antes de
+            probar los distintos payloads.
+        </p>
+        <figure>
+            <img src="img/fig6-repeater-baseline.png" alt="Solicitud original en Repeater">
+            <figcaption>Figura 6. Solicitud original en el módulo Repeater, sin modificar.</figcaption>
+        </figure>
+
+        <h3 class="subsection-title">Paso 7 — Intento de Traversal Directo (Bloqueado)</h3>
+        <p>
+            Se prueba el payload <code>../../../../etc/passwd</code>, sin el prefijo esperado. El servidor
+            responde <strong>400 Bad Request</strong> con "Missing parameter 'filename'", confirmando que
+            la validación de prefijo rechaza cualquier valor que no comience exactamente con
+            /var/www/images.
+        </p>
+        <figure>
+            <img src="img/fig7-blocked-bare-traversal.png" alt="Traversal directo bloqueado">
+            <figcaption>Figura 7. Payload ../../../../etc/passwd bloqueado por la validación de prefijo.</figcaption>
+        </figure>
+
+        <h3 class="subsection-title">Paso 8 — Intento sin la Barra Inicial (También Bloqueado)</h3>
+        <p>
+            Se prueba <code>var/www/images/../../../../etc/passwd</code>, omitiendo la barra diagonal
+            inicial. La validación sigue fallando, confirmando que la comprobación de prefijo es una
+            coincidencia de cadena estricta.
+        </p>
+        <figure>
+            <img src="img/fig8-blocked-no-leading-slash.png" alt="Payload sin barra inicial bloqueado">
+            <figcaption>Figura 8. Payload sin la barra inicial, también bloqueado por la validación de prefijo.</figcaption>
+        </figure>
+
+        <h3 class="subsection-title">Paso 9 — Bypass Exitoso</h3>
+        <p>
+            Se construye el payload <code>/var/www/images/../../../../etc/passwd</code>, que comienza
+            exactamente con el prefijo exigido y continúa con secuencias de traversal. El servidor responde
+            <strong>200 OK</strong> con el contenido completo de <code>/etc/passwd</code>.
+        </p>
+        <figure>
+            <img src="img/fig9-bypass-success.png" alt="Bypass exitoso">
+            <figcaption>Figura 9. Payload /var/www/images/../../../../etc/passwd — respuesta 200 OK con el contenido del archivo.</figcaption>
+        </figure>
+
+        <h3 class="subsection-title">Paso 10 — Confirmación de Resolución del Laboratorio</h3>
+        <p>
+            PortSwigger Web Security Academy confirma la explotación exitosa marcando el laboratorio como
+            <span class="status-badge status-found">Solved</span>.
+        </p>
+        <figure>
+            <img src="img/fig10-lab-solved.png" alt="Confirmación Lab Solved">
+            <figcaption>Figura 10. Confirmación "Lab Solved" en PortSwigger Web Security Academy.</figcaption>
+        </figure>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">7. Explicación del Payload</h2>
+
+        <p><strong>Payloads bloqueados:</strong></p>
+        <div class="code-block">../../../../etc/passwd</div>
+        <div class="code-block">var/www/images/../../../../etc/passwd</div>
+
+        <p><strong>Payload exitoso:</strong></p>
+        <div class="code-block">/var/www/images/../../../../etc/passwd</div>
+
+        <p><strong>Funcionamiento técnico:</strong></p>
+        <ul>
+            <li>El primer payload no comienza con "/var/www/images", así que la validación de prefijo lo rechaza antes de cualquier acceso al sistema de archivos.</li>
+            <li>El segundo payload tampoco coincide con el prefijo exacto esperado: le falta la barra diagonal inicial ("/"), por lo que la comparación de cadenas también falla, aunque conceptualmente "apunte" al mismo lugar.</li>
+            <li>El tercer payload comienza exactamente con <code>/var/www/images</code>, cumpliendo la validación de prefijo al pie de la letra.</li>
+            <li>Tras el prefijo válido, la cadena continúa con <code>../../../../</code> — cuatro niveles de retroceso, suficientes para subir desde /var/www/images hasta la raíz del sistema de archivos (/), y de ahí entrar a etc/passwd.</li>
+            <li>Como la aplicación nunca canonicaliza ni revalida la ruta después de comprobar el prefijo, entrega este valor completo al sistema operativo, que lo resuelve literalmente y termina abriendo /etc/passwd en lugar de un archivo dentro de /var/www/images.</li>
+        </ul>
+
+        <div class="note-box">
+            La lección central de este laboratorio es que una comprobación de "empieza con" (startsWith)
+            sobre una cadena cruda no es equivalente a comprobar que la ruta resuelta esté contenida dentro
+            de un directorio: el atacante solo necesita anteponer el prefijo correcto para satisfacer el
+            primer chequeo, sin que eso limite en nada lo que puede venir después.
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">8. Mitigación Recomendada</h2>
+        <ul>
+            <li>Canonicalizar la ruta completa (resolver todos los "../", enlaces simbólicos y componentes redundantes) antes de aplicar cualquier validación, y comparar el resultado canonicalizado contra el directorio base permitido — nunca comparar contra el texto crudo proporcionado por el usuario.</li>
+            <li>Verificar que la ruta canonicalizada esté literalmente contenida dentro del directorio permitido (que su ruta absoluta resuelta comience con el directorio base ya normalizado), no solo que el texto de entrada comparta un prefijo superficial.</li>
+            <li>Preferir un identificador indirecto (ID numérico o nombre interno) traducido a la ruta real mediante un mapeo controlado del servidor, evitando por completo que el cliente controle cualquier parte de la ruta de archivo.</li>
+            <li>Validar la entrada contra una lista blanca (allow-list) de nombres o extensiones permitidos, en lugar de basarse en comprobaciones parciales de la cadena.</li>
+            <li>Aplicar el principio de menor privilegio: ejecutar el proceso del servidor con un usuario restringido sin permisos de lectura sobre archivos sensibles del sistema operativo.</li>
+            <li>Aislar el directorio de archivos servidos mediante chroot jails, contenedores o sistemas de archivos de solo lectura para el contenido público.</li>
+            <li>Registrar y monitorear solicitudes cuyo parámetro de archivo contenga secuencias "../" en cualquier posición, incluso después de un prefijo aparentemente válido.</li>
+        </ul>
+    </div>
+
+    <div class="action-buttons">
+        <a href="../road-to-fame.html" target="_blank" class="btn btn-secondary">
+            Volver Atras
+        </a>
+        <a href="Lab_File_Path_Traversal_Validation_Start_Of_Path (1).pdf" target="_blank" class="btn btn-primary">
+            Abrir PDF
+        </a>
+    </div>
+</div>
+
+</body>
+</html>
