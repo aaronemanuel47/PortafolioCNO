@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad 14 — Ciberseguridad en una mirada</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+/* =========================================================
+   TEMA COMPARTIDO — PÁGINAS DE ACTIVIDADES / DOCUMENTOS
+   (ACT1, ACT2, ACT4, Proyecto, etc.)
+   Estilo oscuro (tema original en tonos negros/verdes)
+========================================================= */
+
+:root{
+  --bg-main:#0b0f17;
+  --bg-card:#111726;
+  --bg-subcard:#0d121d;
+  --border-color:#1d2636;
+  --accent:#22c55e;
+  --accent-hover:#16a34a;
+  --accent-soft:rgba(34,197,94,.12);
+  --text-main:#ffffff;
+  --text-muted:#94a3b8;
+  --code-bg:#070a0f;
+  --btn-secondary-bg:#1e293b;
+  --btn-secondary-hover:#334155;
+  --shadow-md:0 12px 28px rgba(0,0,0,.35);
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+}
+
+body{
+  background-color:var(--bg-main);
+  color:var(--text-main);
+  padding:40px 20px;
+  line-height:1.6;
+}
+
+a{
+  color:var(--accent);
+}
+
+.container{
+  max-width:900px;
+  margin:0 auto;
+  background-color:var(--bg-card);
+  border:1px solid var(--border-color);
+  border-radius:12px;
+  padding:32px;
+  box-shadow:var(--shadow-md);
+}
+
+.top-tag{
+  color:var(--accent);
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+
+.main-title,
+h1{
+  font-size:28px;
+  font-weight:800;
+  color:var(--text-main);
+  margin-bottom:8px;
+}
+
+.subtitle{
+  color:var(--text-muted);
+  font-size:14px;
+  margin-bottom:24px;
+}
+
+.meta-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:16px;
+  margin-bottom:24px;
+}
+
+.meta-card{
+  background-color:var(--bg-subcard);
+  border:1px solid var(--border-color);
+  border-radius:8px;
+  padding:14px 16px;
+}
+
+.meta-label,
+.meta-card span{
+  color:var(--accent);
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  margin-bottom:4px;
+  display:block;
+}
+
+.meta-value,
+.meta-card strong{
+  color:var(--text-main);
+  font-size:14px;
+  font-weight:500;
+}
+
+.section{
+  margin-bottom:28px;
+}
+
+.section-title{
+  font-size:18px;
+  font-weight:700;
+  color:var(--text-main);
+  border-bottom:1px solid var(--border-color);
+  padding-bottom:8px;
+  margin-bottom:14px;
+}
+
+.subsection-title{
+  font-size:15px;
+  font-weight:600;
+  color:var(--accent);
+  margin:16px 0 8px 0;
+}
+
+p{
+  color:var(--text-muted);
+  font-size:14px;
+  margin-bottom:12px;
+}
+
+ul,ol{
+  padding-left:20px;
+  color:var(--text-muted);
+  font-size:14px;
+}
+
+li{
+  margin-bottom:8px;
+}
+
+li strong{
+  color:var(--text-main);
+}
+
+code{
+  background-color:var(--accent-soft);
+  color:var(--accent);
+  padding:2px 6px;
+  border-radius:4px;
+  font-family:monospace;
+  font-size:13px;
+}
+
+.note-box{
+  background-color:var(--bg-subcard);
+  border:1px solid var(--border-color);
+  border-left:3px solid var(--accent);
+  border-radius:6px;
+  padding:12px 16px;
+  margin:12px 0 20px;
+  font-size:13px;
+  color:var(--text-muted);
+}
+
+.note-box strong{
+  color:var(--text-main);
+}
+
+.pdf-frame-wrap{
+  width:100%;
+  background-color:var(--bg-subcard);
+  border:1px solid var(--border-color);
+  border-radius:12px;
+  overflow:hidden;
+  margin-top:12px;
+}
+
+.pdf-frame-wrap iframe{
+  display:block;
+  width:100%;
+  height:700px;
+  border:0;
+  background:#ffffff;
+}
+
+.status-badge{
+  display:inline-block;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  padding:3px 8px;
+  border-radius:4px;
+  margin-left:8px;
+}
+
+.status-found{
+  background-color:var(--accent-soft);
+  color:var(--accent);
+}
+
+/* Tarjetas de categorías (para "qué cubre la infografía") */
+.topic-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
+  gap:12px;
+  margin:12px 0 8px;
+}
+
+.topic-card{
+  background-color:var(--bg-subcard);
+  border:1px solid var(--border-color);
+  border-radius:10px;
+  padding:14px 16px;
+}
+
+.topic-card .topic-title{
+  color:var(--accent);
+  font-size:13px;
+  font-weight:700;
+  margin-bottom:6px;
+}
+
+.topic-card p{
+  font-size:12.5px;
+  margin-bottom:0;
+}
+
+/* Tarjeta de acceso a la infografía / PDF */
+.pdf-card{
+  background-color:var(--bg-subcard);
+  border:1px dashed var(--border-color);
+  border-radius:12px;
+  padding:28px 20px;
+  text-align:center;
+  margin-top:12px;
+}
+
+.pdf-card .pdf-icon{
+  font-size:34px;
+  margin-bottom:10px;
+}
+
+.pdf-card p{
+  font-size:13px;
+  margin-bottom:16px;
+}
+
+.action-buttons,
+.buttons{
+  display:flex;
+  gap:16px;
+  margin-top:36px;
+  padding-top:24px;
+  border-top:1px solid var(--border-color);
+  flex-wrap:wrap;
+}
+
+.btn,
+.button{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:12px 20px;
+  border-radius:8px;
+  font-size:14px;
+  font-weight:600;
+  text-decoration:none;
+  cursor:pointer;
+  transition:all .2s ease;
+  border:none;
+}
+
+.btn-primary,
+.button-primary{
+  background-color:var(--accent);
+  color:#000000;
+}
+
+.btn-primary:hover,
+.button-primary:hover{
+  background-color:var(--accent-hover);
+}
+
+.btn-secondary{
+  background-color:var(--btn-secondary-bg);
+  color:var(--text-main);
+  border:1px solid var(--border-color);
+}
+
+.btn-secondary:hover{
+  background-color:var(--btn-secondary-hover);
+}
+
+@media (max-width:600px){
+  .meta-grid{
+    grid-template-columns:1fr;
+  }
+
+  .container{
+    padding:20px;
+  }
+
+  .action-buttons,
+  .buttons{
+    flex-direction:column-reverse;
+  }
+
+  .btn,
+  .button{
+    width:100%;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="top-tag">UNIVERSIDAD POLITÉCNICA DE SAN LUIS POTOSÍ</div>
+    <h1 class="main-title">Actividad 14 — Ciberseguridad en una mirada</h1>
+    <p class="subtitle">Modúlo 2 · Introducción a la Ciberseguridad (Cisco Networking Academy)</p>
+
+    <div class="meta-grid">
+        <div class="meta-card">
+            <div class="meta-label">ACTIVIDAD</div>
+            <div class="meta-value">Actividad 14</div>
+        </div>
+        <div class="meta-card">
+            <div class="meta-label">ALUMNO</div>
+            <div class="meta-value">Aaron Emanuel González Díaz (182447)</div>
+        </div>
+        <div class="meta-card">
+            <div class="meta-label">ASIGNATURA</div>
+            <div class="meta-value">Parcial 2 · Fundamentos de Ciberseguridad</div>
+        </div>
+        <div class="meta-card">
+            <div class="meta-label">DOCENTE</div>
+            <div class="meta-value">Mtro. Servando López Contreras</div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">1. Objetivo General</h2>
+        <p>
+            Diseñar una infografía profesional que explique de manera visual, sintética y estratégica uno
+            de los temas abordados en el curso <em>Introducción a la Ciberseguridad</em> de Cisco Networking
+            Academy, demostrando comprensión técnica, capacidad de síntesis y comunicación efectiva
+            orientada a concientización organizacional.
+        </p>
+
+        <h3 class="subsection-title">Objetivos Específicos</h3>
+        <ul>
+            <li>Identificar y explicar correctamente los conceptos fundamentales del tema seleccionado, asegurando precisión técnica y coherencia conceptual.</li>
+            <li>Sintetizar información compleja en elementos visuales claros (diagramas, esquemas, jerarquías gráficas).</li>
+            <li>Diseñar un producto visual profesional orientado a la concientización, integrando fundamentos teóricos con aplicación práctica.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">2. Tema Elegido</h2>
+        <p>
+            <strong>Módulo 2 — Ataques, conceptos y técnicas.</strong><br>
+            Título de la infografía: <em>"Anatomía de un ciberataque: técnicas comunes y cómo defenderse"</em>.
+        </p>
+        <p>
+            Se eligió este módulo por su conexión directa con el trabajo práctico realizado a lo largo del
+            curso (laboratorios de explotación de vulnerabilidades web en PortSwigger Web Security Academy),
+            lo que permite ilustrar cada categoría de ataque con un enfoque estratégico: qué es, por qué es
+            relevante, qué riesgo implica y cómo se mitiga.
+        </p>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">3. Qué Cubre la Infografía</h2>
+        <p>La infografía desarrolla seis categorías de ataque, cada una con su riesgo principal y su mitigación clave, más un esquema visual propio que conecta las etapas de un ataque con sus defensas.</p>
+
+        <div class="topic-grid">
+            <div class="topic-card">
+                <div class="topic-title">Malware</div>
+                <p>Virus, ransomware y troyanos como vector de compromiso inicial.</p>
+            </div>
+            <div class="topic-card">
+                <div class="topic-title">Ingeniería social</div>
+                <p>Phishing y manipulación psicológica dirigida al factor humano.</p>
+            </div>
+            <div class="topic-card">
+                <div class="topic-title">Ataques a contraseñas</div>
+                <p>Fuerza bruta, diccionario y credential stuffing.</p>
+            </div>
+            <div class="topic-card">
+                <div class="topic-title">Interceptación (MITM)</div>
+                <p>Compromiso de la confidencialidad de datos en tránsito.</p>
+            </div>
+            <div class="topic-card">
+                <div class="topic-title">Denegación de servicio</div>
+                <p>Ataques a la disponibilidad de sistemas y servicios.</p>
+            </div>
+            <div class="topic-card">
+                <div class="topic-title">Explotación de vulnerabilidades web</div>
+                <p>Inyección, XSS y path traversal — conexión directa con los laboratorios prácticos del curso.</p>
+            </div>
+        </div>
+
+        <div class="note-box">
+            <strong>Esquema visual propio:</strong> línea de tiempo de un ataque (Reconocimiento → Acceso
+            inicial → Ejecución → Persistencia → Acción sobre el objetivo), con las mitigaciones
+            correspondientes conectadas a cada etapa.
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">4. Infografía</h2>
+        <div class="pdf-frame-wrap">
+            <iframe src="Infografia.pdf" title="Infografía de la Actividad 14" loading="lazy"></iframe>
+        </div>
+    </div>
+
+    <div class="action-buttons">
+        <a href="../road-to-fame.html" target="_blank" class="btn btn-secondary">
+            Volver Atras
+        </a>
+        <a href="Infografia.pdf" target="_blank" class="btn btn-primary">
+            Abrir PDF
+        </a>
+    </div>
+</div>
+
+</body>
+</html>
