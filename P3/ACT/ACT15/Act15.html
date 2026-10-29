@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad 15 — La fotografía como testigo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+/* =========================================================
+   TEMA COMPARTIDO — PÁGINAS DE ACTIVIDADES / DOCUMENTOS
+   (ACT1, ACT2, ACT4, Proyecto, etc.)
+   Estilo oscuro (tema original en tonos negros/verdes)
+========================================================= */
+
+:root{
+  --bg-main:#0b0f17;
+  --bg-card:#111726;
+  --bg-subcard:#0d121d;
+  --border-color:#1d2636;
+  --accent:#22c55e;
+  --accent-hover:#16a34a;
+  --accent-soft:rgba(34,197,94,.12);
+  --text-main:#ffffff;
+  --text-muted:#94a3b8;
+  --code-bg:#070a0f;
+  --btn-secondary-bg:#1e293b;
+  --btn-secondary-hover:#334155;
+  --shadow-md:0 12px 28px rgba(0,0,0,.35);
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+}
+
+body{
+  background-color:var(--bg-main);
+  color:var(--text-main);
+  padding:40px 20px;
+  line-height:1.6;
+}
+
+a{
+  color:var(--accent);
+}
+
+.container{
+  max-width:900px;
+  margin:0 auto;
+  background-color:var(--bg-card);
+  border:1px solid var(--border-color);
+  border-radius:12px;
+  padding:32px;
+  box-shadow:var(--shadow-md);
+}
+
+.top-tag{
+  color:var(--accent);
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+
+.main-title,
+h1{
+  font-size:28px;
+  font-weight:800;
+  color:var(--text-main);
+  margin-bottom:8px;
+}
+
+.subtitle{
+  color:var(--text-muted);
+  font-size:14px;
+  margin-bottom:24px;
+}
+
+.meta-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:16px;
+  margin-bottom:24px;
+}
+
+.meta-card{
+  background-color:var(--bg-subcard);
+  border:1px solid var(--border-color);
+  border-radius:8px;
+  padding:14px 16px;
+}
+
+.meta-label,
+.meta-card span{
+  color:var(--accent);
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  margin-bottom:4px;
+  display:block;
+}
+
+.meta-value,
+.meta-card strong{
+  color:var(--text-main);
+  font-size:14px;
+  font-weight:500;
+}
+
+.section{
+  margin-bottom:28px;
+}
+
+.section-title{
+  font-size:18px;
+  font-weight:700;
+  color:var(--text-main);
+  border-bottom:1px solid var(--border-color);
+  padding-bottom:8px;
+  margin-bottom:14px;
+}
+
+.subsection-title{
+  font-size:15px;
+  font-weight:600;
+  color:var(--accent);
+  margin:16px 0 8px 0;
+}
+
+p{
+  color:var(--text-muted);
+  font-size:14px;
+  margin-bottom:12px;
+}
+
+ul,ol{
+  padding-left:20px;
+  color:var(--text-muted);
+  font-size:14px;
+}
+
+li{
+  margin-bottom:8px;
+}
+
+li strong{
+  color:var(--text-main);
+}
+
+code{
+  background-color:var(--accent-soft);
+  color:var(--accent);
+  padding:2px 6px;
+  border-radius:4px;
+  font-family:monospace;
+  font-size:13px;
+}
+
+.note-box{
+  background-color:var(--bg-subcard);
+  border:1px solid var(--border-color);
+  border-left:3px solid var(--accent);
+  border-radius:6px;
+  padding:12px 16px;
+  margin:12px 0 20px;
+  font-size:13px;
+  color:var(--text-muted);
+}
+
+.note-box strong{
+  color:var(--text-main);
+}
+
+.pdf-frame-wrap{
+  width:100%;
+  background-color:var(--bg-subcard);
+  border:1px solid var(--border-color);
+  border-radius:12px;
+  overflow:hidden;
+  margin-top:12px;
+}
+
+.pdf-frame-wrap iframe{
+  display:block;
+  width:100%;
+  height:700px;
+  border:0;
+  background:#ffffff;
+}
+
+.status-badge{
+  display:inline-block;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  padding:3px 8px;
+  border-radius:4px;
+  margin-left:8px;
+}
+
+.status-found{
+  background-color:var(--accent-soft);
+  color:var(--accent);
+}
+
+/* Tarjetas de categorías (para "qué cubre" / hallazgos) */
+.topic-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
+  gap:12px;
+  margin:12px 0 8px;
+}
+
+.topic-card{
+  background-color:var(--bg-subcard);
+  border:1px solid var(--border-color);
+  border-radius:10px;
+  padding:14px 16px;
+}
+
+.topic-card .topic-title{
+  color:var(--accent);
+  font-size:13px;
+  font-weight:700;
+  margin-bottom:6px;
+}
+
+.topic-card p{
+  font-size:12.5px;
+  margin-bottom:0;
+}
+
+/* Preguntas y respuestas */
+.qa-block{
+  margin-bottom:26px;
+}
+
+.qa-question{
+  font-size:14.5px;
+  font-weight:700;
+  color:var(--text-main);
+  margin-bottom:6px;
+}
+
+.qa-question .qa-num{
+  color:var(--accent);
+  margin-right:6px;
+}
+
+.qa-answer{
+  font-size:13.5px;
+  color:var(--text-muted);
+  margin-bottom:10px;
+}
+
+.qa-answer strong{
+  color:var(--text-main);
+}
+
+.qa-answer a{
+  word-break:break-all;
+}
+
+figure{
+  margin:0 0 20px 0;
+  background-color:var(--code-bg);
+  border:1px solid var(--border-color);
+  border-radius:8px;
+  padding:10px;
+}
+
+figure img{
+  display:block;
+  width:100%;
+  border-radius:4px;
+}
+
+figcaption{
+  font-size:12px;
+  color:var(--text-muted);
+  font-style:italic;
+  margin-top:8px;
+  padding:0 2px;
+}
+
+.action-buttons,
+.buttons{
+  display:flex;
+  gap:16px;
+  margin-top:36px;
+  padding-top:24px;
+  border-top:1px solid var(--border-color);
+  flex-wrap:wrap;
+}
+
+.btn,
+.button{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:12px 20px;
+  border-radius:8px;
+  font-size:14px;
+  font-weight:600;
+  text-decoration:none;
+  cursor:pointer;
+  transition:all .2s ease;
+  border:none;
+}
+
+.btn-primary,
+.button-primary{
+  background-color:var(--accent);
+  color:#000000;
+}
+
+.btn-primary:hover,
+.button-primary:hover{
+  background-color:var(--accent-hover);
+}
+
+.btn-secondary{
+  background-color:var(--btn-secondary-bg);
+  color:var(--text-main);
+  border:1px solid var(--border-color);
+}
+
+.btn-secondary:hover{
+  background-color:var(--btn-secondary-hover);
+}
+
+@media (max-width:600px){
+  .meta-grid{
+    grid-template-columns:1fr;
+  }
+
+  .container{
+    padding:20px;
+  }
+
+  .action-buttons,
+  .buttons{
+    flex-direction:column-reverse;
+  }
+
+  .btn,
+  .button{
+    width:100%;
+  }
+}
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="top-tag">UNIVERSIDAD POLITÉCNICA DE SAN LUIS POTOSÍ</div>
+    <h1 class="main-title">Actividad 15 — La fotografía como testigo</h1>
+    <p class="subtitle">Extracción de metadatos GPS para geolocalización · Informática Criminológica</p>
+
+    <div class="meta-grid">
+        <div class="meta-card">
+            <div class="meta-label">ACTIVIDAD</div>
+            <div class="meta-value">Actividad 15</div>
+        </div>
+        <div class="meta-card">
+            <div class="meta-label">ALUMNO</div>
+            <div class="meta-value">Aaron Emanuel González Díaz (182447)</div>
+        </div>
+        <div class="meta-card">
+            <div class="meta-label">ASIGNATURA</div>
+            <div class="meta-value">Informática Criminológica</div>
+        </div>
+        <div class="meta-card">
+            <div class="meta-label">DOCENTE</div>
+            <div class="meta-value">Mtro. Servando López Contreras</div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">1. Objetivo</h2>
+        <p>
+            Analizar los metadatos de dos ficheros de origen distinto —un documento ofimático de INTERPOL y una
+            fotografía capturada con un dispositivo móvil— utilizando <strong>ExifTool</strong>, para demostrar
+            cómo esta clase de datos ocultos puede usarse como evidencia digital: identificar autoría, software
+            de edición, historial de cambios y, en el caso de una imagen, la ubicación GPS exacta donde fue
+            tomada.
+        </p>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">2. Muestras Analizadas</h2>
+        <div class="topic-grid">
+            <div class="topic-card">
+                <div class="topic-title">WOA database application form.docx</div>
+                <p>Formulario de aplicación de INTERPOL (Works of Art database). Metadatos de documento Office.</p>
+            </div>
+            <div class="topic-card">
+                <div class="topic-title">XiaomiMiA2Lite.jpg</div>
+                <p>Fotografía capturada con un Xiaomi Mi A2 Lite. Metadatos EXIF y GPS.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">3. Parte I — Documento de INTERPOL</h2>
+        <p>Utilicé ExifTool y respondí conforme al análisis de metadatos del archivo de origen.</p>
+
+        <figure>
+            <img src="img/fig01.png" alt="Comando ExifTool ejecutado sobre WOA database application form.docx">
+            <figcaption>Figura 1. Comando ExifTool ejecutado sobre el archivo WOA database application form.docx.</figcaption>
+        </figure>
+
+        <div class="qa-block">
+            <div class="qa-question"><span class="qa-num">1.</span>¿Cómo categorizó el archivo INTERPOL?</div>
+            <div class="qa-answer">El campo <strong>InterpolClassification</strong> está establecido como <strong>“Unclassified”</strong>.</div>
+            <figure>
+                <img src="img/fig02.png" alt="Campo InterpolClassification: Unclassified">
+                <figcaption>Figura 2. Campo InterpolClassification: Unclassified — categoría asignada al archivo.</figcaption>
+            </figure>
+        </div>
+
+        <div class="qa-block">
+            <div class="qa-question"><span class="qa-num">2.</span>¿Qué template fue utilizado para la elaboración del archivo por parte de INTERPOL?</div>
+            <div class="qa-answer">Se utilizó la plantilla <strong>“G03 Basic Doc SP.dotx”</strong> (campo Template).</div>
+            <figure>
+                <img src="img/fig03.png" alt="Campo Template: G03 Basic Doc SP.dotx">
+                <figcaption>Figura 3. Campo Template: G03 Basic Doc SP.dotx — plantilla utilizada en su elaboración.</figcaption>
+            </figure>
+        </div>
+
+        <div class="qa-block">
+            <div class="qa-question"><span class="qa-num">3.</span>¿Cuál fue el tiempo total de edición del fichero?</div>
+            <div class="qa-answer">Los metadatos de fecha/hora del archivo (campo Total Editing Time / File Modification Date) ubican el tiempo total de edición reportado por ExifTool en <strong>45 minutos</strong>.</div>
+            <figure>
+                <img src="img/fig04.png" alt="Metadatos de fecha/hora del archivo">
+                <figcaption>Figura 4. Metadatos de fecha/hora del archivo utilizados para calcular el tiempo total de edición.</figcaption>
+            </figure>
+        </div>
+
+        <div class="qa-block">
+            <div class="qa-question"><span class="qa-num">4.</span>Identifique la Compañía propietaria del fichero.</div>
+            <div class="qa-answer"><strong>OIPC - INTERPOL</strong> (campo Company; OIPC: Organisation Internationale de Police Criminelle, nombre oficial en francés de INTERPOL).</div>
+            <figure>
+                <img src="img/fig05.png" alt="Campo Company: OIPC - INTERPOL">
+                <figcaption>Figura 5. Campo Company: OIPC - INTERPOL — compañía propietaria del fichero.</figcaption>
+            </figure>
+        </div>
+
+        <div class="qa-block">
+            <div class="qa-question"><span class="qa-num">5.</span>¿Quién realizó la última modificación del fichero?</div>
+            <div class="qa-answer"><strong>Carolyn Lejeune</strong> (campo Last Modified By / Revisado por).</div>
+            <figure>
+                <img src="img/fig06.png" alt="Campo Last Modified By: Carolyn Lejeune">
+                <figcaption>Figura 6. Campo Last Modified By: Carolyn Lejeune — autora de la última modificación.</figcaption>
+            </figure>
+        </div>
+
+        <div class="qa-block">
+            <div class="qa-question"><span class="qa-num">6.</span>¿Cuál fue la fecha de creación del fichero en investigación?</div>
+            <div class="qa-answer"><strong>3 de mayo de 2019, 15:35 UTC</strong> (2019:05:03 15:35:00Z, campo Create Date).</div>
+            <figure>
+                <img src="img/fig07.png" alt="Campo Create Date: 2019:05:03 15:35:00Z">
+                <figcaption>Figura 7. Campo Create Date: 2019:05:03 15:35:00Z — fecha de creación del archivo.</figcaption>
+            </figure>
+        </div>
+
+        <div class="qa-block">
+            <div class="qa-question"><span class="qa-num">7.</span>De acuerdo al análisis de metadatos del fichero de INTERPOL, identifique el creador del mismo.</div>
+            <div class="qa-answer"><strong>Carolyn Lejeune</strong> (campo Creator / Author).</div>
+            <figure>
+                <img src="img/fig08.png" alt="Campo Creator: Carolyn Lejeune">
+                <figcaption>Figura 8. Campo Creator: Carolyn Lejeune — creadora/autora del documento.</figcaption>
+            </figure>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">4. Parte II — Fotografía XiaomiMiA2Lite.jpg</h2>
+
+        <figure>
+            <img src="img/fig09.png" alt="Comando ExifTool ejecutado sobre XiaomiMiA2Lite.jpg">
+            <figcaption>Figura 9. Comando ExifTool ejecutado sobre la fotografía XiaomiMiA2Lite.jpg.</figcaption>
+        </figure>
+
+        <div class="qa-block">
+            <div class="qa-question"><span class="qa-num">1.</span>¿Cuál fue la apertura ISO utilizada?</div>
+            <div class="qa-answer"><strong>ISO 100</strong> (ISO Speed Ratings).</div>
+            <figure>
+                <img src="img/fig10.png" alt="Campo ISO: 100">
+                <figcaption>Figura 10. Campo ISO: 100 — sensibilidad ISO utilizada en la captura.</figcaption>
+            </figure>
+        </div>
+
+        <div class="qa-block">
+            <div class="qa-question"><span class="qa-num">2.</span>¿Cuál es la longitud focal de la cámara con la que fue capturada la imagen?</div>
+            <div class="qa-answer"><strong>3.8 mm</strong> (longitud focal real; equivalente a 26 mm en formato de película de 35 mm).</div>
+            <figure>
+                <img src="img/fig11.png" alt="Campo Focal Length: 3.8 mm">
+                <figcaption>Figura 11. Campo Focal Length: 3.8 mm — longitud focal de la cámara.</figcaption>
+            </figure>
+        </div>
+
+        <div class="qa-block">
+            <div class="qa-question"><span class="qa-num">3.</span>¿Señale si se utilizó la captura con Flash para obtener la imagen?</div>
+            <div class="qa-answer"><strong>No.</strong> El campo Flash muestra “Off, Did not fire”: el flash no se disparó.</div>
+            <figure>
+                <img src="img/fig12.png" alt="Campo Flash: Off, Did not fire">
+                <figcaption>Figura 12. Campo Flash: Off, Did not fire — el flash no se disparó.</figcaption>
+            </figure>
+        </div>
+
+        <div class="qa-block">
+            <div class="qa-question"><span class="qa-num">4.</span>Señale la fecha de creación del archivo.</div>
+            <div class="qa-answer"><strong>28 de mayo de 2020, 18:11:41</strong> (Create Date / Date Time Original). El campo File Creation Date/Time del sistema de archivos marca 2020:12:27 08:20:12-06:00.</div>
+            <figure>
+                <img src="img/fig13.png" alt="Campo File Creation Date/Time">
+                <figcaption>Figura 13. Campo File Creation Date/Time: 2020:12:27 08:20:12-06:00.</figcaption>
+            </figure>
+            <figure>
+                <img src="img/fig14.png" alt="Campo Create Date: 2020:05:28 18:11:41">
+                <figcaption>Figura 14. Campo Create Date: 2020:05:28 18:11:41 — fecha y hora originales de la captura.</figcaption>
+            </figure>
+        </div>
+
+        <div class="qa-block">
+            <div class="qa-question"><span class="qa-num">5.</span>Identifique los datos de ubicación GPS y señale el lugar exacto dónde la fotografía fue tomada.</div>
+            <div class="qa-answer">Coordenadas: <strong>51°15'12.99" N, 0°32'21.93" W</strong>, equivalentes a <strong>51.2536096666667, -0.539425611111111</strong> en formato decimal. El punto se ubica en el condado de Surrey, Inglaterra (Reino Unido), en las inmediaciones de Guildford.<br>
+            Ubicación en el mapa: <a href="https://www.google.com/maps?q=51.2536096666667,-0.539425611111111" target="_blank">https://www.google.com/maps?q=51.2536096666667,-0.539425611111111</a></div>
+            <figure>
+                <img src="img/fig15.png" alt="Campo GPS Position en formato DMS">
+                <figcaption>Figura 15. Campo GPS Position en formato DMS: 51°15'12.99" N, 0°32'21.93" W.</figcaption>
+            </figure>
+            <figure>
+                <img src="img/fig16.png" alt="Coordenadas GPS en formato decimal">
+                <figcaption>Figura 16. Coordenadas GPS en formato decimal (comando con la opción -n): 51.2536096666667, -0.539425611111111.</figcaption>
+            </figure>
+        </div>
+
+        <div class="qa-block">
+            <div class="qa-question"><span class="qa-num">6.</span>Elimine todos los metadatos de la muestra que se analiza.</div>
+            <div class="qa-answer">Se generó una copia de la imagen (<code>XiaomiMiA2Lite_Limpio.jpg</code>) con el comando <code>exiftool -all= XiaomiMiA2Lite.jpg -o XiaomiMiA2Lite_Limpio.jpg</code>. Al reanalizar el archivo resultante, ExifTool no devuelve ningún campo EXIF (sin cámara, sin fecha de captura y sin coordenadas GPS), confirmando que la limpieza fue completa.</div>
+            <figure>
+                <img src="img/fig17.png" alt="Eliminación de metadatos y verificación">
+                <figcaption>Figura 17. Eliminación de metadatos con -all= y verificación: el archivo resultante no contiene campos EXIF.</figcaption>
+            </figure>
+        </div>
+
+        <div class="note-box">
+            <strong>Conclusión:</strong> ambas muestras demuestran cómo los metadatos —ofimáticos o EXIF— pueden
+            usarse como evidencia digital para reconstruir autoría, cronología y, en el caso de una fotografía,
+            la ubicación geográfica exacta donde fue capturada.
+        </div>
+    </div>
+
+    <div class="action-buttons">
+        <a href="../../Parcial3.html" target="_blank" class="btn btn-secondary">
+            Volver Atras
+        </a>
+        <a href="Act15-182447.pdf" target="_blank" class="btn btn-primary">
+            Abrir PDF
+        </a>
+    </div>
+</div>
+
+</body>
+</html>
