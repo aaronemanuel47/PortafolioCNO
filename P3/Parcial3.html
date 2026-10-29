@@ -219,6 +219,100 @@ main{
   font-size:.85rem;
 }
 
+.activity-card{
+  padding:30px;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:14px;
+  transition:.2s;
+}
+
+.activity-card:hover{
+  border-color:#33404d;
+}
+
+.activity-header{
+  display:flex;
+  align-items:center;
+  gap:18px;
+  margin-bottom:25px;
+}
+
+.pdf-icon{
+  width:58px;
+  height:58px;
+  flex-shrink:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#161d27;
+  border:1px solid var(--line);
+  border-radius:10px;
+  color:var(--green);
+  font:700 .85rem monospace;
+}
+
+.activity-header h2{
+  font-size:1.2rem;
+}
+
+.activity-info{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+  margin-bottom:25px;
+}
+
+.info-item{
+  padding:14px;
+  background:#0d1219;
+  border:1px solid var(--line);
+  border-radius:8px;
+}
+
+.info-item small{
+  display:block;
+  color:var(--green);
+  font:600 .62rem monospace;
+  text-transform:uppercase;
+  margin-bottom:3px;
+}
+
+.info-item span{
+  color:var(--text);
+  font-size:.8rem;
+}
+
+.buttons{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-top:20px;
+}
+
+.button{
+  display:inline-block;
+  padding:11px 18px;
+  border-radius:8px;
+  font-size:.8rem;
+  font-weight:700;
+}
+
+.button-primary{
+  background:var(--green);
+  color:#08110b;
+}
+
+.button-primary:hover{
+  background:#86efac;
+}
+
+.button-secondary{
+  background:#161d27;
+  border:1px solid var(--line);
+  color:var(--muted);
+}
+
 .status{
   display:inline-block;
   margin-top:18px;
@@ -401,98 +495,51 @@ footer div+div{
     <div class="activities">
 
 
-      <!-- ACTIVIDAD 1 -->
+      <!-- ACTIVIDAD 15 -->
 
-      <article class="card">
+      <article class="activity-card">
 
-        <span class="card-number">
-          Actividad 01
-        </span>
+        <div class="activity-header">
 
-        <h2>
-          Actividad en proceso
-        </h2>
+          <div class="pdf-icon">
+            PDF
+          </div>
 
-        <p>
-          Espacio destinado para agregar la descripción de la
-          primera actividad correspondiente al tercer parcial.
-        </p>
+          <h2>
+            Actividad 15
+          </h2>
 
-        <span class="status">
-          EVIDENCIA PENDIENTE
-        </span>
+        </div>
 
-      </article>
+        <div class="activity-info">
 
+          <div class="info-item">
+            <small>Parcial</small>
+            <span>Parcial 3</span>
+          </div>
 
-      <!-- ACTIVIDAD 2 -->
+          <div class="info-item">
+            <small>Actividad</small>
+            <span>Act15 - La fotografía como testigo</span>
+          </div>
 
-      <article class="card">
+          <div class="info-item">
+            <small>Asignatura</small>
+            <span>CNO IV – Seguridad Informática</span>
+          </div>
 
-        <span class="card-number">
-          Actividad 02
-        </span>
+          <div class="info-item">
+            <small>Evidencia</small>
+            <span>PDF</span>
+          </div>
 
-        <h2>
-          Actividad en proceso
-        </h2>
+        </div>
 
-        <p>
-          Espacio destinado para agregar la descripción de la
-          segunda actividad correspondiente al tercer parcial.
-        </p>
-
-        <span class="status">
-          EVIDENCIA PENDIENTE
-        </span>
-
-      </article>
-
-
-      <!-- ACTIVIDAD 3 -->
-
-      <article class="card">
-
-        <span class="card-number">
-          Actividad 03
-        </span>
-
-        <h2>
-          Actividad en proceso
-        </h2>
-
-        <p>
-          Espacio destinado para agregar la descripción de la
-          tercera actividad correspondiente al tercer parcial.
-        </p>
-
-        <span class="status">
-          EVIDENCIA PENDIENTE
-        </span>
-
-      </article>
-
-
-      <!-- ACTIVIDAD 4 -->
-
-      <article class="card">
-
-        <span class="card-number">
-          Actividad 04
-        </span>
-
-        <h2>
-          Actividad en proceso
-        </h2>
-
-        <p>
-          Espacio destinado para agregar la descripción de la
-          cuarta actividad correspondiente al tercer parcial.
-        </p>
-
-        <span class="status">
-          EVIDENCIA PENDIENTE
-        </span>
+        <div class="buttons">
+          <a href="ACT/ACT15/Act15.html" class="button button-primary">
+            Ir a la actividad
+          </a>
+        </div>
 
       </article>
 
