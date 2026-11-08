@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad 16 — La verdad en los bits</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+/* =========================================================
+   TEMA COMPARTIDO — PÁGINAS DE ACTIVIDADES / DOCUMENTOS
+   (ACT1, ACT2, ACT4, Proyecto, etc.)
+   Estilo oscuro (tema original en tonos negros/verdes)
+========================================================= */
+
+:root{
+  --bg-main:#0b0f17;
+  --bg-card:#111726;
+  --bg-subcard:#0d121d;
+  --border-color:#1d2636;
+  --accent:#22c55e;
+  --accent-hover:#16a34a;
+  --accent-soft:rgba(34,197,94,.12);
+  --text-main:#ffffff;
+  --text-muted:#94a3b8;
+  --code-bg:#070a0f;
+  --btn-secondary-bg:#1e293b;
+  --btn-secondary-hover:#334155;
+  --shadow-md:0 12px 28px rgba(0,0,0,.35);
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+}
+
+body{
+  background-color:var(--bg-main);
+  color:var(--text-main);
+  padding:40px 20px;
+  line-height:1.6;
+}
+
+a{
+  color:var(--accent);
+}
+
+.container{
+  max-width:900px;
+  margin:0 auto;
+  background-color:var(--bg-card);
+  border:1px solid var(--border-color);
+  border-radius:12px;
+  padding:32px;
+  box-shadow:var(--shadow-md);
+}
+
+.top-tag{
+  color:var(--accent);
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+
+.main-title,
+h1{
+  font-size:28px;
+  font-weight:800;
+  color:var(--text-main);
+  margin-bottom:8px;
+}
+
+.subtitle{
+  color:var(--text-muted);
+  font-size:14px;
+  margin-bottom:24px;
+}
+
+.meta-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:16px;
+  margin-bottom:24px;
+}
+
+.meta-card{
+  background-color:var(--bg-subcard);
+  border:1px solid var(--border-color);
+  border-radius:8px;
+  padding:14px 16px;
+}
+
+.meta-label,
+.meta-card span{
+  color:var(--accent);
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  margin-bottom:4px;
+  display:block;
+}
+
+.meta-value,
+.meta-card strong{
+  color:var(--text-main);
+  font-size:14px;
+  font-weight:500;
+}
+
+.section{
+  margin-bottom:28px;
+}
+
+.section-title{
+  font-size:18px;
+  font-weight:700;
+  color:var(--text-main);
+  border-bottom:1px solid var(--border-color);
+  padding-bottom:8px;
+  margin-bottom:14px;
+}
+
+.subsection-title{
+  font-size:15px;
+  font-weight:600;
+  color:var(--accent);
+  margin:16px 0 8px 0;
+}
+
+p{
+  color:var(--text-muted);
+  font-size:14px;
+  margin-bottom:12px;
+}
+
+ul,ol{
+  padding-left:20px;
+  color:var(--text-muted);
+  font-size:14px;
+}
+
+li{
+  margin-bottom:8px;
+}
+
+li strong{
+  color:var(--text-main);
+}
+
+code{
+  background-color:var(--accent-soft);
+  color:var(--accent);
+  padding:2px 6px;
+  border-radius:4px;
+  font-family:monospace;
+  font-size:13px;
+}
+
+.note-box{
+  background-color:var(--bg-subcard);
+  border:1px solid var(--border-color);
+  border-left:3px solid var(--accent);
+  border-radius:6px;
+  padding:12px 16px;
+  margin:12px 0 20px;
+  font-size:13px;
+  color:var(--text-muted);
+}
+
+.note-box strong{
+  color:var(--text-main);
+}
+
+.pdf-frame-wrap{
+  width:100%;
+  background-color:var(--bg-subcard);
+  border:1px solid var(--border-color);
+  border-radius:12px;
+  overflow:hidden;
+  margin-top:12px;
+}
+
+.pdf-frame-wrap iframe{
+  display:block;
+  width:100%;
+  height:700px;
+  border:0;
+  background:#ffffff;
+}
+
+.status-badge{
+  display:inline-block;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  padding:3px 8px;
+  border-radius:4px;
+  margin-left:8px;
+}
+
+.status-found{
+  background-color:var(--accent-soft);
+  color:var(--accent);
+}
+
+/* Tarjetas de categorías (para "qué cubre" / hallazgos) */
+.topic-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
+  gap:12px;
+  margin:12px 0 8px;
+}
+
+.topic-card{
+  background-color:var(--bg-subcard);
+  border:1px solid var(--border-color);
+  border-radius:10px;
+  padding:14px 16px;
+}
+
+.topic-card .topic-title{
+  color:var(--accent);
+  font-size:13px;
+  font-weight:700;
+  margin-bottom:6px;
+}
+
+.topic-card p{
+  font-size:12.5px;
+  margin-bottom:0;
+}
+
+/* Preguntas y respuestas */
+.qa-block{
+  margin-bottom:26px;
+}
+
+.qa-question{
+  font-size:14.5px;
+  font-weight:700;
+  color:var(--text-main);
+  margin-bottom:6px;
+}
+
+.qa-question .qa-num{
+  color:var(--accent);
+  margin-right:6px;
+}
+
+.qa-answer{
+  font-size:13.5px;
+  color:var(--text-muted);
+  margin-bottom:10px;
+}
+
+.qa-answer strong{
+  color:var(--text-main);
+}
+
+.data-list{
+  list-style:none;
+  padding-left:0;
+  margin:6px 0 10px;
+}
+
+.data-list li{
+  font-size:13.5px;
+  margin-bottom:6px;
+}
+
+.data-list li strong{
+  color:var(--accent);
+  font-weight:700;
+}
+
+figure{
+  margin:0 0 20px 0;
+  background-color:var(--code-bg);
+  border:1px solid var(--border-color);
+  border-radius:8px;
+  padding:10px;
+}
+
+figure img{
+  display:block;
+  width:100%;
+  border-radius:4px;
+}
+
+figcaption{
+  font-size:12px;
+  color:var(--text-muted);
+  font-style:italic;
+  margin-top:8px;
+  padding:0 2px;
+}
+
+.action-buttons,
+.buttons{
+  display:flex;
+  gap:16px;
+  margin-top:36px;
+  padding-top:24px;
+  border-top:1px solid var(--border-color);
+  flex-wrap:wrap;
+}
+
+.btn,
+.button{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:12px 20px;
+  border-radius:8px;
+  font-size:14px;
+  font-weight:600;
+  text-decoration:none;
+  cursor:pointer;
+  transition:all .2s ease;
+  border:none;
+}
+
+.btn-primary,
+.button-primary{
+  background-color:var(--accent);
+  color:#000000;
+}
+
+.btn-primary:hover,
+.button-primary:hover{
+  background-color:var(--accent-hover);
+}
+
+.btn-secondary{
+  background-color:var(--btn-secondary-bg);
+  color:var(--text-main);
+  border:1px solid var(--border-color);
+}
+
+.btn-secondary:hover{
+  background-color:var(--btn-secondary-hover);
+}
+
+@media (max-width:600px){
+  .meta-grid{
+    grid-template-columns:1fr;
+  }
+
+  .container{
+    padding:20px;
+  }
+
+  .action-buttons,
+  .buttons{
+    flex-direction:column-reverse;
+  }
+
+  .btn,
+  .button{
+    width:100%;
+  }
+}
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="top-tag">UNIVERSIDAD POLITÉCNICA DE SAN LUIS POTOSÍ</div>
+    <h1 class="main-title">Actividad 16 — La verdad en los bits</h1>
+    <p class="subtitle">Adquisición forense con FTK Imager</p>
+
+    <div class="meta-grid">
+        <div class="meta-card">
+            <div class="meta-label">ACTIVIDAD</div>
+            <div class="meta-value">Actividad 16</div>
+        </div>
+        <div class="meta-card">
+            <div class="meta-label">ALUMNO</div>
+            <div class="meta-value">Aaron Emanuel González Díaz</div>
+        </div>
+        <div class="meta-card">
+            <div class="meta-label">ASIGNATURA</div>
+            <div class="meta-value">CNO IV - Programación WAP</div>
+        </div>
+        <div class="meta-card">
+            <div class="meta-label">DOCENTE</div>
+            <div class="meta-value">Mtro. Servando López Contreras</div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">1. Objetivo</h2>
+        <p>
+            Desarrollar habilidades prácticas en la utilización de herramientas de código abierto para la
+            extracción de evidencia digital, comprendiendo la importancia de los metadatos y realizando la
+            adquisición forense de una memoria USB mediante una imagen bit a bit, utilizando
+            <strong>AccessData FTK Imager</strong>.
+        </p>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">2. Datos del Caso</h2>
+        <ul class="data-list">
+            <li><strong>Case Number:</strong> InfoCrim-01_21.11.2023</li>
+            <li><strong>Evidence Number:</strong> 00 (Original Adq)</li>
+            <li><strong>Unique Description:</strong> CNO IV - análisis de incidente de fraude bancario</li>
+            <li><strong>Examiner:</strong> González Díaz Aaron Emanuel</li>
+            <li><strong>Notes:</strong> Adquisición realizada en LIF de la UPSLP</li>
+            <li><strong>Formato de imagen:</strong> Raw (dd)</li>
+            <li><strong>Destino:</strong> C:\Users\aaron\Desktop\InfoCrim13\infocrim_GonzalezDiazAaron</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">3. Proceso de Adquisición</h2>
+
+        <div class="qa-block">
+            <div class="qa-question"><span class="qa-num">1.</span>Select Source — tipo de evidencia</div>
+            <div class="qa-answer">Se seleccionó <strong>Physical Drive</strong> como origen de la evidencia.</div>
+            <figure>
+                <img src="img/fig01.png" alt="Pantalla Select Source: Physical Drive">
+            </figure>
+        </div>
+
+        <div class="qa-block">
+            <div class="qa-question"><span class="qa-num">2.</span>Select Drive — dispositivo físico</div>
+            <div class="qa-answer">Se identificó y seleccionó la memoria USB: <code>\\.\PHYSICALDRIVE1</code> — VendorCo ProductCode USB Device.</div>
+            <figure>
+                <img src="img/fig02.png" alt="Pantalla Select Drive">
+            </figure>
+        </div>
+
+        <div class="qa-block">
+            <div class="qa-question"><span class="qa-num">3.</span>Select Image Type — formato de imagen</div>
+            <div class="qa-answer">Se seleccionó el formato <strong>Raw (dd)</strong> como tipo de imagen de destino.</div>
+            <figure>
+                <img src="img/fig03.png" alt="Pantalla Select Image Type: Raw (dd)">
+            </figure>
+        </div>
+
+        <div class="qa-block">
+            <div class="qa-question"><span class="qa-num">4.</span>Evidence Item Information</div>
+            <div class="qa-answer">Se capturó la información del caso mostrada en la sección 2.</div>
+            <figure>
+                <img src="img/fig04.png" alt="Pantalla Evidence Item Information">
+            </figure>
+        </div>
+
+        <div class="qa-block">
+            <div class="qa-question"><span class="qa-num">5.</span>Select Image Destination</div>
+            <div class="qa-answer">Carpeta destino <code>InfoCrim13</code> en el Escritorio; nombre de archivo (sin extensión): <code>infocrim_GonzalezDiazAaron</code>.</div>
+            <figure>
+                <img src="img/fig05.png" alt="Pantalla Select Image Destination">
+            </figure>
+        </div>
+
+        <div class="qa-block">
+            <div class="qa-question"><span class="qa-num">6.</span>Marcas de tiempo del proceso de adquisición</div>
+            <div class="qa-answer">
+                <strong>Hora de inicio:</strong> jueves 05 de noviembre de 2026, 15:26:44 hrs.<br>
+                <strong>Hora de término:</strong> jueves 05 de noviembre de 2026, 15:42:35 hrs.<br>
+                <strong>Tiempo transcurrido:</strong> 00:15:51 (15 minutos con 51 segundos), reportado por FTK Imager en el campo "Elapsed time".
+            </div>
+            <figure>
+                <img src="img/fig06.png" alt="Proceso de adquisición finalizado">
+            </figure>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">4. Preguntas Teóricas</h2>
+
+        <div class="qa-block">
+            <div class="qa-question"><span class="qa-num">1.</span>¿Qué tipo de formato se refiere el Raw (dd)?</div>
+            <div class="qa-answer">Es un formato de imagen forense "en crudo": una copia bit a bit exacta del dispositivo de origen, sin compresión ni metadatos adicionales embebidos en el propio archivo. Es universalmente compatible (puede leerse o montarse con prácticamente cualquier herramienta forense, incluyendo <code>dd</code> en Linux), aunque no incluye verificación de integridad ni información del caso dentro del archivo mismo; por ello FTK Imager genera un archivo <code>.txt</code> por separado con esa información.</div>
+        </div>
+
+        <div class="qa-block">
+            <div class="qa-question"><span class="qa-num">2.</span>¿Qué tipo de formato se refiere el E01?</div>
+            <div class="qa-answer">El formato E01 (Expert Witness Format) es propietario, originado por EnCase, que comprime la imagen y almacena dentro del propio archivo metadatos del caso, del examinador, fecha/hora de adquisición y checksums (CRC32 por bloque y hash MD5/SHA del archivo completo) para verificar su integridad. Es el estándar más utilizado en el ámbito forense y legal, ya que facilita la cadena de custodia.</div>
+        </div>
+
+        <div class="qa-block">
+            <div class="qa-question"><span class="qa-num">3.</span>¿Cuál es la diferencia entre un formato SMART y un formato E01?</div>
+            <div class="qa-answer">Ambos son formatos tipo "contenedor" conceptualmente similares —dividen la imagen en bloques e incorporan metadatos y checksums de verificación—, pero no son compatibles entre sí sin conversión previa. SMART es nativo de la suite forense para Linux ASR Data SMART, mientras que E01 pertenece a EnCase/Expert Witness y es reconocido de forma nativa por la mayoría de suites forenses comerciales modernas (EnCase, FTK, entre otras).</div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">5. Resultados Finales</h2>
+
+        <div class="qa-block">
+            <div class="qa-answer">
+                <strong>Sectores copiados:</strong> 31,948,800<br>
+                <strong>Hash MD5:</strong> e5dd9c027f28c756a71029d3e2d2b522<br>
+                <strong>Hash SHA-1:</strong> e92a2f7d087f2eb0d8c9956947889a2d353fd64e<br>
+                <strong>Verificación:</strong> Match en ambos hashes, sin bloques dañados ("No bad blocks found in image").
+            </div>
+            <figure>
+                <img src="img/fig07.png" alt="Drive/Image Verify Results">
+            </figure>
+        </div>
+
+        <div class="qa-block">
+            <div class="qa-question"><span class="qa-num">¿Cuántos archivos fueron generados?</span></div>
+            <div class="qa-answer">Se generaron <strong>12 archivos</strong> en total: 11 fragmentos de la imagen forense (<code>infocrim_GonzalezDiazAaron.001</code> a <code>.011</code>, de 1,500 MB cada uno salvo el último), más 1 archivo de texto (<code>infocrim_GonzalezDiazAaron.001.txt</code>) con el reporte detallado de la adquisición.</div>
+            <figure>
+                <img src="img/fig08.png" alt="Carpeta InfoCrim13 con los archivos generados">
+            </figure>
+        </div>
+
+        <div class="qa-block">
+            <div class="qa-question">Archivo de reporte (.txt) generado por FTK Imager</div>
+            <div class="qa-answer">En el mismo directorio se generó el archivo <code>infocrim_GonzalezDiazAaron.001.txt</code>, con toda la información detallada del proceso: caso, examinador, dispositivo de origen, hashes y marcas de tiempo de inicio/fin de la adquisición y de la verificación.</div>
+            <figure>
+                <img src="img/fig09.png" alt="Contenido del archivo .txt generado por FTK Imager">
+            </figure>
+        </div>
+
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">6. Documento de Respuestas</h2>
+        <div class="pdf-frame-wrap">
+            <iframe src="Act16-182447.pdf" title="Actividad 16 — respuestas" loading="lazy"></iframe>
+        </div>
+    </div>
+
+    <div class="action-buttons">
+        <a href="../../Parcial3.html" target="_blank" class="btn btn-secondary">
+            Volver Atras
+        </a>
+        <a href="Act16-182447.pdf" target="_blank" class="btn btn-primary">
+            Abrir PDF
+        </a>
+    </div>
+</div>
+
+</body>
+</html>
