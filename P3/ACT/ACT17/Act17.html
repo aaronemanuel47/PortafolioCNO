@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad 17 — La memoria del crimen</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+
+
+:root{
+  --bg-main:#0b0f17;
+  --bg-card:#111726;
+  --bg-subcard:#0d121d;
+  --border-color:#1d2636;
+  --accent:#22c55e;
+  --accent-hover:#16a34a;
+  --accent-soft:rgba(34,197,94,.12);
+  --text-main:#ffffff;
+  --text-muted:#94a3b8;
+  --code-bg:#070a0f;
+  --btn-secondary-bg:#1e293b;
+  --btn-secondary-hover:#334155;
+  --shadow-md:0 12px 28px rgba(0,0,0,.35);
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+}
+
+body{
+  background-color:var(--bg-main);
+  color:var(--text-main);
+  padding:40px 20px;
+  line-height:1.6;
+}
+
+a{
+  color:var(--accent);
+}
+
+.container{
+  max-width:900px;
+  margin:0 auto;
+  background-color:var(--bg-card);
+  border:1px solid var(--border-color);
+  border-radius:12px;
+  padding:32px;
+  box-shadow:var(--shadow-md);
+}
+
+.top-tag{
+  color:var(--accent);
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+
+.main-title,
+h1{
+  font-size:28px;
+  font-weight:800;
+  color:var(--text-main);
+  margin-bottom:8px;
+}
+
+.subtitle{
+  color:var(--text-muted);
+  font-size:14px;
+  margin-bottom:24px;
+}
+
+.meta-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:16px;
+  margin-bottom:24px;
+}
+
+.meta-card{
+  background-color:var(--bg-subcard);
+  border:1px solid var(--border-color);
+  border-radius:8px;
+  padding:14px 16px;
+}
+
+.meta-label,
+.meta-card span{
+  color:var(--accent);
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  margin-bottom:4px;
+  display:block;
+}
+
+.meta-value,
+.meta-card strong{
+  color:var(--text-main);
+  font-size:14px;
+  font-weight:500;
+}
+
+.section{
+  margin-bottom:28px;
+}
+
+.section-title{
+  font-size:18px;
+  font-weight:700;
+  color:var(--text-main);
+  border-bottom:1px solid var(--border-color);
+  padding-bottom:8px;
+  margin-bottom:14px;
+}
+
+.subsection-title{
+  font-size:15px;
+  font-weight:600;
+  color:var(--accent);
+  margin:16px 0 8px 0;
+}
+
+p{
+  color:var(--text-muted);
+  font-size:14px;
+  margin-bottom:12px;
+}
+
+ul,ol{
+  padding-left:20px;
+  color:var(--text-muted);
+  font-size:14px;
+}
+
+li{
+  margin-bottom:8px;
+}
+
+li strong{
+  color:var(--text-main);
+}
+
+code{
+  background-color:var(--accent-soft);
+  color:var(--accent);
+  padding:2px 6px;
+  border-radius:4px;
+  font-family:monospace;
+  font-size:13px;
+}
+
+.note-box{
+  background-color:var(--bg-subcard);
+  border:1px solid var(--border-color);
+  border-left:3px solid var(--accent);
+  border-radius:6px;
+  padding:12px 16px;
+  margin:12px 0 20px;
+  font-size:13px;
+  color:var(--text-muted);
+}
+
+.note-box strong{
+  color:var(--text-main);
+}
+
+.pdf-frame-wrap{
+  width:100%;
+  background-color:var(--bg-subcard);
+  border:1px solid var(--border-color);
+  border-radius:12px;
+  overflow:hidden;
+  margin-top:12px;
+}
+
+.pdf-frame-wrap iframe{
+  display:block;
+  width:100%;
+  height:700px;
+  border:0;
+  background:#ffffff;
+}
+
+.status-badge{
+  display:inline-block;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  padding:3px 8px;
+  border-radius:4px;
+  margin-left:8px;
+}
+
+.status-found{
+  background-color:var(--accent-soft);
+  color:var(--accent);
+}
+
+/* Tarjetas de categorías (para "qué cubre" / hallazgos) */
+.topic-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
+  gap:12px;
+  margin:12px 0 8px;
+}
+
+.topic-card{
+  background-color:var(--bg-subcard);
+  border:1px solid var(--border-color);
+  border-radius:10px;
+  padding:14px 16px;
+}
+
+.topic-card .topic-title{
+  color:var(--accent);
+  font-size:13px;
+  font-weight:700;
+  margin-bottom:6px;
+}
+
+.topic-card p{
+  font-size:12.5px;
+  margin-bottom:0;
+}
+
+/* Preguntas y respuestas */
+.qa-block{
+  margin-bottom:26px;
+}
+
+.qa-question{
+  font-size:14.5px;
+  font-weight:700;
+  color:var(--text-main);
+  margin-bottom:6px;
+}
+
+.qa-question .qa-num{
+  color:var(--accent);
+  margin-right:6px;
+}
+
+.qa-answer{
+  font-size:13.5px;
+  color:var(--text-muted);
+  margin-bottom:10px;
+}
+
+.qa-answer strong{
+  color:var(--text-main);
+}
+
+.data-list{
+  list-style:none;
+  padding-left:0;
+  margin:6px 0 10px;
+}
+
+.data-list li{
+  font-size:13.5px;
+  margin-bottom:6px;
+}
+
+.data-list li strong{
+  color:var(--accent);
+  font-weight:700;
+}
+
+figure{
+  margin:0 0 20px 0;
+  background-color:var(--code-bg);
+  border:1px solid var(--border-color);
+  border-radius:8px;
+  padding:10px;
+}
+
+figure img{
+  display:block;
+  width:100%;
+  border-radius:4px;
+}
+
+figcaption{
+  font-size:12px;
+  color:var(--text-muted);
+  font-style:italic;
+  margin-top:8px;
+  padding:0 2px;
+}
+
+.action-buttons,
+.buttons{
+  display:flex;
+  gap:16px;
+  margin-top:36px;
+  padding-top:24px;
+  border-top:1px solid var(--border-color);
+  flex-wrap:wrap;
+}
+
+.btn,
+.button{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:12px 20px;
+  border-radius:8px;
+  font-size:14px;
+  font-weight:600;
+  text-decoration:none;
+  cursor:pointer;
+  transition:all .2s ease;
+  border:none;
+}
+
+.btn-primary,
+.button-primary{
+  background-color:var(--accent);
+  color:#000000;
+}
+
+.btn-primary:hover,
+.button-primary:hover{
+  background-color:var(--accent-hover);
+}
+
+.btn-secondary{
+  background-color:var(--btn-secondary-bg);
+  color:var(--text-main);
+  border:1px solid var(--border-color);
+}
+
+.btn-secondary:hover{
+  background-color:var(--btn-secondary-hover);
+}
+
+@media (max-width:600px){
+  .meta-grid{
+    grid-template-columns:1fr;
+  }
+
+  .container{
+    padding:20px;
+  }
+
+  .action-buttons,
+  .buttons{
+    flex-direction:column-reverse;
+  }
+
+  .btn,
+  .button{
+    width:100%;
+  }
+}
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="top-tag">UNIVERSIDAD POLITÉCNICA DE SAN LUIS POTOSÍ</div>
+    <h1 class="main-title">Actividad 17 — La memoria del crimen</h1>
+    <p class="subtitle">Extracción de evidencia de un volcado RAM con Volatility/p>
+
+    <div class="meta-grid">
+        <div class="meta-card">
+            <div class="meta-label">ACTIVIDAD</div>
+            <div class="meta-value">Actividad 17</div>
+        </div>
+        <div class="meta-card">
+            <div class="meta-label">ALUMNO</div>
+            <div class="meta-value">Aaron Emanuel González Díaz (182447)</div>
+        </div>
+        <div class="meta-card">
+            <div class="meta-label">ASIGNATURA</div>
+            <div class="meta-value">CNO IV - PROGRAMACION WAP</div>
+        </div>
+        <div class="meta-card">
+            <div class="meta-label">DOCENTE</div>
+            <div class="meta-value">Mtro. Servando López Contreras</div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">1. Objetivo</h2>
+        <p>
+            Analizar un volcado de memoria RAM (<code>OtterCTF.vmem</code>) perteneciente al equipo de un presunto
+            cibercriminal, utilizando <strong>Volatility 2.6</strong>, para reconstruir la línea de tiempo del
+            incidente e identificar credenciales, procesos maliciosos o camuflados, comunicaciones de red hacia un
+            servidor de comando y control, correos electrónicos usados en ingeniería social y evidencia de una
+            cartera de criptomonedas asociada al caso.
+        </p>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">2. Hechos del Caso</h2>
+        <p>
+            Elementos de la FGM especializada obtuvieron un volcado de memoria RAM de un presunto cibercriminal
+            autodenominado <strong>“Morty”</strong>, vinculado a un grupo secreto en Telegram originado desde un
+            enlace de Reddit, donde un usuario de nombre <strong>“Ricky”</strong> solicitaba pagos en BTC a cambio
+            de pertenecer a un grupo de cibercriminales (posible red botnet). Inteligencia proporcionó las iniciales
+            <strong>FAF3</strong> (objetivo potencial) y <strong>TFE</strong> (posible autor de los servidores
+            “Lunar”), y se requiere vincular el equipo, dirección IP, sistema operativo, contraseña y correos
+            electrónicos empleados, además de identificar la cartera cripto a la que se envían los recursos del
+            rescate.
+        </p>
+        <div class="topic-grid">
+            <div class="topic-card">
+                <div class="topic-title">Imagen analizada</div>
+                <p>OtterCTF.vmem — volcado completo de memoria RAM (~665 MB).</p>
+            </div>
+            <div class="topic-card">
+                <div class="topic-title">Herramienta</div>
+                <p>Volatility Foundation Volatility Framework 2.6 (ejecutable standalone en Windows).</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">3. Análisis Forense de Memoria Volátil</h2>
+
+        <div class="qa-block">
+            <div class="qa-question"><span class="qa-num">1.</span>Marca de tiempo local del volcado de memoria</div>
+            <div class="qa-answer"><code>vol.exe -f OtterCTF.vmem imageinfo</code><br>
+                <strong>Fecha/hora local:</strong> 04 de agosto de 2018, 22:34:22 (UTC+3). Este dato fija el
+                instante exacto de la captura de memoria, permitiendo correlacionar todos los demás hallazgos, y el
+                offset UTC+3 aporta una pista sobre la ubicación geográfica/horaria del equipo o del atacante.</div>
+            <figure>
+                <img src="img/image1.png" alt="Salida de imageinfo">
+                <figcaption>Figura 1. Salida del comando imageinfo.</figcaption>
+            </figure>
+        </div>
+
+        <div class="qa-block">
+            <div class="qa-question"><span class="qa-num">2.</span>Sistema operativo y arquitectura</div>
+            <div class="qa-answer">A partir de la cabecera de imageinfo (Figura 1):<br>
+                <strong>Sistema operativo:</strong> Windows 7 Service Pack 1 (perfil Win7SP1x64).<br>
+                <strong>Arquitectura:</strong> 64 bits.<br>
+                <strong>Número de procesadores:</strong> 2 CPUs.</div>
+        </div>
+
+        <div class="qa-block">
+            <div class="qa-question"><span class="qa-num">3.</span>Usuario y contraseña</div>
+            <div class="qa-answer">Los comandos <code>cmdscan</code> y <code>consoles</code> no arrojaron
+                resultados. Se extrajeron los secretos LSA con <code>lsadump</code>, exponiendo el valor
+                <code>DefaultPassword</code> (autologon), codificado en hexadecimal UTF-16LE:<br>
+                <strong>Usuario:</strong> Rick &nbsp;·&nbsp; <strong>Contraseña:</strong> MortyIsReallyAnOtter</div>
+            <figure>
+                <img src="img/image5.png" alt="Salida de lsadump">
+                <figcaption>Figura 2. Salida de lsadump mostrando el secreto DefaultPassword.</figcaption>
+            </figure>
+        </div>
+
+        <div class="qa-block">
+            <div class="qa-question"><span class="qa-num">4.</span>Dirección IP local del equipo</div>
+            <div class="qa-answer"><code>vol.exe ... netscan</code> — conexión local relevante hacia el proceso
+                sospechoso LunarMS.exe:<br>
+                <strong>Dirección IP local:</strong> 192.168.202.131</div>
+            <figure>
+                <img src="img/image3.png" alt="Salida de netscan">
+                <figcaption>Figura 3. Fragmento de netscan, destacando la conexión de LunarMS.exe.</figcaption>
+            </figure>
+        </div>
+
+        <div class="qa-block">
+            <div class="qa-question"><span class="qa-num">5.</span>Colmenas del Registro del Sistema</div>
+            <div class="qa-answer"><code>vol.exe ... hivelist</code>. Conocer las colmenas permite usar
+                <code>printkey</code> sin montar la imagen de disco; SAM contiene los hashes de usuarios locales,
+                SECURITY los secretos LSA (punto 3), y NTUSER.DAT del usuario Rick permite rastrear su actividad.</div>
+            <figure>
+                <img src="img/image6.png" alt="Salida de hivelist">
+                <figcaption>Figura 4. Salida del comando hivelist.</figcaption>
+            </figure>
+        </div>
+
+        <div class="qa-block">
+            <div class="qa-question"><span class="qa-num">6.</span>Nombre del equipo</div>
+            <div class="qa-answer"><code>printkey -K "ControlSet001\Control\ComputerName\ComputerName"</code><br>
+                <strong>Nombre del equipo:</strong> WIN-LO6FAF3DTFE — contiene las subcadenas “FAF3” y “TFE”,
+                coincidiendo con las iniciales de los hechos del caso.</div>
+            <figure>
+                <img src="img/image9.png" alt="Salida de printkey sobre ComputerName">
+                <figcaption>Figura 5. Salida de printkey sobre la clave ComputerName.</figcaption>
+            </figure>
+        </div>
+
+        <div class="qa-block">
+            <div class="qa-question"><span class="qa-num">7.</span>Tres procesos relevantes</div>
+            <div class="qa-answer"><code>vol.exe ... pstree</code></div>
+            <figure>
+                <img src="img/image7.png" alt="Árbol de procesos pstree">
+                <figcaption>Figura 6. Fragmento del árbol de procesos (pstree).</figcaption>
+            </figure>
+            <ul class="data-list">
+                <li><strong>Rick And Morty (PID 3820):</strong> nombre fuera de lo común para un binario de
+                    Windows; referencia directa a la temática del caso.</li>
+                <li><strong>vmware-tray.ex (PID 3720):</strong> se hace pasar por el proceso legítimo de VMware
+                    pero el nombre está truncado y cuelga de un padre no habitual (masquerading); sobre este
+                    proceso se realizó un memdump.</li>
+                <li><strong>LunarMS.exe (PID 708):</strong> identificado en netscan con una conexión saliente
+                    hacia un host externo; principal candidato a malware/C2.</li>
+            </ul>
+        </div>
+
+        <div class="qa-block">
+            <div class="qa-question"><span class="qa-num">8.</span>Servidor malicioso remoto</div>
+            <div class="qa-answer"><code>netscan</code> (Figura 3).<br>
+                <strong>IP remota:</strong> 77.102.199.102 &nbsp;·&nbsp; <strong>Puerto:</strong> 7575<br>
+                <strong>Ubicación posible del atacante:</strong> Londres, Reino Unido.</div>
+            <figure>
+                <img src="img/image12.png" alt="Geolocalización de la IP remota">
+                <figcaption>Figura 10. Geolocalización de la IP 77.102.199.102 (geolocation.com).</figcaption>
+            </figure>
+        </div>
+
+        <div class="qa-block">
+            <div class="qa-question"><span class="qa-num">9.</span>Correos electrónicos e ingeniería social</div>
+            <div class="qa-answer"><code>yarascan -Y "@mail.com" --wide</code></div>
+            <figure>
+                <img src="img/image8.png" alt="Salida de yarascan sobre correos">
+                <figcaption>Figura 7. Resultado de yarascan buscando el patrón “@mail.com”.</figcaption>
+            </figure>
+            <div class="qa-answer">
+                <strong>Correos empleados:</strong> rickypinky@mail.com, rickopicko@mail.com<br>
+                <strong>Plataforma/navegador:</strong> Windows, Google Chrome 68.0, vía webmail de dl.mail.com.
+            </div>
+        </div>
+
+        <div class="qa-block">
+            <div class="qa-question"><span class="qa-num">10.</span>Cartera de criptomonedas</div>
+            <div class="qa-answer">Las herramientas gráficas (<code>screenshot</code>, <code>notepad</code>) no
+                eran compatibles con el perfil de la imagen, por lo que se extrajo el proceso vmware-tray.ex
+                (PID 3720) con <code>memdump</code> y se analizó con <code>strings64.exe</code>, filtrando con
+                expresiones regulares de direcciones Bitcoin mediante PowerShell <code>Select-String</code> (por
+                problemas de <code>findstr</code> con texto Unicode/UTF-16):</div>
+            <figure>
+                <img src="img/image10.png" alt="Coincidencias de direcciones Bitcoin">
+                <figcaption>Figura 8. Coincidencias de direcciones Bitcoin tipo P2PKH/P2SH en el volcado de memoria.</figcaption>
+            </figure>
+            <figure>
+                <img src="img/image11.png" alt="Búsqueda de direcciones Bech32">
+                <figcaption>Figura 9. Búsqueda de direcciones Bech32 (patrón bc1…) — sin coincidencias válidas.</figcaption>
+            </figure>
+            <div class="qa-answer">
+                <strong>Cartera de criptomoneda:</strong> 1MmpEmebJkqXG8nQv4cjJSmxZQFVmFo63M — es la dirección
+                que aparece repetida de forma consistente entre el ruido de la memoria.
+            </div>
+            <figure>
+                <img src="img/image13.png" alt="Verificación en BTC Black">
+                <figcaption>Figura 11. Verificación de la wallet en BTC Black (btcblack.it) — resultado: no se encuentra reportada en lista negra.</figcaption>
+            </figure>
+            <div class="note-box">
+                <strong>¿Se encuentra en lista negra?</strong> No. Al verificar la dirección en btcblack.it
+                (15/11/2026) no aparece reportada en ninguna lista negra conocida; esto no invalida la
+                identificación de la wallet — solo indica que, al día de hoy, no ha sido marcada como maliciosa
+                en ese servicio en particular.
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">4. Documento de Respuestas</h2>
+        <div class="pdf-frame-wrap">
+            <iframe src="Act17_182447.pdf" title="Actividad 17 — respuestas" loading="lazy"></iframe>
+        </div>
+    </div>
+
+    <div class="action-buttons">
+        <a href="../../Parcial3.html" target="_blank" class="btn btn-secondary">
+            Volver Atras
+        </a>
+        <a href="Act17_182447.pdf" target="_blank" class="btn btn-primary">
+            Abrir PDF
+        </a>
+    </div>
+</div>
+
+</body>
+</html>
