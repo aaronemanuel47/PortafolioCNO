@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad 18 — La huella digital de un cibercriminal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+
+
+:root{
+  --bg-main:#0b0f17;
+  --bg-card:#111726;
+  --bg-subcard:#0d121d;
+  --border-color:#1d2636;
+  --accent:#22c55e;
+  --accent-hover:#16a34a;
+  --accent-soft:rgba(34,197,94,.12);
+  --text-main:#ffffff;
+  --text-muted:#94a3b8;
+  --code-bg:#070a0f;
+  --btn-secondary-bg:#1e293b;
+  --btn-secondary-hover:#334155;
+  --shadow-md:0 12px 28px rgba(0,0,0,.35);
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+}
+
+body{
+  background-color:var(--bg-main);
+  color:var(--text-main);
+  padding:40px 20px;
+  line-height:1.6;
+}
+
+a{
+  color:var(--accent);
+}
+
+.container{
+  max-width:900px;
+  margin:0 auto;
+  background-color:var(--bg-card);
+  border:1px solid var(--border-color);
+  border-radius:12px;
+  padding:32px;
+  box-shadow:var(--shadow-md);
+}
+
+.top-tag{
+  color:var(--accent);
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+
+.main-title,
+h1{
+  font-size:28px;
+  font-weight:800;
+  color:var(--text-main);
+  margin-bottom:8px;
+}
+
+.subtitle{
+  color:var(--text-muted);
+  font-size:14px;
+  margin-bottom:24px;
+}
+
+.meta-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:16px;
+  margin-bottom:24px;
+}
+
+.meta-card{
+  background-color:var(--bg-subcard);
+  border:1px solid var(--border-color);
+  border-radius:8px;
+  padding:14px 16px;
+}
+
+.meta-label,
+.meta-card span{
+  color:var(--accent);
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  margin-bottom:4px;
+  display:block;
+}
+
+.meta-value,
+.meta-card strong{
+  color:var(--text-main);
+  font-size:14px;
+  font-weight:500;
+}
+
+.section{
+  margin-bottom:28px;
+}
+
+.section-title{
+  font-size:18px;
+  font-weight:700;
+  color:var(--text-main);
+  border-bottom:1px solid var(--border-color);
+  padding-bottom:8px;
+  margin-bottom:14px;
+}
+
+.subsection-title{
+  font-size:15px;
+  font-weight:600;
+  color:var(--accent);
+  margin:16px 0 8px 0;
+}
+
+p{
+  color:var(--text-muted);
+  font-size:14px;
+  margin-bottom:12px;
+}
+
+ul,ol{
+  padding-left:20px;
+  color:var(--text-muted);
+  font-size:14px;
+}
+
+li{
+  margin-bottom:8px;
+}
+
+li strong{
+  color:var(--text-main);
+}
+
+code{
+  background-color:var(--accent-soft);
+  color:var(--accent);
+  padding:2px 6px;
+  border-radius:4px;
+  font-family:monospace;
+  font-size:13px;
+}
+
+.note-box{
+  background-color:var(--bg-subcard);
+  border:1px solid var(--border-color);
+  border-left:3px solid var(--accent);
+  border-radius:6px;
+  padding:12px 16px;
+  margin:12px 0 20px;
+  font-size:13px;
+  color:var(--text-muted);
+}
+
+.note-box strong{
+  color:var(--text-main);
+}
+
+.pdf-frame-wrap{
+  width:100%;
+  background-color:var(--bg-subcard);
+  border:1px solid var(--border-color);
+  border-radius:12px;
+  overflow:hidden;
+  margin-top:12px;
+}
+
+.pdf-frame-wrap iframe{
+  display:block;
+  width:100%;
+  height:700px;
+  border:0;
+  background:#ffffff;
+}
+
+.status-badge{
+  display:inline-block;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  padding:3px 8px;
+  border-radius:4px;
+  margin-left:8px;
+}
+
+.status-found{
+  background-color:var(--accent-soft);
+  color:var(--accent);
+}
+
+.topic-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
+  gap:12px;
+  margin:12px 0 8px;
+}
+
+.topic-card{
+  background-color:var(--bg-subcard);
+  border:1px solid var(--border-color);
+  border-radius:10px;
+  padding:14px 16px;
+}
+
+.topic-card .topic-title{
+  color:var(--accent);
+  font-size:13px;
+  font-weight:700;
+  margin-bottom:6px;
+}
+
+.topic-card p{
+  font-size:12.5px;
+  margin-bottom:0;
+}
+
+.qa-block{
+  margin-bottom:26px;
+}
+
+.qa-question{
+  font-size:14.5px;
+  font-weight:700;
+  color:var(--text-main);
+  margin-bottom:6px;
+}
+
+.qa-question .qa-num{
+  color:var(--accent);
+  margin-right:6px;
+}
+
+.qa-answer{
+  font-size:13.5px;
+  color:var(--text-muted);
+  margin-bottom:10px;
+}
+
+.qa-answer strong{
+  color:var(--text-main);
+}
+
+.data-list{
+  list-style:none;
+  padding-left:0;
+  margin:6px 0 10px;
+}
+
+.data-list li{
+  font-size:13.5px;
+  margin-bottom:6px;
+}
+
+.data-list li strong{
+  color:var(--accent);
+  font-weight:700;
+}
+
+figure{
+  margin:0 0 20px 0;
+  background-color:var(--code-bg);
+  border:1px solid var(--border-color);
+  border-radius:8px;
+  padding:10px;
+}
+
+figure img{
+  display:block;
+  width:100%;
+  border-radius:4px;
+}
+
+figcaption{
+  font-size:12px;
+  color:var(--text-muted);
+  font-style:italic;
+  margin-top:8px;
+  padding:0 2px;
+}
+
+.action-buttons,
+.buttons{
+  display:flex;
+  gap:16px;
+  margin-top:36px;
+  padding-top:24px;
+  border-top:1px solid var(--border-color);
+  flex-wrap:wrap;
+}
+
+.btn,
+.button{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:12px 20px;
+  border-radius:8px;
+  font-size:14px;
+  font-weight:600;
+  text-decoration:none;
+  cursor:pointer;
+  transition:all .2s ease;
+  border:none;
+}
+
+.btn-primary,
+.button-primary{
+  background-color:var(--accent);
+  color:#000000;
+}
+
+.btn-primary:hover,
+.button-primary:hover{
+  background-color:var(--accent-hover);
+}
+
+.btn-secondary{
+  background-color:var(--btn-secondary-bg);
+  color:var(--text-main);
+  border:1px solid var(--border-color);
+}
+
+.btn-secondary:hover{
+  background-color:var(--btn-secondary-hover);
+}
+
+@media (max-width:600px){
+  .meta-grid{
+    grid-template-columns:1fr;
+  }
+
+  .container{
+    padding:20px;
+  }
+
+  .action-buttons,
+  .buttons{
+    flex-direction:column-reverse;
+  }
+
+  .btn,
+  .button{
+    width:100%;
+  }
+}
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="top-tag">UNIVERSIDAD POLITÉCNICA DE SAN LUIS POTOSÍ</div>
+    <h1 class="main-title">Actividad 18 — La huella digital de un cibercriminal</h1>
+    <p class="subtitle">Análisis forense con Autopsy</p>
+
+    <div class="meta-grid">
+        <div class="meta-card">
+            <div class="meta-label">ACTIVIDAD</div>
+            <div class="meta-value">Actividad 18</div>
+        </div>
+        <div class="meta-card">
+            <div class="meta-label">ALUMNO</div>
+            <div class="meta-value">Aaron Emanuel González Díaz (182447)</div>
+        </div>
+        <div class="meta-card">
+            <div class="meta-label">ASIGNATURA</div>
+            <div class="meta-value">CNO IV - Programacion IV</div>
+        </div>
+        <div class="meta-card">
+            <div class="meta-label">DOCENTE</div>
+            <div class="meta-value">Mtro. Servando López Contreras</div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">1. Objetivo</h2>
+        <p>
+            Analizar con <strong>Autopsy</strong> la imagen forense del famoso caso de entrenamiento del NIST
+            (CFReDS) <em>"Hacking Case"</em>, perteneciente a una laptop Dell CPi abandonada y vinculada al
+            sospechoso Greg Schardt, alias <strong>"Mr. Evil"</strong>, sospechoso de interceptar tráfico
+            inalámbrico para robar números de tarjeta, usuarios y contraseñas.
+        </p>
+        <div class="topic-grid">
+            <div class="topic-card">
+                <div class="topic-title">Imagen analizada</div>
+                <p>SCHARDT.001–.008 (8 partes, ~4.5 GB) — caso "Hacking Case" del NIST CFReDS.</p>
+            </div>
+            <div class="topic-card">
+                <div class="topic-title">Herramienta</div>
+                <p>Autopsy 4.23.1 (Sleuth Kit / Basis Technology).</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">2. Conceptos de la Fuente de Datos</h2>
+
+        <div class="qa-block">
+            <div class="qa-question"><span class="qa-num">1.</span>¿A qué se refiere el tipo de origen "Logical Files"?</div>
+            <div class="qa-answer">Se refiere a agregar como fuente de datos archivos o carpetas individuales (no una imagen de disco completa), útil cuando solo se tiene un conjunto de archivos sueltos por analizar; Autopsy no revisa espacio no asignado ni archivos borrados con este tipo de origen.</div>
+        </div>
+
+        <div class="qa-block">
+            <div class="qa-question"><span class="qa-num">2.</span>¿A qué se refiere el tipo de origen "Local Disk"?</div>
+            <div class="qa-answer">Se refiere a un dispositivo de almacenamiento físico (disco o USB) conectado directamente al equipo del examinador, que Autopsy analiza en vivo sin crear antes una imagen; se recomienda usar un bloqueador de escritura para no alterar la evidencia.</div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">3. Análisis Forense con Autopsy</h2>
+
+        <div class="qa-block">
+            <div class="qa-question">Ubicación de los ficheros de la evidencia</div>
+            <figure>
+                <img src="img/image17.png" alt="Carpeta ACT18 con las 8 partes de la evidencia">
+                <figcaption>Figura 1. Carpeta ACT18 en el escritorio con las 8 partes de la evidencia (SCHARDT.001–.008) y el caso INV01UPSLP ya creado.</figcaption>
+            </figure>
+        </div>
+
+        <div class="qa-block">
+            <div class="qa-question"><span class="qa-num">1.</span>¿Cuál es el hash de la imagen? ¿Coinciden el hash de adquisición y verificación?</div>
+            <div class="qa-answer"><strong>MD5:</strong> <code>aee4fcd9301c03b3b054623ca261959a</code></div>
+            <figure>
+                <img src="img/image1.png" alt="File Metadata con el hash">
+                <figcaption>Figura 2. Pestaña File Metadata de SCHARDT.001, con el hash MD5/SHA-1/SHA-256 calculado.</figcaption>
+            </figure>
+            <div class="qa-answer">El hash de adquisición es el valor calculado al crear la imagen a partir del disco original, y el de verificación es el que se calcula después sobre la imagen para confirmar que no ha cambiado. En esta práctica se usó como hash de adquisición el publicado oficialmente por el NIST (mismo valor) y como hash de verificación el calculado por Autopsy mediante el módulo Hash Lookup. <strong>SÍ COINCIDEN</strong>, por lo que la integridad de la imagen quedó confirmada.</div>
+        </div>
+
+        <div class="qa-block">
+            <div class="qa-question"><span class="qa-num">2.</span>¿Qué sistema operativo se utilizó en la computadora?</div>
+            <div class="qa-answer">Microsoft Windows XP, de 32 bits (arquitectura x86).</div>
+            <figure>
+                <img src="img/image2.png" alt="Operating System Information">
+                <figcaption>Figura 3. Artefacto "Operating System Information" generado por el módulo Recent Activity.</figcaption>
+            </figure>
+        </div>
+
+        <div class="qa-block">
+            <div class="qa-question"><span class="qa-num">3.</span>¿Cuándo fue la fecha de instalación?</div>
+            <div class="qa-answer">19 de agosto de 2004, 17:48:27 (hora central de verano, CDT, UTC−5) — equivalente a las 22:48:27 UTC.</div>
+            <figure>
+                <img src="img/image4.png" alt="Valor InstallDate">
+                <figcaption>Figura 4. Valor InstallDate (0x41252e3b = 1092955707, timestamp Unix) en software\Microsoft\Windows NT\CurrentVersion.</figcaption>
+            </figure>
+        </div>
+
+        <div class="qa-block">
+            <div class="qa-question"><span class="qa-num">4.</span>¿Cuál es la configuración de zona horaria?</div>
+            <div class="qa-answer">Hora central de Estados Unidos: Central Standard Time (UTC−6) en invierno, con cambio automático a Central Daylight Time (UTC−5) en verano (Bias 360 / ActiveTimeBias 300 minutos).</div>
+            <figure>
+                <img src="img/image7.png" alt="TimeZoneInformation">
+                <figcaption>Figura 5. Clave TimeZoneInformation en system\ControlSet001\Control.</figcaption>
+            </figure>
+        </div>
+
+        <div class="qa-block">
+            <div class="qa-question"><span class="qa-num">5.</span>¿Quién es el propietario registrado?</div>
+            <div class="qa-answer"><strong>Propietario registrado:</strong> Greg Schardt. Se obtiene del campo Owner del artefacto "Operating System Information" (Figura 3), que corresponde al valor RegisteredOwner de la clave CurrentVersion del registro.</div>
+        </div>
+
+        <div class="qa-block">
+            <div class="qa-question"><span class="qa-num">6.</span>¿Cuál es el nombre de la cuenta de la computadora?</div>
+            <div class="qa-answer"><strong>Nombre de la cuenta del equipo:</strong> N-1A9ODN6ZXK4LQ. Visible también en el campo Name del mismo artefacto "Operating System Information" (Figura 3), y corresponde al valor ComputerName del registro.</div>
+        </div>
+
+        <div class="qa-block">
+            <div class="qa-question"><span class="qa-num">7.</span>¿Cuál es el nombre de dominio principal?</div>
+            <div class="qa-answer">El archivo SECURITY, en system32\config, clave Policy\PolPrDmN, contiene el nombre de dominio principal codificado en bytes.</div>
+            <figure>
+                <img src="img/image9.png" alt="Valor PolPrDmN">
+                <figcaption>Figura 6. Valor PolPrDmN dentro de SECURITY\Policy.</figcaption>
+            </figure>
+            <figure>
+                <img src="img/image10.png" alt="Bytes decodificados">
+                <figcaption>Figura 7. Bytes decodificados como texto UTF-16LE: 45 00 56 00 49 00 4C 00 = "EVIL".</figcaption>
+            </figure>
+            <div class="qa-answer"><strong>Dominio principal:</strong> EVIL.</div>
+        </div>
+
+        <div class="qa-block">
+            <div class="qa-question"><span class="qa-num">8.</span>¿Cuándo fue la última fecha/hora registrada en que se apagó la computadora?</div>
+            <div class="qa-answer">El archivo system, clave ControlSet001\Control\Windows\ShutdownTime, contiene un valor FILETIME de Windows (8 bytes, byte menos significativo primero):</div>
+            <figure>
+                <img src="img/image13.png" alt="Valor ShutdownTime">
+                <figcaption>Figura 8. Valor ShutdownTime (bytes C4 FC 00 07 4D 8C C4 01).</figcaption>
+            </figure>
+            <figure>
+                <img src="img/image14.png" alt="Conversión PowerShell">
+                <figcaption>Figura 9. Conversión en PowerShell: [DateTime]::FromFileTimeUtc(0x01C48C4D0700FCC4).</figcaption>
+            </figure>
+            <div class="qa-answer"><strong>Última hora de apagado:</strong> 27 de agosto de 2004, 10:46:33 (CDT) — 15:46:33 UTC.</div>
+        </div>
+
+        <div class="qa-block">
+            <div class="qa-question"><span class="qa-num">9.</span>¿Cuántas cuentas están registradas (número total)?</div>
+            <div class="qa-answer">El archivo SAM, clave SAM\Domains\Account\Users\Names, lista una subclave por cada cuenta de usuario del sistema.</div>
+            <figure>
+                <img src="img/image15.png" alt="Cuentas en SAM">
+                <figcaption>Figura 10. Subclaves dentro de SAM\Domains\Account\Users\Names.</figcaption>
+            </figure>
+            <ul class="data-list">
+                <li><strong>Número total de cuentas registradas:</strong> 5 (Administrator, Guest, HelpAssistant, Mr. Evil y SUPPORT_388945a0).</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">4. Documento de Respuestas</h2>
+        <div class="pdf-frame-wrap">
+            <iframe src="Act18_182447.pdf" title="Actividad 18 — respuestas" loading="lazy"></iframe>
+        </div>
+    </div>
+
+    <div class="action-buttons">
+        <a href="../../Parcial3.html" target="_blank" class="btn btn-secondary">
+            Volver Atras
+        </a>
+        <a href="Act18_182447.pdf" target="_blank" class="btn btn-primary">
+            Abrir PDF
+        </a>
+    </div>
+</div>
+
+</body>
+</html>
