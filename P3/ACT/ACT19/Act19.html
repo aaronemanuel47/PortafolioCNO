@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad 19 — Los primeros minutos cuentan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+
+
+:root{
+  --bg-main:#0b0f17;
+  --bg-card:#111726;
+  --bg-subcard:#0d121d;
+  --border-color:#1d2636;
+  --accent:#22c55e;
+  --accent-hover:#16a34a;
+  --accent-soft:rgba(34,197,94,.12);
+  --text-main:#ffffff;
+  --text-muted:#94a3b8;
+  --code-bg:#070a0f;
+  --btn-secondary-bg:#1e293b;
+  --btn-secondary-hover:#334155;
+  --shadow-md:0 12px 28px rgba(0,0,0,.35);
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+}
+
+body{
+  background-color:var(--bg-main);
+  color:var(--text-main);
+  padding:40px 20px;
+  line-height:1.6;
+}
+
+a{
+  color:var(--accent);
+}
+
+.container{
+  max-width:900px;
+  margin:0 auto;
+  background-color:var(--bg-card);
+  border:1px solid var(--border-color);
+  border-radius:12px;
+  padding:32px;
+  box-shadow:var(--shadow-md);
+}
+
+.top-tag{
+  color:var(--accent);
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+
+.main-title,
+h1{
+  font-size:28px;
+  font-weight:800;
+  color:var(--text-main);
+  margin-bottom:8px;
+}
+
+.subtitle{
+  color:var(--text-muted);
+  font-size:14px;
+  margin-bottom:24px;
+}
+
+.meta-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:16px;
+  margin-bottom:24px;
+}
+
+.meta-card{
+  background-color:var(--bg-subcard);
+  border:1px solid var(--border-color);
+  border-radius:8px;
+  padding:14px 16px;
+}
+
+.meta-label,
+.meta-card span{
+  color:var(--accent);
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  margin-bottom:4px;
+  display:block;
+}
+
+.meta-value,
+.meta-card strong{
+  color:var(--text-main);
+  font-size:14px;
+  font-weight:500;
+}
+
+.section{
+  margin-bottom:28px;
+}
+
+.section-title{
+  font-size:18px;
+  font-weight:700;
+  color:var(--text-main);
+  border-bottom:1px solid var(--border-color);
+  padding-bottom:8px;
+  margin-bottom:14px;
+}
+
+.subsection-title{
+  font-size:15px;
+  font-weight:600;
+  color:var(--accent);
+  margin:16px 0 8px 0;
+}
+
+p{
+  color:var(--text-muted);
+  font-size:14px;
+  margin-bottom:12px;
+}
+
+ul,ol{
+  padding-left:20px;
+  color:var(--text-muted);
+  font-size:14px;
+}
+
+li{
+  margin-bottom:8px;
+}
+
+li strong{
+  color:var(--text-main);
+}
+
+code{
+  background-color:var(--accent-soft);
+  color:var(--accent);
+  padding:2px 6px;
+  border-radius:4px;
+  font-family:monospace;
+  font-size:13px;
+}
+
+.note-box{
+  background-color:var(--bg-subcard);
+  border:1px solid var(--border-color);
+  border-left:3px solid var(--accent);
+  border-radius:6px;
+  padding:12px 16px;
+  margin:12px 0 20px;
+  font-size:13px;
+  color:var(--text-muted);
+}
+
+.note-box strong{
+  color:var(--text-main);
+}
+
+.pdf-frame-wrap{
+  width:100%;
+  background-color:var(--bg-subcard);
+  border:1px solid var(--border-color);
+  border-radius:12px;
+  overflow:hidden;
+  margin-top:12px;
+}
+
+.pdf-frame-wrap iframe{
+  display:block;
+  width:100%;
+  height:700px;
+  border:0;
+  background:#ffffff;
+}
+
+.status-badge{
+  display:inline-block;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  padding:3px 8px;
+  border-radius:4px;
+  margin-left:8px;
+}
+
+.status-found{
+  background-color:var(--accent-soft);
+  color:var(--accent);
+}
+
+.topic-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
+  gap:12px;
+  margin:12px 0 8px;
+}
+
+.topic-card{
+  background-color:var(--bg-subcard);
+  border:1px solid var(--border-color);
+  border-radius:10px;
+  padding:14px 16px;
+}
+
+.topic-card .topic-title{
+  color:var(--accent);
+  font-size:13px;
+  font-weight:700;
+  margin-bottom:6px;
+}
+
+.topic-card p{
+  font-size:12.5px;
+  margin-bottom:0;
+}
+
+.qa-block{
+  margin-bottom:26px;
+}
+
+.qa-question{
+  font-size:14.5px;
+  font-weight:700;
+  color:var(--text-main);
+  margin-bottom:6px;
+}
+
+.qa-question .qa-num{
+  color:var(--accent);
+  margin-right:6px;
+}
+
+.qa-answer{
+  font-size:13.5px;
+  color:var(--text-muted);
+  margin-bottom:10px;
+}
+
+.qa-answer strong{
+  color:var(--text-main);
+}
+
+.data-list{
+  list-style:none;
+  padding-left:0;
+  margin:6px 0 10px;
+}
+
+.data-list li{
+  font-size:13.5px;
+  margin-bottom:6px;
+}
+
+.data-list li strong{
+  color:var(--accent);
+  font-weight:700;
+}
+
+figure{
+  margin:0 0 20px 0;
+  background-color:var(--code-bg);
+  border:1px solid var(--border-color);
+  border-radius:8px;
+  padding:10px;
+}
+
+figure img{
+  display:block;
+  width:100%;
+  border-radius:4px;
+}
+
+figcaption{
+  font-size:12px;
+  color:var(--text-muted);
+  font-style:italic;
+  margin-top:8px;
+  padding:0 2px;
+}
+
+.action-buttons,
+.buttons{
+  display:flex;
+  gap:16px;
+  margin-top:36px;
+  padding-top:24px;
+  border-top:1px solid var(--border-color);
+  flex-wrap:wrap;
+}
+
+.btn,
+.button{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:12px 20px;
+  border-radius:8px;
+  font-size:14px;
+  font-weight:600;
+  text-decoration:none;
+  cursor:pointer;
+  transition:all .2s ease;
+  border:none;
+}
+
+.btn-primary,
+.button-primary{
+  background-color:var(--accent);
+  color:#000000;
+}
+
+.btn-primary:hover,
+.button-primary:hover{
+  background-color:var(--accent-hover);
+}
+
+.btn-secondary{
+  background-color:var(--btn-secondary-bg);
+  color:var(--text-main);
+  border:1px solid var(--border-color);
+}
+
+.btn-secondary:hover{
+  background-color:var(--btn-secondary-hover);
+}
+
+@media (max-width:600px){
+  .meta-grid{
+    grid-template-columns:1fr;
+  }
+
+  .container{
+    padding:20px;
+  }
+
+  .action-buttons,
+  .buttons{
+    flex-direction:column-reverse;
+  }
+
+  .btn,
+  .button{
+    width:100%;
+  }
+}
+    
+.cmd-line{font-size:13px;color:var(--text-muted);margin:4px 0 10px;}
+.cmd-line code{white-space:pre-wrap;word-break:break-word;}
+table.cmp{width:100%;border-collapse:collapse;margin:8px 0 16px;font-size:13px;}
+table.cmp th{background:var(--accent-soft);color:var(--accent);text-align:left;padding:8px;border:1px solid var(--border-color);}
+table.cmp td{color:var(--text-muted);padding:8px;border:1px solid var(--border-color);vertical-align:top;}
+.table-wrap{overflow-x:auto;}
+figure img{max-width:100%;max-height:560px;width:auto;margin:0 auto;}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="top-tag">UNIVERSIDAD POLITÉCNICA DE SAN LUIS POTOSÍ</div>
+    <h1 class="main-title">Actividad 19 — Los primeros minutos cuentan</h1>
+    <p class="subtitle">Adquisición forense en caliente de un sistema Windows con CMD y PowerShell </p>
+
+    <div class="meta-grid">
+        <div class="meta-card"><div class="meta-label">ACTIVIDAD</div><div class="meta-value">Actividad 19</div></div>
+        <div class="meta-card"><div class="meta-label">ALUMNO</div><div class="meta-value">Aaron Emanuel González Díaz (182447)</div></div>
+        <div class="meta-card"><div class="meta-label">ASIGNATURA</div><div class="meta-value">Informática Criminológica</div></div>
+        <div class="meta-card"><div class="meta-label">DOCENTE</div><div class="meta-value">Mtro. Servando López Contreras</div></div>
+    </div>
+
+    <div class="topic-grid">
+        <div class="topic-card"><div class="topic-title">Equipo analizado</div><p>DESKTOP-13NGL3L · Windows 11 Pro (build 26200) · Lenovo 20VLS0U500.</p></div>
+        <div class="topic-card"><div class="topic-title">Herramientas</div><p>Comandos nativos de CMD y PowerShell + NetUsers.exe v1.23.</p></div>
+        <div class="topic-card"><div class="topic-title">Fecha de adquisición</div><p>15/11/2026, 09:19 p. m. (UTC−06:00).</p></div>
+    </div>
+    <br>
+
+<div class="section"><h2 class="section-title">1. Entorno de la adquisición y metodología</h2>
+<p>La adquisición se realizó en caliente (live response) sobre el equipo en análisis, un portátil Lenovo con Windows 11 Pro identificado como DESKTOP-13NGL3L, con la sesión del usuario aaron abierta. Se usaron únicamente comandos nativos del sistema (CMD y PowerShell) más la utilidad NetUsers.exe proporcionada para la práctica; los comandos que requieren privilegios elevados (netstat -anob, wevtutil, ipconfig /displaydns) se ejecutaron desde una consola de PowerShell como administrador (ruta C:\WINDOWS\system32).</p>
+<p>El orden de ejecución siguió el principio de orden de volatilidad (RFC 3227): primero se fijó la fecha y hora, después los datos que desaparecen al apagar o reiniciar el equipo (procesos, servicios, sesiones, conexiones, cachés DNS y ARP, historial de comandos) y al final la información más persistente (configuración del sistema, tareas programadas, registros de eventos, fichero hosts y sistema de archivos). Cada salida se documentó con una captura de pantalla para conservar la evidencia de lo observado en el momento.</p>
+</div>
+<div class="section"><h2 class="section-title">2. Adquisición de evidencia</h2>
+<div class="qa-block"><div class="qa-question"><span class="qa-num">1.</span>Obtenga la fecha y hora del sistema.</div>
+<div class="cmd-line"><strong style="color:#fff">Comando (PowerShell): </strong><code>Get-Date</code></div>
+<p>Get-Date devuelve la fecha y hora actuales según el reloj del sistema. Es lo primero que se registra porque sirve como referencia de todo lo que se adquiere después; en CMD el equivalente son date /t y time /t.</p>
+<figure><img src="img/img03.png" alt="Captura img03.png" loading="lazy"></figure>
+<p>Se abrió PowerShell en la carpeta de trabajo C:\Users\aaron\Desktop\Act19 y se ejecutó Get-Date como primer paso de la adquisición.</p>
+<p><strong style="color:#fff">Resultado:</strong> domingo, 15 de noviembre de 2026, 09:19:18 p. m. (zona horaria UTC−06:00, Ciudad de México, según systeminfo).</p>
+<p><strong style="color:#fff">Importancia forense:</strong> permite construir la línea de tiempo del incidente y detectar desfases entre el reloj del equipo y una fuente de hora confiable; si el atacante alteró la hora del sistema, todos los registros quedarían desplazados.</p>
+</div>
+<div class="qa-block"><div class="qa-question"><span class="qa-num">2.</span>Obtenga un listado de los procesos en ejecución.</div>
+<div class="cmd-line"><strong style="color:#fff">Comando (PowerShell): </strong><code>Get-Process</code></div>
+<p>Get-Process lista todos los procesos activos con su identificador (Id/PID), memoria utilizada (NPM, PM, WS), tiempo de CPU consumido y la sesión a la que pertenecen (SI). En CMD el equivalente es tasklist.</p>
+<figure><img src="img/img04.png" alt="Captura img04.png" loading="lazy"></figure>
+<p>Se ejecutó Get-Process en la misma consola; la captura muestra el inicio de la lista, ordenada alfabéticamente por nombre de proceso.</p>
+<p><strong style="color:#fff">Resultado:</strong> se observan procesos del sistema en la sesión 0 (p. ej. AggregatorHost, AppProvisioningPlugin, audiodg) y procesos del usuario en la sesión 6 (ai, AppActions, ApplicationFrameHost, backgroundTaskHost). La columna SI permite separar lo que corre como servicio de lo que lanzó el usuario interactivo.</p>
+<p><strong style="color:#fff">Importancia forense:</strong> los procesos son la evidencia más volátil; un malware activo aparece aquí aunque no deje rastro en disco. Los PID obtenidos se cruzan después con netstat (puntos 8 y 9) para saber qué proceso abrió cada conexión.</p>
+</div>
+<div class="qa-block"><div class="qa-question"><span class="qa-num">3.</span>Obtenga los servicios del dispositivo de análisis desde el símbolo del sistema y después desde Powershell, ¿Qué diferencias aprecia? ¿Cuál es su análisis respecto al resultado?</div>
+<div class="cmd-line"><strong style="color:#fff">Comando (CMD): </strong><code>net start</code></div>
+<figure><img src="img/img05.png" alt="Captura img05.png" loading="lazy"></figure>
+<p>Primero se abrió el Símbolo del sistema y se ejecutó net start, que solo enumera los servicios que están iniciados, mostrando su nombre para mostrar (traducido al español).</p>
+<div class="cmd-line"><strong style="color:#fff">Comando (PowerShell): </strong><code>Get-Service</code></div>
+<figure><img src="img/img06.png" alt="Captura img06.png" loading="lazy"></figure>
+<p>Después se ejecutó Get-Service en PowerShell, que enumera todos los servicios registrados en el equipo, estén en ejecución o detenidos.</p>
+<p><strong>Diferencias apreciadas:</strong></p>
+<div class="table-wrap"><table class="cmp"><tr><th>Aspecto</th><th>net start (CMD)</th><th>Get-Service (PowerShell)</th></tr><tr><td>Alcance</td><td>Solo servicios en ejecución</td><td>Todos los servicios (Running y Stopped)</td></tr><tr><td>Columnas</td><td>Solo el nombre para mostrar</td><td>Status, Name (nombre interno) y DisplayName</td></tr><tr><td>Nombre</td><td>Localizado (p. ej. &quot;Audio de Windows&quot;)</td><td>Nombre interno corto (p. ej. Audiosrv)</td></tr><tr><td>Tipo de salida</td><td>Texto plano</td><td>Objetos que se pueden filtrar, ordenar y exportar</td></tr></table></div>
+<p><strong style="color:#fff">Análisis:</strong> ambos comandos coinciden en los servicios activos, pero PowerShell ofrece una visión más completa y útil para el análisis: el nombre interno es el que aparece en el registro (HKLM\SYSTEM\CurrentControlSet\Services) y en los logs, y al incluir los servicios detenidos permite detectar servicios instalados por un atacante que se arrancan solo bajo demanda. Además su salida se puede filtrar (Get-Service | Where-Object Status -eq Running) o exportar a CSV para documentarla.</p>
+<p><strong style="color:#fff">Hallazgos:</strong> destacan servicios que no son propios de una estación de trabajo estándar: Apache2.4 (servidor web) en ejecución, así como servicios de terceros como Claude, Critical Service for Lenovo Vantage o Dolby DAX API Service. Los servicios con sufijo _7dd8e2a (p. ej. BluetoothUserService_7dd8e2a) son servicios por usuario legítimos de Windows; el sufijo identifica la sesión. El servidor web es legítimo en un equipo de desarrollo, pero amplía la superficie de ataque y debe justificarse.</p>
+</div>
+<div class="qa-block"><div class="qa-question"><span class="qa-num">4.</span>Obtenga un listado de los usuarios que se encuentran actualmente logueados en el sistema comprometido.</div>
+<div class="cmd-line"><strong style="color:#fff">Comando (PowerShell): </strong><code>.\NetUsers.exe</code></div>
+<p>NetUsers.exe (v1.23, OptimumX) muestra los usuarios con sesión iniciada en un equipo local o remoto. Al no ser un comando nativo, en PowerShell se invocó con el prefijo .\ desde la carpeta donde se guardó, ya que PowerShell no ejecuta binarios de la carpeta actual sin ruta explícita.</p>
+<figure><img src="img/img01.png" alt="Captura img01.png" loading="lazy"></figure>
+<p>Se ejecutó la herramienta sin parámetros sobre el equipo local DESKTOP-13NGL3L.</p>
+<p><strong style="color:#fff">Resultado:</strong> la herramienta terminó correctamente pero no listó ningún usuario, aunque la sesión de aaron estaba abierta (lo demuestran la ruta del prompt y los procesos de la sesión 6 en Get-Process).</p>
+<p><strong style="color:#fff">Análisis:</strong> NetUsers es una utilidad de 2007 pensada para Windows NT/2000/XP; en Windows 11, y sin consola elevada, no consigue enumerar las sesiones, por lo que un resultado vacío no prueba que no haya usuarios conectados. En una investigación real este resultado se corroboraría con comandos nativos como query user o Get-CimInstance Win32_LoggedOnUser.</p>
+</div>
+<div class="qa-block"><div class="qa-question"><span class="qa-num">5.</span>Obtenga un listado de los usuarios que alguna vez se loguearon en el sistema comprometido.</div>
+<div class="cmd-line"><strong style="color:#fff">Comando (PowerShell): </strong><code>.\NetUsers.exe /history</code></div>
+<p>Con el modificador /history la herramienta muestra las cuentas que han iniciado sesión en el pasado junto con la fecha de su último inicio de sesión (columna Last Logon).</p>
+<figure><img src="img/img02.png" alt="Captura img02.png" loading="lazy"></figure>
+<p>Se volvió a ejecutar NetUsers, ahora con /history, en la misma consola.</p>
+<p><strong style="color:#fff">Resultado:</strong> tampoco se obtuvieron registros históricos.</p>
+<p><strong style="color:#fff">Análisis:</strong> por la misma incompatibilidad del punto anterior, el resultado no es concluyente. Como fuentes alternativas para el historial de inicios de sesión están los perfiles en HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList, las carpetas de C:\Users y, sobre todo, el registro de seguridad (eventos 4624 de inicio de sesión correcto y 4625 de intento fallido). Esta limitación es en sí un hallazgo: siempre se debe validar una herramienta contra el sistema en el que se usa.</p>
+</div>
+<div class="qa-block"><div class="qa-question"><span class="qa-num">6.</span>Obtenga la información de la red del sistema comprometido.</div>
+<div class="cmd-line"><strong style="color:#fff">Comando: </strong><code>ipconfig /all</code></div>
+<p>Muestra la configuración completa de cada adaptador de red: nombre del equipo, tipo de nodo NetBIOS, descripción del hardware, dirección física (MAC), direcciones IPv4/IPv6, máscara, DHCP y DNS.</p>
+<figure><img src="img/img07.png" alt="Captura img07.png" loading="lazy"></figure>
+<p>Se ejecutó ipconfig /all y se revisó la información de cada adaptador presente en el equipo.</p>
+<p><strong style="color:#fff">Resultado:</strong> nombre de host DESKTOP-13NGL3L, tipo de nodo híbrido, sin enrutamiento IP ni proxy WINS. Adaptadores: Ethernet 2 (Intel I219-LM, MAC F4-A8-0D-28-1D-7B) desconectado; Ethernet 4 (VirtualBox Host-Only, MAC 0A-00-27-00-00-10) con IP 192.168.56.1/24; dos adaptadores virtuales Wi-Fi Direct desconectados; y la tarjeta Wi-Fi Intel AX201 (MAC BC-6E-E2-C2-E4-53), que es la conexión activa (IP 192.168.1.68, servidor DHCP 192.168.1.254).</p>
+<p><strong style="color:#fff">Importancia forense:</strong> identifica por qué interfaz se comunica el equipo y con qué direcciones, y revela la presencia de software de virtualización (VirtualBox), que podría usarse para ocultar actividad dentro de máquinas virtuales.</p>
+</div>
+<div class="qa-block"><div class="qa-question"><span class="qa-num">7.</span>Identifique los nombres asignados por NetBIOS en el sistema comprometido.</div>
+<div class="cmd-line"><strong style="color:#fff">Comando: </strong><code>nbtstat -n</code></div>
+<p>Lista los nombres NetBIOS registrados localmente en cada interfaz, con su sufijo (tipo de servicio) y su estado.</p>
+<figure><img src="img/img08.png" alt="Captura img08.png" loading="lazy"></figure>
+<p>Se ejecutó nbtstat -n; solo las interfaces con IP (Ethernet 4 y Wi-Fi) muestran tabla de nombres.</p>
+<p><strong style="color:#fff">Resultado:</strong> en 192.168.56.1 (Ethernet 4) y 192.168.1.68 (Wi-Fi) están registrados WORKGROUP &lt;00&gt; de tipo Grupo, DESKTOP-13NGL3L &lt;00&gt; (servicio de estación de trabajo) y DESKTOP-13NGL3L &lt;20&gt; (servicio de servidor de archivos), todos en estado Registrado.</p>
+<p><strong style="color:#fff">Importancia forense:</strong> confirma que el equipo pertenece a un grupo de trabajo y no a un dominio, y que el servicio de servidor (sufijo &lt;20&gt;) está anunciado en la red, lo que permite a otros equipos ver y acceder a sus recursos compartidos.</p>
+</div>
+<div class="qa-block"><div class="qa-question"><span class="qa-num">8.</span>Obtenga las conexiones establecidas en el sistema vulnerado.</div>
+<div class="cmd-line"><strong style="color:#fff">Comando: </strong><code>netstat -ano</code></div>
+<p>Muestra todas las conexiones y puertos (-a), en formato numérico sin resolver nombres (-n) e incluyendo el PID del proceso propietario (-o).</p>
+<figure><img src="img/img09.png" alt="Captura img09.png" loading="lazy"></figure>
+<p>Se ejecutó netstat -ano y se separaron los puertos en escucha (LISTENING) de las conexiones activas (ESTABLISHED).</p>
+<p><strong style="color:#fff">Puertos en escucha relevantes:</strong> 21 (FTP, PID 5060), 80 y 443 (HTTP/HTTPS, PID 4896), 135 (RPC), 445 (SMB, PID 4 = System), 623 y 16992 (PID 5412), 3306 (MySQL, PID 5468), 27036 (PID 12156) y los puertos RPC dinámicos 49664-49668. Varios escuchan en 0.0.0.0, es decir, en todas las interfaces.</p>
+<p><strong style="color:#fff">Conexiones establecidas:</strong> desde 192.168.1.68 hacia direcciones externas por el puerto 443 (40.79.167.9, 74.151.238.102 y 74.151.238.136 en rangos de Microsoft; 140.82.113.26 de GitHub; 149.154.175.60 de Telegram; 18.97.36.57 y 135.234.174.40) y hacia 162.254.194.56:27018 (Valve/Steam). Las conexiones TIME_WAIT a 192.168.1.254:53 son consultas DNS al router.</p>
+<p><strong style="color:#fff">Importancia forense:</strong> es la evidencia clave para detectar comunicación con servidores de mando y control o exfiltración de datos. Ninguna conexión resultó anómala para el uso del equipo, pero cada IP externa debería verificarse en un servicio de reputación.</p>
+</div>
+<div class="qa-block"><div class="qa-question"><span class="qa-num">9.</span>Obtenga la relación de las aplicaciones abiertas con el puerto de comunicación establecido en el sistema comprometido.</div>
+<div class="cmd-line"><strong style="color:#fff">Comando: </strong><code>netstat -anob</code></div>
+<p>Igual que el anterior, pero con -b, que muestra el ejecutable responsable de cada conexión. Requiere una consola como administrador; por eso se ejecutó desde PowerShell elevado.</p>
+<figure><img src="img/img10.png" alt="Captura img10.png" loading="lazy"></figure>
+<p>Se abrió PowerShell como administrador y se ejecutó netstat -anob para asociar cada puerto con su programa.</p>
+<p><strong style="color:#fff">Resultado:</strong> puerto 21 → filezillaserver.exe; 80 y 443 → httpd.exe (Apache); 135 → RpcSs en svchost.exe; 445 → System (no se puede obtener información de propiedad porque lo atiende el kernel); 623 y 16992 → LMS.exe (Intel Local Management Service, parte de Intel AMT); 3306 → mysqld.exe; 5040 → CDPSvc en svchost.exe; 27036 → steam.exe.</p>
+<p><strong style="color:#fff">Análisis:</strong> el equipo funciona como servidor FTP, web y de base de datos expuesto en todas sus interfaces. En un equipo de desarrollo esto tiene explicación, pero en un incidente es exactamente lo que se busca: un servicio inesperado escuchando sería una posible puerta trasera.</p>
+</div>
+<div class="qa-block"><div class="qa-question"><span class="qa-num">10.</span>Identifique los dominios a los que se ha accedido desde el ordenador en investigación.</div>
+<div class="cmd-line"><strong style="color:#fff">Comando: </strong><code>ipconfig /displaydns</code></div>
+<p>Muestra la caché del resolvedor DNS: los nombres de dominio que el equipo resolvió recientemente, el tipo de registro, su tiempo de vida (TTL) y la dirección obtenida.</p>
+<figure><img src="img/img11.png" alt="Captura img11.png" loading="lazy"></figure>
+<p>Se ejecutó ipconfig /displaydns en la consola elevada y se revisaron las primeras entradas de la caché.</p>
+<p><strong style="color:#fff">Resultado:</strong> aparecen cmp2-sea1.steamserver.net (205.196.6.133) y cmp2-lax1.steamserver.net (servidores de Steam), DESKTOP-13NGL3L.mshome.net (172.26.64.1, red virtual que Windows crea para Hyper-V/WSL o Conexión compartida) y su registro inverso PTR 1.64.26.172.in-addr.arpa.</p>
+<p><strong style="color:#fff">Importancia forense:</strong> la caché DNS revela los sitios visitados aunque se haya borrado el historial del navegador, y sirve para detectar dominios de malware. Es muy volátil: cada entrada caduca al terminar su TTL y se pierde al reiniciar o con ipconfig /flushdns.</p>
+</div>
+<div class="qa-block"><div class="qa-question"><span class="qa-num">11.</span>Obtenga la información almacenada de comunicación entre la dirección física y la dirección lógica del equipo con los que se haya comunicado recientemente el dispositivo en investigación.</div>
+<div class="cmd-line"><strong style="color:#fff">Comando: </strong><code>arp -a</code></div>
+<p>Muestra la tabla ARP, que relaciona las direcciones IP (lógicas) con las direcciones MAC (físicas) de los equipos con los que el sistema se comunicó recientemente en la red local.</p>
+<figure><img src="img/img12.png" alt="Captura img12.png" loading="lazy"></figure>
+<p>Se ejecutó arp -a; la tabla aparece separada por interfaz (Wi-Fi y VirtualBox).</p>
+<p><strong style="color:#fff">Resultado:</strong> en la interfaz 192.168.1.68 hay entradas dinámicas para 192.168.1.76, .77, .78, .84 y para la puerta de enlace 192.168.1.254 (MAC d0-b6-6f-78-97-90); el resto son entradas estáticas de broadcast y multicast. La interfaz 192.168.56.1 (VirtualBox) solo tiene entradas estáticas.</p>
+<p><strong style="color:#fff">Análisis:</strong> hay cuatro dispositivos vecinos en la red local con los que hubo comunicación reciente. Cada IP tiene una MAC distinta y la del router no se repite, por lo que no hay indicios de envenenamiento ARP (ARP spoofing / man-in-the-middle).</p>
+</div>
+<div class="qa-block"><div class="qa-question"><span class="qa-num">12.</span>Obtenga un listado de redes WiFi a las que se ha conectado el equipo comprometido.</div>
+<div class="cmd-line"><strong style="color:#fff">Comando: </strong><code>netsh wlan show profiles</code></div>
+<p>Lista los perfiles de redes inalámbricas guardados por Windows, es decir, las redes a las que el equipo se ha conectado y cuya configuración conserva.</p>
+<figure><img src="img/img13.png" alt="Captura img13.png" loading="lazy"></figure>
+<p>Se ejecutó netsh wlan show profiles sobre la interfaz Wi-Fi.</p>
+<p><strong style="color:#fff">Resultado:</strong> no hay perfiles impuestos por directiva de grupo y hay al menos 25 perfiles de usuario: redes de la universidad (UAEM3_UPSLP, CID_UPSLP, CC_UPSLP, CAFETERIA_UPSLP, UAE1_UPSLP, UAE2_USPLP, UAE2, CID, PIC2), redes domésticas o de proveedores (IZZI-1964, INFINITUM20E3, Mega_2.4G_0FEE, Mega_5G_F1D0, STARLINK), puntos de acceso de teléfonos (M35Aaron, M35 de Aaron, iPhone, Iphone Ale, POCO M5s, BryhanA21s, Uriel&#x27;s Galaxy A52s 5G, A56 de Juan Manuel) y otras (ViajeroEnRuta, Red Huespedes, Master only).</p>
+<p><strong style="color:#fff">Importancia forense:</strong> permite reconstruir los lugares donde estuvo el equipo y las personas o dispositivos con los que se relacionó, información útil para ubicar al sospechoso. Con netsh wlan show profile name=&quot;&lt;red&gt;&quot; se puede ver el detalle de cada perfil.</p>
+</div>
+<div class="qa-block"><div class="qa-question"><span class="qa-num">13.</span>Recabe el histórico del intérprete de comandos que se han ejecutado en el sistema de análisis.</div>
+<div class="cmd-line"><strong style="color:#fff">Comandos (PowerShell): </strong><code>Get-History</code> &nbsp;|&nbsp; <code>Get-Content (Get-PSReadlineOption).HistorySavePath</code></div>
+<p>Get-History muestra solo los comandos de la sesión actual de PowerShell; el historial persistente lo guarda el módulo PSReadLine en el archivo ConsoleHost_history.txt, cuya ruta devuelve (Get-PSReadlineOption).HistorySavePath. En CMD solo existe doskey /history, que se pierde al cerrar la ventana.</p>
+<figure><img src="img/img14.png" alt="Captura img14.png" loading="lazy"></figure>
+<p>Get-History en la consola de usuario lista los 16 comandos ejecutados durante esta práctica.</p>
+<figure><img src="img/img15.png" alt="Captura img15.png" loading="lazy"></figure>
+<p>En la consola de administrador, Get-History solo muestra 4 comandos: cada sesión de PowerShell tiene su propio historial en memoria.</p>
+<figure><img src="img/img16.png" alt="Captura img16.png" loading="lazy"></figure>
+<p>Se leyó el archivo de historial persistente de PSReadLine, que conserva comandos de sesiones anteriores.</p>
+<p><strong style="color:#fff">Análisis:</strong> el historial persistente muestra actividad previa a la adquisición: conexiones SSH (ssh admin@192.168.1.238, ssh pi@192.168.1.89), la edición de un script install-docker.sh, instalación de la librería paramiko (SSH desde Python) y comprobaciones del puerto 22 con nc -vz y nmap -p 22 sobre 192.168.1.89. En un equipo comprometido, esta secuencia (descubrimiento de puertos y acceso remoto a otros equipos) sería un indicio de reconocimiento y movimiento lateral; aquí corresponde a prácticas de clase.</p>
+</div>
+<div class="qa-block"><div class="qa-question"><span class="qa-num">14.</span>Visualice las unidades mapeadas en el sistema de investigación.</div>
+<div class="cmd-line"><strong style="color:#fff">Comando: </strong><code>net use</code></div>
+<p>Muestra las conexiones a recursos de red y las unidades de red asignadas a una letra (p. ej. Z: → \\servidor\carpeta).</p>
+<figure><img src="img/img17.png" alt="Captura img17.png" loading="lazy"></figure>
+<p>Se ejecutó net use en la consola.</p>
+<p><strong style="color:#fff">Resultado:</strong> &quot;No hay entradas en la lista&quot;: el equipo no tiene unidades de red mapeadas.</p>
+<p><strong style="color:#fff">Importancia forense:</strong> una unidad mapeada indica a qué servidores o recursos accedía el usuario y puede ser el destino de datos exfiltrados o el origen de malware; su ausencia descarta esa vía en el momento de la adquisición.</p>
+</div>
+<div class="qa-block"><div class="qa-question"><span class="qa-num">15.</span>Obtenga los recursos compartidos del sistema en análisis.</div>
+<div class="cmd-line"><strong style="color:#fff">Comando (CMD): </strong><code>net share</code></div>
+<figure><img src="img/img18.png" alt="Captura img18.png" loading="lazy"></figure>
+<p>Se ejecutó net share para listar las carpetas que el equipo comparte en la red.</p>
+<div class="cmd-line"><strong style="color:#fff">Comando (PowerShell): </strong><code>Get-SmbShare</code></div>
+<figure><img src="img/img19.png" alt="Captura img19.png" loading="lazy"></figure>
+<p>Se comprobó el mismo resultado con Get-SmbShare, que además muestra el ámbito (ScopeName) de cada recurso.</p>
+<p><strong style="color:#fff">Resultado:</strong> solo existen los recursos administrativos predeterminados: C$ (raíz de C:\), ADMIN$ (C:\WINDOWS) e IPC$ (comunicación entre procesos remota). No hay carpetas compartidas creadas por el usuario.</p>
+<p><strong style="color:#fff">Importancia forense:</strong> los atacantes usan ADMIN$ y C$ para moverse entre equipos (por ejemplo con PsExec) y suelen crear recursos compartidos nuevos para extraer información. No se encontraron recursos anómalos.</p>
+</div>
+<div class="qa-block"><div class="qa-question"><span class="qa-num">16.</span>Obtenga la información relacionada del equipo comprometido.</div>
+<div class="cmd-line"><strong style="color:#fff">Comando: </strong><code>systeminfo</code></div>
+<p>Reúne en una sola salida la información del sistema operativo, del hardware, de la red, de las actualizaciones instaladas y de los tiempos de instalación y arranque.</p>
+<figure><img src="img/img20.png" alt="Captura img20.png" loading="lazy"></figure>
+<p>Se ejecutó systeminfo y se revisaron los campos más relevantes para la investigación.</p>
+<p><strong style="color:#fff">Resultado:</strong> Microsoft Windows 11 Pro, versión 10.0.26200 (compilación 26200), estación de trabajo independiente; propietario registrado con una cuenta Microsoft; instalado el 28/05/2025 a las 05:19:22 p. m.; último arranque el 10/11/2026 a las 06:29:40 a. m. (el equipo llevaba unos cinco días encendido); fabricante Lenovo, modelo 20VLS0U500, x64, procesador Intel (Family 6 Model 140), BIOS R1PET45W 1.37 del 29/04/2026; zona horaria UTC−06:00; 16 087 MB de RAM; grupo de trabajo WORKGROUP; 5 actualizaciones instaladas (KB5127690, KB5054156, KB5132061, KB5127647, KB5132688) y 4 tarjetas de red. También indica que hay un hipervisor activo.</p>
+<p><strong style="color:#fff">Importancia forense:</strong> identifica de forma única el equipo para la cadena de custodia, el nivel de parches (para saber a qué vulnerabilidades estaba expuesto) y el tiempo de arranque, que delimita qué evidencia volátil puede existir desde el último reinicio.</p>
+</div>
+<div class="qa-block"><div class="qa-question"><span class="qa-num">17.</span>Recupere las tareas programadas en el sistema operativo de análisis.</div>
+<div class="cmd-line"><strong style="color:#fff">Comando: </strong><code>schtasks /query /fo LIST /v</code></div>
+<p>Consulta todas las tareas programadas en formato de lista (/fo LIST) y con todos sus detalles (/v): programa que ejecutan, usuario, frecuencia, última ejecución y resultado.</p>
+<figure><img src="img/img21.png" alt="Captura img21.png" loading="lazy"></figure>
+<p>Se ejecutó schtasks con salida detallada; la captura muestra las dos primeras tareas de la carpeta raíz.</p>
+<p><strong style="color:#fff">Resultado:</strong> OneDrive Per-Machine Standalone Update Task, autor Microsoft Corporation, ejecuta C:\Program Files\Microsoft OneDrive\OneDriveStandaloneUpdater.exe como SYSTEM cada 24 horas (último resultado −2147160572, un código de error del actualizador); y OneDrive Reporting Task, que ejecuta el mismo programa con /reporting bajo el usuario aaron (SID terminado en -1010).</p>
+<p><strong style="color:#fff">Importancia forense:</strong> las tareas programadas son uno de los mecanismos de persistencia más usados por el malware. Se revisa el autor, la ruta del ejecutable y la cuenta con la que corre; estas dos son legítimas (firmadas por Microsoft y ubicadas en Program Files), pero conviene revisar la lista completa en busca de rutas en carpetas temporales o de usuario.</p>
+</div>
+<div class="qa-block"><div class="qa-question"><span class="qa-num">18.</span>Exporte los logs de los registros del sistema para su posterior análisis en la ubicación de Escritorio del usuario en investigación.</div>
+<div class="cmd-line"><strong style="color:#fff">Comando: </strong><code>wevtutil epl System $env:USERPROFILE\Desktop\System.evtx</code></div>
+<p>wevtutil (Windows Events Command Line Utility) con la opción epl (export-log) copia el registro de eventos System completo a un archivo .evtx en el Escritorio del usuario, sin modificar el original.</p>
+<figure><img src="img/img22.png" alt="Captura img22.png" loading="lazy"></figure>
+<p>Se ejecutó wevtutil desde PowerShell; el comando no devuelve mensaje cuando termina correctamente.</p>
+<figure><img src="img/img23.png" alt="Captura img23.png" loading="lazy"></figure>
+<p>El archivo System.evtx apareció en el Escritorio del usuario investigado.</p>
+<figure><img src="img/img24.png" alt="Captura img24.png" loading="lazy"></figure>
+<p>Para comprobar la exportación, el archivo se abrió en el Visor de eventos (Abrir registro guardado): contiene 36 582 eventos, el más reciente del 15/11/2026 a las 09:27:14 p. m.</p>
+<p><strong style="color:#fff">Importancia forense:</strong> el registro System contiene arranques, apagados, instalación de servicios y errores del sistema. Exportarlo protege la evidencia, ya que un atacante puede borrar los registros (eventos 104 y 1102). Con el mismo comando se pueden exportar Security (inicios de sesión) y Application.</p>
+</div>
+<div class="qa-block"><div class="qa-question"><span class="qa-num">19.</span>Obtenga el fichero Host del sistema comprometido para su posterior análisis.</div>
+<div class="cmd-line"><strong style="color:#fff">Comando: </strong><code>type C:\Windows\System32\drivers\etc\hosts</code></div>
+<p>Muestra el contenido del fichero hosts, que Windows consulta antes que el DNS para resolver nombres de dominio.</p>
+<figure><img src="img/img25.png" alt="Captura img25.png" loading="lazy"></figure>
+<p>Se mostró el contenido del fichero hosts en la consola con type.</p>
+<p><strong style="color:#fff">Resultado:</strong> el archivo solo contiene el texto de ejemplo de Microsoft; todas las líneas están comentadas con #, incluidas las de localhost, por lo que no hay ninguna redirección activa.</p>
+<p><strong style="color:#fff">Importancia forense:</strong> el malware modifica este fichero para desviar dominios legítimos (bancos, antivirus, actualizaciones) hacia servidores maliciosos o para bloquearlos. Su contenido limpio descarta esa manipulación.</p>
+</div>
+<div class="qa-block"><div class="qa-question"><span class="qa-num">20.</span>Obtenga el listado con base a la fecha de creación del árbol de directorios y ficheros del sistema operativo comprometido.</div>
+<div class="cmd-line"><strong style="color:#fff">Comando (PowerShell): </strong><code>Get-ChildItem -Path $env:USERPROFILE -Recurse -ErrorAction SilentlyContinue | Sort-Object CreationTime | Select-Object FullName, CreationTime | Out-File $env:USERPROFILE\Desktop\arbol_directorios.txt</code></div>
+<p>Get-ChildItem -Recurse recorre todo el árbol de carpetas y archivos; Sort-Object CreationTime lo ordena de la fecha de creación más antigua a la más reciente; Select-Object deja la ruta completa y la fecha; y Out-File guarda el resultado en un archivo de texto, ya que la salida es demasiado larga para la consola. Se limitó al perfil del usuario ($env:USERPROFILE) para que el recorrido terminara en un tiempo razonable.</p>
+<figure><img src="img/img26.png" alt="Captura img26.png" loading="lazy"></figure>
+<p>Se ejecutó el comando con la salida redirigida al Escritorio.</p>
+<figure><img src="img/img27.png" alt="Captura img27.png" loading="lazy"></figure>
+<p>El archivo arbol_directorios.txt se generó correctamente en el Escritorio.</p>
+<figure><img src="img/img28.png" alt="Captura img28.png" loading="lazy"></figure>
+<p>Se abrió el archivo y se revisaron las primeras entradas, que corresponden a los elementos con fecha de creación más antigua.</p>
+<p><strong style="color:#fff">Análisis:</strong> llama la atención que los primeros archivos sean ReadMe.txt y NetUsers.exe de esta misma práctica, seguidos de Volatility 2.6 y de herramientas de las actividades 17 y 18. Esto ocurre porque al extraer un .zip se conservan las fechas originales de los archivos (NetUsers es de 2007), es decir, la fecha de creación no siempre refleja cuándo llegó un archivo al equipo. Es el mismo efecto que buscan las técnicas antiforenses de timestomping, por lo que las fechas deben contrastarse con otras fuentes (MFT, Prefetch, registros). Además, las rutas largas desplazaron la columna CreationTime fuera del ancho del archivo; para conservarla conviene usar Export-Csv o Format-Table -AutoSize.</p>
+</div>
+</div>
+<div class="section"><h2 class="section-title">3. Informe ejecutivo</h2>
+<h3 class="subsection-title">1. Resumen del procedimiento</h3>
+<p>Se realizó una adquisición en caliente del equipo DESKTOP-13NGL3L (Windows 11 Pro) el 15/11/2026 a partir de las 09:19 p. m., siguiendo el orden de volatilidad. Se recolectaron 20 elementos de evidencia: fecha y hora, procesos, servicios, sesiones de usuario, configuración de red, nombres NetBIOS, conexiones y su relación con aplicaciones, caché DNS, tabla ARP, perfiles Wi-Fi, historial de comandos, unidades mapeadas, recursos compartidos, información del sistema, tareas programadas, el registro de eventos System exportado, el fichero hosts y el listado del sistema de archivos ordenado por fecha de creación.</p>
+<h3 class="subsection-title">2. Diferencias entre CMD y PowerShell</h3>
+<div class="table-wrap"><table class="cmp"><tr><th>Aspecto</th><th>CMD</th><th>PowerShell</th></tr><tr><td>Salida</td><td>Texto plano, difícil de procesar</td><td>Objetos con propiedades; se filtran, ordenan y exportan</td></tr><tr><td>Alcance</td><td>Más limitado (net start: solo servicios activos)</td><td>Más completo (Get-Service: todos los servicios)</td></tr><tr><td>Historial</td><td>doskey /history, solo en memoria</td><td>Get-History en memoria y archivo persistente de PSReadLine</td></tr><tr><td>Ejecutables locales</td><td>Se ejecutan por nombre (NetUsers.exe)</td><td>Requieren ruta explícita (.\NetUsers.exe)</td></tr><tr><td>Uso forense</td><td>Rápido y disponible en cualquier Windows</td><td>Mejor para automatizar y documentar (Export-Csv, Out-File)</td></tr></table></div>
+<p>Ambos intérpretes ejecutan los comandos nativos (ipconfig, netstat, arp, net) con resultados idénticos; la diferencia está en los cmdlets propios de PowerShell, que entregan información más estructurada y completa. Sin embargo, PowerShell también es una herramienta muy usada por atacantes, por lo que su historial es una fuente de evidencia valiosa.</p>
+<h3 class="subsection-title">3. Posibles indicios de actividad maliciosa</h3>
+<p>En este laboratorio el equipo es de uso personal y académico, y cada hallazgo tiene una explicación legítima; sin embargo, en un sistema realmente comprometido los siguientes puntos serían los primeros a investigar:</p>
+<ul>
+<li><strong>Servicios de servidor expuestos:</strong> Apache (80/443), FileZilla Server (21) y MySQL (3306) escuchan en todas las interfaces de una estación de trabajo, ampliando la superficie de ataque.</li>
+<li><strong>Intel AMT activo:</strong> LMS.exe escucha en los puertos 623 y 16992; Intel AMT ha tenido vulnerabilidades críticas de acceso remoto.</li>
+<li><strong>Herramientas de red en el historial:</strong> el historial de PowerShell muestra nmap, nc y conexiones SSH hacia 192.168.1.89 y 192.168.1.238, patrón típico de reconocimiento y movimiento lateral.</li>
+<li><strong>Conexiones salientes a servicios externos:</strong> conexiones activas hacia Telegram, Steam y servicios en la nube que podrían servir para exfiltración y deben validarse por reputación.</li>
+<li><strong>Virtualización presente:</strong> VirtualBox, Hyper-V y la red virtual mshome.net permiten ejecutar sistemas aislados donde se podría ocultar actividad.</li>
+<li><strong>Evidencia no concluyente:</strong> NetUsers no devolvió datos y las fechas de creación de archivos extraídos no son confiables; ninguna conclusión debe basarse en una sola fuente.</li>
+</ul>
+<p>No se encontraron indicios de manipulación del fichero hosts, envenenamiento ARP, recursos compartidos ocultos ni unidades de red mapeadas.</p>
+<h3 class="subsection-title">4. Siguientes pasos de la investigación</h3>
+<ul>
+<li><strong>Preservar la integridad:</strong> calcular el hash SHA-256 de cada archivo generado (Get-FileHash System.evtx, arbol_directorios.txt) y registrarlos en la cadena de custodia.</li>
+<li><strong>Volcado de memoria:</strong> capturar la RAM completa (FTK Imager, DumpIt o WinPmem) antes de apagar el equipo y analizarla con Volatility, como en la Actividad 17.</li>
+<li><strong>Ampliar los registros:</strong> exportar también los registros Security y Application y revisar los eventos 4624/4625 (inicios de sesión), 4688 (creación de procesos), 7045 (servicios nuevos) y 1102 (borrado de logs).</li>
+<li><strong>Correlacionar procesos:</strong> obtener la ruta y firma de cada PID visto en netstat (Get-Process -Id &lt;PID&gt; | Select Path) y revisar los programas de inicio con Autoruns de Sysinternals.</li>
+<li><strong>Reputación:</strong> consultar las IP y dominios externos en VirusTotal o AbuseIPDB.</li>
+<li><strong>Imagen de disco y línea de tiempo:</strong> crear una imagen forense del disco con write blocker y analizarla con Autopsy (como en la Actividad 18), construyendo una línea de tiempo con la MFT, Prefetch y el registro.</li>
+</ul>
+</div>
+
+    <div class="section">
+        <h2 class="section-title">4. Documento del informe</h2>
+        <div class="pdf-frame-wrap">
+            <iframe src="ACT19_182447.pdf" title="Actividad 19 — informe" loading="lazy"></iframe>
+        </div>
+    </div>
+
+    <div class="action-buttons">
+        <a href="../../Parcial3.html" target="_blank" class="btn btn-secondary">Volver Atras</a>
+        <a href="ACT19_182447.pdf" target="_blank" class="btn btn-primary">Abrir PDF</a>
+    </div>
+</div>
+
+</body>
+</html>
